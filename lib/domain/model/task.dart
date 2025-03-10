@@ -4,10 +4,12 @@ class Task {
   String title;
   String? desc;
   TaskType type;
+  bool isCompleted;
 
   Task({
     required this.title,
     required this.desc,
     required this.type,
+    required this.isCompleted
   });
 }

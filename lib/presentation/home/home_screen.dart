@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/dependency_factory.dart';
+import 'package:todo_app/domain/model/task.dart';
 import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
-import 'package:todo_app/presentation/home/task_ui_model.dart';
+import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
 import 'package:todo_app/presentation/todo_app_navigator.dart';
 import 'package:todo_app/presentation/widgets/task_widget.dart';
 import '../widgets/custom_app_bar.dart';
@@ -15,20 +16,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GetTasksUseCase getTasksUseCase = DependencyFactory.getGetTasksUseCase();
+  UpdateTaskStatusUseCase updateTaskStatusUseCase =
+      DependencyFactory.getUpdateTaskStatusUseCase();
 
-  List<TaskUiModel> _taskUiModels = [];
+  List<Task> _taskUiModels = [];
 
   void _updateTasks() async {
     var tasks = await getTasksUseCase.get();
-    var uiModels = tasks
-        .map(
-          (task) => TaskUiModel(task: task, isChecked: false),
-        )
-        .toList();
-
     setState(() {
-      _taskUiModels = uiModels;
+      _taskUiModels = tasks;
     });
+  }
+
+  void _onCheckChanged(Task task, bool? value) async {
+    var result = await updateTaskStatusUseCase.update(task, value ?? false);
+    if (result) {
+      _updateTasks();
+    }
   }
 
   @override
@@ -56,11 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ListView.builder(
           itemCount: _taskUiModels.length,
           itemBuilder: (context, index) {
-            var taskUiModel = _taskUiModels[index];
+            var task = _taskUiModels[index];
             return TaskWidget(
-              title: taskUiModel.task.title,
-              desc: taskUiModel.task.desc,
-              isChecked: taskUiModel.isChecked,
+              title: task.title,
+              desc: task.desc,
+              isChecked: task.isCompleted,
+              onCheckChanged: (value) => {
+                _onCheckChanged(
+                  task,
+                  value,
+                ),
+              },
             );
           },
         ));
