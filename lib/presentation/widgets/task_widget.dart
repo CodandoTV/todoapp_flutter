@@ -20,9 +20,17 @@ class TaskWidget extends StatelessWidget {
         child: ListTile(
       title: Text(
         title,
+        style: TextStyle(
+          decoration:
+              isChecked ? TextDecoration.lineThrough : TextDecoration.none,
+        ),
       ),
       subtitle: Text(
         desc ?? "",
+        style: TextStyle(
+          decoration:
+              isChecked ? TextDecoration.lineThrough : TextDecoration.none,
+        ),
       ),
       trailing: Checkbox(
         value: isChecked,
