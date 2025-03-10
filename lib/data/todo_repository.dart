@@ -39,4 +39,9 @@ class TodoRepository {
     }
     return false;
   }
+
+  Future<bool> add(Task task) async {
+    _tasks.add(task);
+    return true;
+  }
 }

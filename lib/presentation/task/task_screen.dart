@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/dependency_factory.dart';
+import 'package:todo_app/domain/model/task.dart';
+import 'package:todo_app/domain/model/task_type.dart';
+import 'package:todo_app/domain/usecases/add_new_task_usecase.dart';
 import 'package:todo_app/presentation/widgets/custom_app_bar.dart';
-import 'package:uuid/uuid.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
   final String? taskUuid;
 
   const TaskScreen({super.key, required this.taskUuid});
+
+  @override
+  State<TaskScreen> createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> {
+  final TextEditingController _taskEditingController = TextEditingController();
+  final TextEditingController _descriptionEditingController =
+      TextEditingController();
+
+  final AddNewTaskUseCase addNewTaskUseCase =
+      DependencyFactory.getAddNewTaskUseCase();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +28,16 @@ class TaskScreen extends StatelessWidget {
       appBar: const CustomAppBar(title: 'Task'),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          addNewTaskUseCase.add(
+            Task(
+              title: _taskEditingController.text,
+              desc: _descriptionEditingController.text,
+              type: TaskType.chores,
+              isCompleted: false,
+            ),
+          );
 
+          Navigator.pop(context, true);
         },
         child: const Icon(
           Icons.save,
@@ -23,15 +47,17 @@ class TaskScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _taskEditingController,
+              decoration: const InputDecoration(
                 labelText: "Task",
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _descriptionEditingController,
+              decoration: const InputDecoration(
                 labelText: "Description",
                 border: OutlineInputBorder(),
               ),

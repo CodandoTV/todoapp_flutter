@@ -3,7 +3,7 @@ import 'package:todo_app/dependency_factory.dart';
 import 'package:todo_app/domain/model/task.dart';
 import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
-import 'package:todo_app/presentation/todo_app_navigator.dart';
+import 'package:todo_app/presentation/todo_app_route_factory.dart';
 import 'package:todo_app/presentation/widgets/task_widget.dart';
 import '../widgets/custom_app_bar.dart';
 
@@ -48,10 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: const CustomAppBar(title: 'Tasks'),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            TodoAppNavigator.pushTaskScreen(
-              context: context,
+          onPressed: () async {
+            var result = await Navigator.push(
+                context,
+                TodoAppRouteFactory.taskScreenRouteFactory(null)
             );
+            if(result) {
+              _updateTasks();
+            }
           },
           child: const Icon(
             Icons.plus_one,
