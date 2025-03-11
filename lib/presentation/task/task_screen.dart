@@ -5,6 +5,7 @@ import 'package:todo_app/domain/model/task_type.dart';
 import 'package:todo_app/domain/usecases/add_new_task_usecase.dart';
 import 'package:todo_app/domain/usecases/get_categories_usecase.dart';
 import 'package:todo_app/presentation/widgets/custom_app_bar.dart';
+import 'package:todo_app/presentation/widgets/task_category_dropdown.dart';
 
 class TaskScreen extends StatefulWidget {
   final String? taskUuid;
@@ -26,17 +27,25 @@ class _TaskScreenState extends State<TaskScreen> {
   final GetCategoriesUseCase _getCategoriesUseCase =
       DependencyFactory.getGetCategoriesUseCase();
 
+  String? _currentCategory =
+      DependencyFactory.getGetCategoriesUseCase().get().first;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Task'),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          var category = TaskType.values.firstWhere(
+              (task) => task.name == _currentCategory,
+              orElse: () => TaskType.unknown
+          );
+
           _addNewTaskUseCase.add(
             Task(
               title: _taskEditingController.text,
               desc: _descriptionEditingController.text,
-              type: TaskType.chores,
+              type: category,
               isCompleted: false,
             ),
           );
@@ -67,17 +76,12 @@ class _TaskScreenState extends State<TaskScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: _getCategoriesUseCase.get().first,
-              decoration: const InputDecoration(
-                labelText: "Type",
-                border: OutlineInputBorder(),
-              ),
-              items: _getCategoriesUseCase.get()
-                  .map((item) =>
-                      DropdownMenuItem(value: item, child: Text(item)))
-                  .toList(),
-              onChanged: (value) {},
+            TaskCategoryDropdown(
+              initialValue: _getCategoriesUseCase.get().first,
+              values: _getCategoriesUseCase.get(),
+              onChanged: (String? value) {
+                _currentCategory = value;
+              },
             )
           ],
         ),

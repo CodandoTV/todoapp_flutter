@@ -68,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return TaskWidget(
               title: task.title,
               desc: task.desc,
+              category: task.type.name,
               isChecked: task.isCompleted,
               onCheckChanged: (value) => {
                 _onCheckChanged(
