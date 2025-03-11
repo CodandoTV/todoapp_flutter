@@ -4,7 +4,7 @@ class TaskWidget extends StatelessWidget {
   final String title;
   final String? desc;
   final bool isChecked;
-  final String category;
+  final IconData icon;
   final Function(bool?) onCheckChanged;
 
   const TaskWidget({
@@ -12,7 +12,7 @@ class TaskWidget extends StatelessWidget {
     required this.title,
     required this.desc,
     required this.isChecked,
-    required this.category,
+    required this.icon,
     required this.onCheckChanged,
   });
 
@@ -27,14 +27,21 @@ class TaskWidget extends StatelessWidget {
               isChecked ? TextDecoration.lineThrough : TextDecoration.none,
         ),
       ),
-      leading: Text(category),
-      subtitle: Text(
-        desc ?? "",
-        style: TextStyle(
-          decoration:
-              isChecked ? TextDecoration.lineThrough : TextDecoration.none,
-        ),
+      leading: SizedBox(
+        height: 48,
+        width: 48,
+        child: Icon(icon),
       ),
+      subtitle: desc != null
+          ? Text(
+              desc!,
+              style: TextStyle(
+                decoration: isChecked
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            )
+          : null,
       trailing: Checkbox(
         value: isChecked,
         onChanged: onCheckChanged,

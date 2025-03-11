@@ -4,6 +4,7 @@ import 'package:todo_app/domain/model/task.dart';
 import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
 import 'package:todo_app/presentation/todo_app_route_factory.dart';
+import 'package:todo_app/presentation/widgets/task_type_extension.dart';
 import 'package:todo_app/presentation/widgets/task_widget.dart';
 import '../widgets/custom_app_bar.dart';
 
@@ -68,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return TaskWidget(
               title: task.title,
               desc: task.desc,
-              category: task.type.name,
+              icon: task.type.toIcon(),
               isChecked: task.isCompleted,
               onCheckChanged: (value) => {
                 _onCheckChanged(
