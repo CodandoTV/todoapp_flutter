@@ -3,6 +3,7 @@ import 'package:todo_app/dependency_factory.dart';
 import 'package:todo_app/domain/model/task.dart';
 import 'package:todo_app/domain/model/task_type.dart';
 import 'package:todo_app/domain/usecases/add_new_task_usecase.dart';
+import 'package:todo_app/domain/usecases/get_categories_usecase.dart';
 import 'package:todo_app/presentation/widgets/custom_app_bar.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -19,8 +20,11 @@ class _TaskScreenState extends State<TaskScreen> {
   final TextEditingController _descriptionEditingController =
       TextEditingController();
 
-  final AddNewTaskUseCase addNewTaskUseCase =
+  final AddNewTaskUseCase _addNewTaskUseCase =
       DependencyFactory.getAddNewTaskUseCase();
+
+  final GetCategoriesUseCase _getCategoriesUseCase =
+      DependencyFactory.getGetCategoriesUseCase();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class _TaskScreenState extends State<TaskScreen> {
       appBar: const CustomAppBar(title: 'Task'),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addNewTaskUseCase.add(
+          _addNewTaskUseCase.add(
             Task(
               title: _taskEditingController.text,
               desc: _descriptionEditingController.text,
@@ -64,12 +68,12 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
-              value: "Pets",
+              value: _getCategoriesUseCase.get().first,
               decoration: const InputDecoration(
                 labelText: "Type",
                 border: OutlineInputBorder(),
               ),
-              items: ["Pets", "Supermarket", "Chores"]
+              items: _getCategoriesUseCase.get()
                   .map((item) =>
                       DropdownMenuItem(value: item, child: Text(item)))
                   .toList(),

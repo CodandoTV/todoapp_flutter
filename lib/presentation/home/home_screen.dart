@@ -15,21 +15,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  GetTasksUseCase getTasksUseCase = DependencyFactory.getGetTasksUseCase();
-  UpdateTaskStatusUseCase updateTaskStatusUseCase =
+  final GetTasksUseCase _getTasksUseCase = DependencyFactory.getGetTasksUseCase();
+  final UpdateTaskStatusUseCase _updateTaskStatusUseCase =
       DependencyFactory.getUpdateTaskStatusUseCase();
 
   List<Task> _taskUiModels = [];
 
   void _updateTasks() async {
-    var tasks = await getTasksUseCase.get();
+    var tasks = await _getTasksUseCase.get();
     setState(() {
       _taskUiModels = tasks;
     });
   }
 
   void _onCheckChanged(Task task, bool? value) async {
-    var result = await updateTaskStatusUseCase.update(task, value ?? false);
+    var result = await _updateTaskStatusUseCase.update(task, value ?? false);
     if (result) {
       _updateTasks();
     }
