@@ -23,12 +23,17 @@ class _HomeScreenState extends State<HomeScreen> {
       DependencyFactory.getUpdateTaskStatusUseCase();
 
   List<TaskCell> _taskUiModels = [];
+  List<Task> _taskToBedeleted = [];
+
+  var _showTrashIcon = false;
 
   void _updateTasks() async {
     var tasks = await _getTasksUseCase.get();
     var taskCells = tasks.map((element) => element.toTaskCell());
     setState(() {
       _taskUiModels = taskCells.toList();
+      _showTrashIcon = false;
+      _taskToBedeleted = [];
     });
   }
 
@@ -48,12 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
     if (taskCellToBeDeletedIndex != -1) {
       var taskCellTarget = _taskUiModels[taskCellToBeDeletedIndex];
 
+      var newSelectionValue = !taskCellTarget.isSelected;
+
+      if (newSelectionValue) {
+        _taskToBedeleted.add(task);
+      } else {
+        _taskToBedeleted.remove(task);
+      }
+
       setState(() {
         _taskUiModels[taskCellToBeDeletedIndex] = TaskCell(
           icon: taskCellTarget.icon,
-          isSelected: !taskCellTarget.isSelected,
+          isSelected: newSelectionValue,
           task: taskCellTarget.task,
         );
+
+        _showTrashIcon = _taskToBedeleted.isNotEmpty;
       });
     }
   }
@@ -69,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: const CustomAppBar(title: 'Tasks'),
+      appBar: CustomAppBar(
+        title: 'Tasks',
+        actions: _showTrashIcon ? [const Icon(Icons.delete)] : [],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var result = await Navigator.push(
