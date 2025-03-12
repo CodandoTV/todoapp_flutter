@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/domain/model/task_type.dart';
+import 'package:todo_app/presentation/widgets/task/task_cell.dart';
+import '../../domain/model/task.dart';
+import '../../domain/model/task_type.dart';
 
 extension TaskTypeExtension on TaskType {
   IconData toIcon() {
@@ -14,5 +15,15 @@ extension TaskTypeExtension on TaskType {
       case TaskType.unknown:
         return Icons.help;
     }
+  }
+}
+
+extension TaskExtension on Task {
+  TaskCell toTaskCell() {
+    return TaskCell(
+      task: this,
+      isSelected: false,
+      icon: type.toIcon(),
+    );
   }
 }
