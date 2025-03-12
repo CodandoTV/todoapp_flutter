@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/widgets/task/task_cell.dart';
+import 'package:todo_app/presentation/widgets/task/task_cell_trailing_icon.dart';
+import 'package:todo_app/presentation/widgets/task_type_extension.dart';
 
-class TaskWidget extends StatelessWidget {
+class TaskCellWidget extends StatelessWidget {
   final TaskCell cell;
   final Function(bool?) onCheckChanged;
   final VoidCallback onLongPress;
 
-  const TaskWidget({
+  const TaskCellWidget({
     super.key,
     required this.cell,
     required this.onCheckChanged,
@@ -42,10 +44,10 @@ class TaskWidget extends StatelessWidget {
                   ),
                 )
               : null,
-          trailing: Checkbox(
-            value: cell.task.isCompleted,
-            onChanged: onCheckChanged,
-          ),
+          trailing: TaskCellTrailingIcon(
+              type: cell.toRightIconType(),
+              onCheckChanged: onCheckChanged
+          )
         ),
       ),
     );

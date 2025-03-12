@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/widgets/task/task_cell.dart';
+import 'package:todo_app/presentation/widgets/task/trailing_icon_type.dart';
 import '../../domain/model/task.dart';
 import '../../domain/model/task_type.dart';
 
@@ -25,5 +26,19 @@ extension TaskExtension on Task {
       isSelected: false,
       icon: type.toIcon(),
     );
+  }
+}
+
+extension TaskCellExtension on TaskCell {
+  TrailingIconType toRightIconType() {
+    if (isSelected) {
+      return TrailingIconType.selected;
+    } else {
+      if (task.isCompleted) {
+        return TrailingIconType.completed;
+      } else {
+        return TrailingIconType.notCompleted;
+      }
+    }
   }
 }

@@ -5,8 +5,9 @@ import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
 import 'package:todo_app/presentation/todo_app_route_factory.dart';
 import 'package:todo_app/presentation/widgets/task/task_cell.dart';
 import 'package:todo_app/presentation/widgets/task_type_extension.dart';
-import 'package:todo_app/presentation/widgets/task/task_widget.dart';
+import '../../domain/model/task.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/task/task_cell_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
       DependencyFactory.getUpdateTaskStatusUseCase();
 
   List<TaskCell> _taskUiModels = [];
-
-  final List<TaskCell> _candidatesToBeDeleted = [];
 
   void _updateTasks() async {
     var tasks = await _getTasksUseCase.get();
@@ -43,11 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _onTaskLongPressed(TaskCell task) {
-    if (_candidatesToBeDeleted.contains(task)) {
-      _candidatesToBeDeleted.remove(task);
-    } else {
-      _candidatesToBeDeleted.add(task);
+  void _onTaskLongPressed(Task task) {
+    var taskCellToBeDeletedIndex =
+        _taskUiModels.indexWhere((taskCell) => taskCell.task == task);
+    if (taskCellToBeDeletedIndex != -1) {
+      var taskCellTarget = _taskUiModels[taskCellToBeDeletedIndex];
+
+      setState(() {
+        _taskUiModels[taskCellToBeDeletedIndex] = TaskCell(
+          icon: taskCellTarget.icon,
+          isSelected: !taskCellTarget.isSelected,
+          task: taskCellTarget.task,
+        );
+      });
     }
   }
 
@@ -78,16 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView.builder(
         itemCount: _taskUiModels.length,
         itemBuilder: (context, index) {
-          var task = _taskUiModels[index];
-          return TaskWidget(
-            onLongPress: () => {_onTaskLongPressed(task)},
+          var taskCell = _taskUiModels[index];
+          return TaskCellWidget(
+            onLongPress: () => {_onTaskLongPressed(taskCell.task)},
             onCheckChanged: (value) => {
               _onCheckChanged(
-                task,
+                taskCell,
                 value,
               ),
             },
-            cell: task,
+            cell: taskCell,
           );
         },
       ),
