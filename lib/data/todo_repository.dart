@@ -44,4 +44,11 @@ class TodoRepository {
     _tasks.add(task);
     return true;
   }
+
+  Future<bool> delete(List<Task> tasks) async {
+    for (var task in tasks) {
+      _tasks.remove(task);
+    }
+    return true;
+  }
 }

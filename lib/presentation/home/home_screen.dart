@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/dependency_factory.dart';
+import 'package:todo_app/domain/usecases/delete_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
 import 'package:todo_app/presentation/todo_app_route_factory.dart';
@@ -26,12 +27,21 @@ class _HomeScreenState extends State<HomeScreen> {
       DependencyFactory.getGetTasksUseCase();
   final UpdateTaskStatusUseCase _updateTaskStatusUseCase =
       DependencyFactory.getUpdateTaskStatusUseCase();
+  final DeleteTasksUseCase _deleteTasksUseCase =
+      DependencyFactory.getDeleteTasksUseCase();
 
   final HomeScreenUIState _uiState = HomeScreenUIState()
     ..showTrashIcon = false
     ..taskUiModels = [];
 
   List<Task> _taskToBedeleted = [];
+
+  void _deleteSelectedTasks()  async {
+    _deleteTasksUseCase.delete(_taskToBedeleted);
+    _taskToBedeleted = [];
+
+    _updateTasks();
+  }
 
   void _updateTasks() async {
     var tasks = await _getTasksUseCase.get();
@@ -94,7 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: CustomAppBar(
         title: 'Tasks',
         showTrashIcon: _uiState.showTrashIcon,
-        onDelete: () => {},
+        onDelete: () => {
+          _deleteSelectedTasks()
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
