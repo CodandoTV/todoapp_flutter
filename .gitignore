@@ -25,3 +25,7 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+/android/todoapp_android.iml
+/todoapp.iml
+/todo_app.iml
+/.idea/todoapp.iml
