@@ -16,23 +16,30 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+class HomeScreenUIState {
+  List<TaskCell> taskUiModels = [];
+  var showTrashIcon = false;
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   final GetTasksUseCase _getTasksUseCase =
       DependencyFactory.getGetTasksUseCase();
   final UpdateTaskStatusUseCase _updateTaskStatusUseCase =
       DependencyFactory.getUpdateTaskStatusUseCase();
 
-  List<TaskCell> _taskUiModels = [];
-  List<Task> _taskToBedeleted = [];
+  final HomeScreenUIState _uiState = HomeScreenUIState()
+    ..showTrashIcon = false
+    ..taskUiModels = [];
 
-  var _showTrashIcon = false;
+  List<Task> _taskToBedeleted = [];
 
   void _updateTasks() async {
     var tasks = await _getTasksUseCase.get();
     var taskCells = tasks.map((element) => element.toTaskCell());
     setState(() {
-      _taskUiModels = taskCells.toList();
-      _showTrashIcon = false;
+      _uiState.taskUiModels = taskCells.toList();
+      _uiState.showTrashIcon = false;
+
       _taskToBedeleted = [];
     });
   }
@@ -49,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onTaskLongPressed(Task task) {
     var taskCellToBeDeletedIndex =
-        _taskUiModels.indexWhere((taskCell) => taskCell.task == task);
+        _uiState.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {
-      var taskCellTarget = _taskUiModels[taskCellToBeDeletedIndex];
+      var taskCellTarget = _uiState.taskUiModels[taskCellToBeDeletedIndex];
 
       var newSelectionValue = !taskCellTarget.isSelected;
 
@@ -62,13 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       setState(() {
-        _taskUiModels[taskCellToBeDeletedIndex] = TaskCell(
+        _uiState.taskUiModels[taskCellToBeDeletedIndex] = TaskCell(
           icon: taskCellTarget.icon,
           isSelected: newSelectionValue,
           task: taskCellTarget.task,
         );
 
-        _showTrashIcon = _taskToBedeleted.isNotEmpty;
+        _uiState.showTrashIcon = _taskToBedeleted.isNotEmpty;
       });
     }
   }
@@ -86,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
         title: 'Tasks',
-        showTrashIcon: _showTrashIcon,
+        showTrashIcon: _uiState.showTrashIcon,
         onDelete: () => {},
       ),
       floatingActionButton: FloatingActionButton(
@@ -102,9 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: ListView.builder(
-        itemCount: _taskUiModels.length,
+        itemCount: _uiState.taskUiModels.length,
         itemBuilder: (context, index) {
-          var taskCell = _taskUiModels[index];
+          var taskCell = _uiState.taskUiModels[index];
           return TaskCellWidget(
             onLongPress: () => {_onTaskLongPressed(taskCell.task)},
             onCheckChanged: (value) => {
