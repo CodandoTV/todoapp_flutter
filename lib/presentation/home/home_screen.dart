@@ -86,7 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
         title: 'Tasks',
-        actions: _showTrashIcon ? [const Icon(Icons.delete)] : [],
+        showTrashIcon: _showTrashIcon,
+        onDelete: () => {},
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

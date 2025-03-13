@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final List<Widget>? actions;
+  final VoidCallback? onDelete;
+  final bool showTrashIcon;
 
-  const CustomAppBar({super.key, required this.title, this.actions});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    required this.showTrashIcon,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
-      actions: actions,
+      actions: showTrashIcon
+          ? [IconButton(onPressed: onDelete, icon: const Icon(Icons.delete))]
+          : [],
     );
   }
 

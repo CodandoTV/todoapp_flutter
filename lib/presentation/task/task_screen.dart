@@ -33,7 +33,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Task'),
+      appBar: const CustomAppBar(title: 'Task', showTrashIcon: false,),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           var category = TaskType.values.firstWhere(
