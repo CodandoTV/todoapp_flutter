@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/dependency_factory.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/domain/usecases/delete_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
 import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
-import 'package:todo_app/presentation/todo_app_route_factory.dart';
 import 'package:todo_app/presentation/widgets/task/task_cell.dart';
 import 'package:todo_app/presentation/widgets/task_type_extension.dart';
 import '../../domain/model/task.dart';
@@ -23,12 +23,9 @@ class HomeScreenUIState {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GetTasksUseCase _getTasksUseCase =
-      DependencyFactory.getGetTasksUseCase();
-  final UpdateTaskStatusUseCase _updateTaskStatusUseCase =
-      DependencyFactory.getUpdateTaskStatusUseCase();
-  final DeleteTasksUseCase _deleteTasksUseCase =
-      DependencyFactory.getDeleteTasksUseCase();
+  late GetTasksUseCase _getTasksUseCase;
+  late UpdateTaskStatusUseCase _updateTaskStatusUseCase;
+  late DeleteTasksUseCase _deleteTasksUseCase;
 
   final HomeScreenUIState _uiState = HomeScreenUIState()
     ..showTrashIcon = false
@@ -36,7 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Task> _taskToBedeleted = [];
 
-  void _deleteSelectedTasks()  async {
+  @override
+  void initState() {
+    super.initState();
+
+    _getTasksUseCase = context.read();
+    _updateTaskStatusUseCase = context.read();
+    _deleteTasksUseCase = context.read();
+
+    _updateTasks();
+  }
+
+  void _deleteSelectedTasks() async {
     _deleteTasksUseCase.delete(_taskToBedeleted);
     _taskToBedeleted = [];
 
@@ -91,28 +99,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    _updateTasks();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
         title: 'Tasks',
         showTrashIcon: _uiState.showTrashIcon,
-        onDelete: () => {
-          _deleteSelectedTasks()
-        },
+        onDelete: () => {_deleteSelectedTasks()},
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          var result = await Navigator.push(
-              context, TodoAppRouteFactory.taskScreenRouteFactory(null));
-          if (result) {
+          bool? result = await context.push('/task');
+          if (result == true) {
             _updateTasks();
           }
         },

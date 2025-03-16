@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/home/home_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/presentation/task/task_screen.dart';
+
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeScreen();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/task',
+          builder: (BuildContext context, GoRouterState state) {
+            return const TaskScreen(taskUuid: null);
+          },
+        ),
+      ],
+    ),
+  ],
+);
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: "Todo list",
-      home: const HomeScreen(),
+      routerConfig: _router,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,

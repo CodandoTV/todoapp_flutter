@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/dependency_factory.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/domain/model/task.dart';
 import 'package:todo_app/domain/model/task_type.dart';
 import 'package:todo_app/domain/usecases/add_new_task_usecase.dart';
@@ -21,14 +22,20 @@ class _TaskScreenState extends State<TaskScreen> {
   final TextEditingController _descriptionEditingController =
       TextEditingController();
 
-  final AddNewTaskUseCase _addNewTaskUseCase =
-      DependencyFactory.getAddNewTaskUseCase();
+  late AddNewTaskUseCase _addNewTaskUseCase;
 
-  final GetCategoriesUseCase _getCategoriesUseCase =
-      DependencyFactory.getGetCategoriesUseCase();
+  late GetCategoriesUseCase _getCategoriesUseCase;
 
-  String? _currentCategory =
-      DependencyFactory.getGetCategoriesUseCase().get().first;
+  late String? _currentCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _addNewTaskUseCase = context.read();
+    _getCategoriesUseCase = context.read();
+    _currentCategory = _getCategoriesUseCase.get().first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,7 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
           );
 
-          Navigator.pop(context, true);
+          context.pop(true);
         },
         child: const Icon(
           Icons.save,
