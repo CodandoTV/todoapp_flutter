@@ -22,10 +22,10 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   List<Task> _deleteTasksBuffer = [];
 
   HomeScreenCubit(
-      GetTasksUseCase getTasksUseCase,
-      UpdateTaskStatusUseCase updateTaskStatusUseCase,
-      DeleteTasksUseCase deleteTasksUseCase)
-      : super(HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
+    GetTasksUseCase getTasksUseCase,
+    UpdateTaskStatusUseCase updateTaskStatusUseCase,
+    DeleteTasksUseCase deleteTasksUseCase,
+  ) : super(HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
     _getTasksUseCase = getTasksUseCase;
     _updateTaskStatusUseCase = updateTaskStatusUseCase;
     _deleteTasksUseCase = deleteTasksUseCase;
@@ -47,8 +47,12 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       taskCell.isSelected = _deleteTasksBuffer.contains(taskCell.task);
     }
 
-    emit(HomeScreenState(
-        taskUiModels: taskCells, showTrashIcon: _deleteTasksBuffer.isNotEmpty));
+    emit(
+      HomeScreenState(
+        taskUiModels: taskCells,
+        showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+      ),
+    );
   }
 
   void onCheckChanged(TaskCell taskCell, bool value) async {
@@ -60,9 +64,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       );
 
       if (result) {
-        var taskUiCell = state.taskUiModels[index]..task.isCompleted = value;
-
-        state.taskUiModels[index] = taskUiCell;
+        state.taskUiModels[index].task.isCompleted = value;
 
         emit(
           HomeScreenState(
@@ -78,26 +80,22 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     var taskCellToBeDeletedIndex =
         state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {
-      var taskCellTarget = state.taskUiModels[taskCellToBeDeletedIndex];
-
-      var newSelectionValue = !taskCellTarget.isSelected;
-
+      var newSelectionValue =
+          !state.taskUiModels[taskCellToBeDeletedIndex].isSelected;
       if (newSelectionValue) {
         _deleteTasksBuffer.add(task);
       } else {
         _deleteTasksBuffer.remove(task);
       }
 
-      state.taskUiModels[taskCellToBeDeletedIndex] = TaskCell(
-        icon: taskCellTarget.icon,
-        isSelected: newSelectionValue,
-        task: taskCellTarget.task,
-      );
+      state.taskUiModels[taskCellToBeDeletedIndex].isSelected =
+          _deleteTasksBuffer.contains(task);
 
       emit(
         HomeScreenState(
-            taskUiModels: state.taskUiModels,
-            showTrashIcon: _deleteTasksBuffer.isNotEmpty),
+          taskUiModels: state.taskUiModels,
+          showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+        ),
       );
     }
   }

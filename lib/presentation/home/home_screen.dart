@@ -28,7 +28,7 @@ class _HomeScaffold extends StatelessWidget {
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: CustomAppBar(
-          title: 'tasks',
+          title: 'Tasks',
           showTrashIcon: state.showTrashIcon,
           onDelete: cubitContext.read<HomeScreenCubit>().deleteSelectedTasks,
         ),
