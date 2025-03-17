@@ -14,14 +14,14 @@ class HomeScreenState {
   HomeScreenState({required this.taskUiModels, required this.showTrashIcon});
 }
 
-class HomeScreenCubit extends Cubit<HomeScreenState> {
+class HomeScreenBloc extends Cubit<HomeScreenState> {
   late GetTasksUseCase _getTasksUseCase;
   late UpdateTaskStatusUseCase _updateTaskStatusUseCase;
   late DeleteTasksUseCase _deleteTasksUseCase;
 
   List<Task> _deleteTasksBuffer = [];
 
-  HomeScreenCubit(
+  HomeScreenBloc(
     GetTasksUseCase getTasksUseCase,
     UpdateTaskStatusUseCase updateTaskStatusUseCase,
     DeleteTasksUseCase deleteTasksUseCase,
