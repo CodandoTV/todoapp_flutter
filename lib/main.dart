@@ -4,7 +4,29 @@ import 'package:todo_app/data/todo_in_memory_data_source.dart';
 import 'package:todo_app/data/todo_repository.dart';
 import 'package:todo_app/ui/todo_app.dart';
 
-TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource();
+import 'data/model/task.dart';
+import 'data/model/task_type.dart';
+
+TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource(
+    [
+      Task(
+        title: 'Buy guinea pig food',
+        type: TaskType.pet,
+        desc: 'Should buy megazoo',
+        isCompleted: false,
+      ),
+      Task(
+          title: 'Buy dog food',
+          type: TaskType.pet,
+          desc: null,
+          isCompleted: false),
+      Task(
+          title: 'Wash the dishes',
+          type: TaskType.chores,
+          desc: null,
+          isCompleted: false),
+    ]
+);
 
 void main() {
   runApp(

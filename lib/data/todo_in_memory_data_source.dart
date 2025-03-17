@@ -1,47 +1,20 @@
-
 import 'model/task.dart';
-import 'model/task_type.dart';
 
 class TodoInMemoryDataSource {
-  final List<Task> _tasks = [
-    Task(
-      title: 'Buy guinea pig food',
-      type: TaskType.pet,
-      desc: 'Should buy megazoo',
-      isCompleted: false,
-    ),
-    Task(
-        title: 'Buy dog food',
-        type: TaskType.pet,
-        desc: null,
-        isCompleted: false),
-    Task(
-        title: 'Wash the dishes',
-        type: TaskType.chores,
-        desc: null,
-        isCompleted: false),
-  ];
+  late List<Task> _tasks;
+
+  TodoInMemoryDataSource(List<Task> tasks) {
+    _tasks = tasks;
+  }
 
   Future<List<Task>> getTasks() async {
     return _tasks;
   }
 
   Future<bool> update(Task task, bool isCompletedNewValue) async {
-    var index = _tasks.indexWhere(
-      (target) =>
-          target.isCompleted == task.isCompleted &&
-          target.title == task.title &&
-          target.desc == task.desc &&
-          target.type == task.type,
-    );
+    var index = _tasks.indexOf(task);
     if (index != -1) {
-      var task = _tasks[index];
-      _tasks[index] = Task(
-        title: task.title,
-        desc: task.desc,
-        type: task.type,
-        isCompleted: isCompletedNewValue,
-      );
+      _tasks[index].isCompleted = isCompletedNewValue;
       return true;
     }
     return false;
