@@ -14,7 +14,13 @@ class TodoInMemoryDataSource {
   Future<bool> update(Task task, bool isCompletedNewValue) async {
     var index = _tasks.indexOf(task);
     if (index != -1) {
-      _tasks[index].isCompleted = isCompletedNewValue;
+      final updatedTask = Task(
+        title: _tasks[index].title,
+        type: _tasks[index].type,
+        desc: _tasks[index].desc,
+        isCompleted: isCompletedNewValue
+      );
+      _tasks[index] = updatedTask;
       return true;
     }
     return false;

@@ -20,10 +20,10 @@ extension TaskTypeExtension on TaskType {
 }
 
 extension TaskExtension on Task {
-  TaskCell toTaskCell() {
+  TaskCell toTaskCell(bool isSelected) {
     return TaskCell(
       task: this,
-      isSelected: false,
+      isSelected: isSelected,
       icon: type.toIcon(),
     );
   }

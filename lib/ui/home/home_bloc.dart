@@ -4,13 +4,7 @@ import 'package:todo_app/ui/widgets/task_type_extension.dart';
 
 import '../../data/model/task.dart';
 import '../widgets/task/task_cell.dart';
-
-class HomeScreenState {
-  List<TaskCell> taskUiModels;
-  var showTrashIcon;
-
-  HomeScreenState({required this.taskUiModels, required this.showTrashIcon});
-}
+import 'home_screen_state.dart';
 
 class HomeScreenBloc extends Cubit<HomeScreenState> {
   late TodoRepository _repository;
@@ -19,9 +13,8 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
 
   HomeScreenBloc(
     TodoRepository repository,
-  ) : super(HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
+  ) : super(const HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
     _repository = repository;
-
     updateTasks();
   }
 
@@ -34,11 +27,13 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
 
   void updateTasks() async {
     var tasks = await _repository.getTasks();
-    var taskCells = tasks.map((element) => element.toTaskCell()).toList();
-    for (var taskCell in taskCells) {
-      taskCell.isSelected = _deleteTasksBuffer.contains(taskCell.task);
-    }
-
+    var taskCells = tasks
+        .map(
+          (element) => element.toTaskCell(
+            _deleteTasksBuffer.contains(element),
+          ),
+        )
+        .toList();
     emit(
       HomeScreenState(
         taskUiModels: taskCells,
@@ -56,11 +51,15 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
       );
 
       if (result) {
-        state.taskUiModels[index].task.isCompleted = value;
+        final taskUpdated = state.taskUiModels[index].task.copy(
+          isCompleted: value,
+        );
+        final uiModels = List.of(state.taskUiModels);
+        uiModels[index] = state.taskUiModels[index].copy(task: taskUpdated);
 
         emit(
           HomeScreenState(
-            taskUiModels: state.taskUiModels,
+            taskUiModels: uiModels,
             showTrashIcon: state.showTrashIcon,
           ),
         );
@@ -80,12 +79,14 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
         _deleteTasksBuffer.remove(task);
       }
 
-      state.taskUiModels[taskCellToBeDeletedIndex].isSelected =
-          _deleteTasksBuffer.contains(task);
+      final uiModels = List.of(state.taskUiModels);
+      uiModels[taskCellToBeDeletedIndex] = state.taskUiModels[taskCellToBeDeletedIndex].copy(
+        isSelected: newSelectionValue,
+      );
 
       emit(
         HomeScreenState(
-          taskUiModels: state.taskUiModels,
+          taskUiModels: uiModels,
           showTrashIcon: _deleteTasksBuffer.isNotEmpty,
         ),
       );
