@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../domain/model/task.dart';
+import '../../../data/model/task.dart';
 
 class TaskCell {
   Task task;

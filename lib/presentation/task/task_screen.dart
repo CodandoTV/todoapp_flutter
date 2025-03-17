@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/domain/model/task.dart';
-import 'package:todo_app/domain/model/task_type.dart';
-import 'package:todo_app/domain/usecases/add_new_task_usecase.dart';
-import 'package:todo_app/domain/usecases/get_categories_usecase.dart';
+import 'package:todo_app/data/todo_repository.dart';
+import 'package:todo_app/data/model/task.dart';
+import 'package:todo_app/data/model/task_type.dart';
 import 'package:todo_app/presentation/widgets/custom_app_bar.dart';
 import 'package:todo_app/presentation/widgets/task_category_dropdown.dart';
 
@@ -22,9 +21,7 @@ class _TaskScreenState extends State<TaskScreen> {
   final TextEditingController _descriptionEditingController =
       TextEditingController();
 
-  late AddNewTaskUseCase _addNewTaskUseCase;
-
-  late GetCategoriesUseCase _getCategoriesUseCase;
+  late TodoRepository _repository;
 
   late String? _currentCategory;
 
@@ -32,9 +29,8 @@ class _TaskScreenState extends State<TaskScreen> {
   void initState() {
     super.initState();
 
-    _addNewTaskUseCase = context.read();
-    _getCategoriesUseCase = context.read();
-    _currentCategory = _getCategoriesUseCase.get().first;
+    _repository = context.read();
+    _currentCategory = _repository.getCategories().first;
   }
 
   @override
@@ -48,7 +44,7 @@ class _TaskScreenState extends State<TaskScreen> {
               orElse: () => TaskType.unknown
           );
 
-          _addNewTaskUseCase.add(
+          _repository.add(
             Task(
               title: _taskEditingController.text,
               desc: _descriptionEditingController.text,
@@ -84,8 +80,8 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
             const SizedBox(height: 20),
             TaskCategoryDropdown(
-              initialValue: _getCategoriesUseCase.get().first,
-              values: _getCategoriesUseCase.get(),
+              initialValue: _repository.getCategories().first,
+              values: _repository.getCategories(),
               onChanged: (String? value) {
                 _currentCategory = value;
               },

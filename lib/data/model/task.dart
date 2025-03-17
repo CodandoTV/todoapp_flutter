@@ -1,4 +1,5 @@
-import 'package:todo_app/domain/model/task_type.dart';
+
+import 'package:todo_app/data/model/task_type.dart';
 
 class Task {
   String title;

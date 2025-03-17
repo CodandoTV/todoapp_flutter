@@ -13,8 +13,6 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
         create: (BuildContext cubitContext) => HomeScreenBloc(
               cubitContext.read(),
-              cubitContext.read(),
-              cubitContext.read(),
             ),
         child: _HomeScaffold());
   }

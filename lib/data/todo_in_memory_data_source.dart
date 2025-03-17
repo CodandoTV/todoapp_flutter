@@ -1,5 +1,6 @@
-import '../domain/model/task.dart';
-import '../domain/model/task_type.dart';
+
+import 'model/task.dart';
+import 'model/task_type.dart';
 
 class TodoInMemoryDataSource {
   final List<Task> _tasks = [

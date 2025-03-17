@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/domain/usecases/delete_tasks_usecase.dart';
-import 'package:todo_app/domain/usecases/get_tasks_usecase.dart';
-import 'package:todo_app/domain/usecases/update_task_status_usecase.dart';
+import 'package:todo_app/data/todo_repository.dart';
 import 'package:todo_app/presentation/widgets/task_type_extension.dart';
 
-import '../../domain/model/task.dart';
+import '../../data/model/task.dart';
 import '../widgets/task/task_cell.dart';
 
 class HomeScreenState {
@@ -15,33 +13,27 @@ class HomeScreenState {
 }
 
 class HomeScreenBloc extends Cubit<HomeScreenState> {
-  late GetTasksUseCase _getTasksUseCase;
-  late UpdateTaskStatusUseCase _updateTaskStatusUseCase;
-  late DeleteTasksUseCase _deleteTasksUseCase;
+  late TodoRepository _repository;
 
   List<Task> _deleteTasksBuffer = [];
 
   HomeScreenBloc(
-    GetTasksUseCase getTasksUseCase,
-    UpdateTaskStatusUseCase updateTaskStatusUseCase,
-    DeleteTasksUseCase deleteTasksUseCase,
+    TodoRepository repository,
   ) : super(HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
-    _getTasksUseCase = getTasksUseCase;
-    _updateTaskStatusUseCase = updateTaskStatusUseCase;
-    _deleteTasksUseCase = deleteTasksUseCase;
+    _repository = repository;
 
     updateTasks();
   }
 
   void deleteSelectedTasks() {
-    _deleteTasksUseCase.delete(_deleteTasksBuffer);
+    _repository.delete(_deleteTasksBuffer);
     _deleteTasksBuffer = [];
 
     updateTasks();
   }
 
   void updateTasks() async {
-    var tasks = await _getTasksUseCase.get();
+    var tasks = await _repository.getTasks();
     var taskCells = tasks.map((element) => element.toTaskCell()).toList();
     for (var taskCell in taskCells) {
       taskCell.isSelected = _deleteTasksBuffer.contains(taskCell.task);
@@ -58,7 +50,7 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
   void onCheckChanged(TaskCell taskCell, bool value) async {
     var index = state.taskUiModels.indexOf(taskCell);
     if (index != -1) {
-      var result = await _updateTaskStatusUseCase.update(
+      var result = await _repository.update(
         state.taskUiModels[index].task,
         value,
       );

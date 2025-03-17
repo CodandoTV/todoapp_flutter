@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/widgets/task/task_cell.dart';
 import 'package:todo_app/presentation/widgets/task/trailing_icon_type.dart';
-import '../../domain/model/task.dart';
-import '../../domain/model/task_type.dart';
+import '../../data/model/task.dart';
+import '../../data/model/task_type.dart';
 
 extension TaskTypeExtension on TaskType {
   IconData toIcon() {
