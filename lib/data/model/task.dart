@@ -7,7 +7,7 @@ class Task extends Equatable {
   final TaskType type;
   final bool isCompleted;
 
-  Task(
+  const Task(
       {required this.title,
       required this.desc,
       required this.type,
