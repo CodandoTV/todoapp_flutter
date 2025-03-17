@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data/todo_in_memory_data_source.dart';
 import 'package:todo_app/data/todo_repository.dart';
-import 'package:todo_app/presentation/todo_app.dart';
+import 'package:todo_app/ui/todo_app.dart';
 
 TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource();
 

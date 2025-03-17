@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/data/todo_repository.dart';
 import 'package:todo_app/data/model/task.dart';
 import 'package:todo_app/data/model/task_type.dart';
-import 'package:todo_app/presentation/widgets/custom_app_bar.dart';
-import 'package:todo_app/presentation/widgets/task_category_dropdown.dart';
+import 'package:todo_app/ui/widgets/custom_app_bar.dart';
+import 'package:todo_app/ui/widgets/task_category_dropdown.dart';
 
 class TaskScreen extends StatefulWidget {
   final String? taskUuid;

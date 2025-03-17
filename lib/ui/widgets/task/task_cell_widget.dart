@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/widgets/task/task_cell.dart';
-import 'package:todo_app/presentation/widgets/task/task_cell_trailing_icon.dart';
-import 'package:todo_app/presentation/widgets/task_type_extension.dart';
+import 'package:todo_app/ui/widgets/task/task_cell.dart';
+import 'package:todo_app/ui/widgets/task/task_cell_trailing_icon.dart';
+import 'package:todo_app/ui/widgets/task_type_extension.dart';
 
 class TaskCellWidget extends StatelessWidget {
   final TaskCell cell;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/widgets/task/trailing_icon_type.dart';
+import 'package:todo_app/ui/widgets/task/trailing_icon_type.dart';
 
 class TaskCellTrailingIcon extends StatelessWidget {
   final TrailingIconType type;

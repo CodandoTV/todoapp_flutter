@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/home/home_screen.dart';
+import 'package:todo_app/ui/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/presentation/task/task_screen.dart';
+import 'package:todo_app/ui/task/task_screen.dart';
 
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
