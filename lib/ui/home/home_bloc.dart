@@ -42,7 +42,7 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
     );
   }
 
-  void onCheckChanged(TaskCell taskCell, bool value) async {
+  void onCompleteTask(TaskCell taskCell, bool value) async {
     var index = state.taskUiModels.indexOf(taskCell);
     if (index != -1) {
       var result = await _repository.update(
@@ -67,7 +67,7 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
     }
   }
 
-  void onTaskLongPressed(Task task) {
+  void onRemoveTask(Task task) {
     var taskCellToBeDeletedIndex =
         state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {

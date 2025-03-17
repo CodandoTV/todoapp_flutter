@@ -50,10 +50,10 @@ class _HomeScaffold extends StatelessWidget {
               onLongPress: () => {
                 cubitContext
                     .read<HomeScreenBloc>()
-                    .onTaskLongPressed(taskCell.task)
+                    .onRemoveTask(taskCell.task)
               },
               onCheckChanged: (value) => {
-                cubitContext.read<HomeScreenBloc>().onCheckChanged(
+                cubitContext.read<HomeScreenBloc>().onCompleteTask(
                       taskCell,
                       value ?? false,
                     ),
