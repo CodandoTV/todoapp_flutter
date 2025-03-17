@@ -28,10 +28,10 @@ class _HomeScaffold extends StatelessWidget {
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: CustomAppBar(
-            title: 'tasks',
-            showTrashIcon: state.showTrashIcon,
-            onDelete: () =>
-                {cubitContext.read<HomeScreenCubit>().deleteSelectedTasks()}),
+          title: 'tasks',
+          showTrashIcon: state.showTrashIcon,
+          onDelete: cubitContext.read<HomeScreenCubit>().deleteSelectedTasks,
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             bool? result = await context.push('/task');
