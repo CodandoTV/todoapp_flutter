@@ -12,10 +12,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext cubitContext) => HomeScreenBloc(
-              cubitContext.read(),
-            ),
-        child: _HomeScaffold());
+      create: (BuildContext cubitContext) {
+        final bloc = HomeScreenBloc(
+          cubitContext.read(),
+        );
+        bloc.updateTasks();
+        return bloc;
+      },
+      child: _HomeScaffold(),
+    );
   }
 }
 
@@ -48,9 +53,7 @@ class _HomeScaffold extends StatelessWidget {
             var taskCell = state.taskUiModels[index];
             return TaskCellWidget(
               onLongPress: () => {
-                cubitContext
-                    .read<HomeScreenBloc>()
-                    .onRemoveTask(taskCell.task)
+                cubitContext.read<HomeScreenBloc>().onRemoveTask(taskCell.task)
               },
               onCheckChanged: (value) => {
                 cubitContext.read<HomeScreenBloc>().onCompleteTask(

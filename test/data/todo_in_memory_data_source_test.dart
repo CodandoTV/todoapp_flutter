@@ -7,7 +7,7 @@ import 'package:todo_app/data/todo_in_memory_data_source.dart';
 void main() {
   test('test update task', () async {
     final todoInMemory = TodoInMemoryDataSource([
-      Task(
+      const Task(
         title: 'Buy guinea pig food',
         type: TaskType.pet,
         desc: 'Should buy megazoo',
@@ -25,7 +25,7 @@ void main() {
 
   test('test getTasks', () async {
     final expectedTasks = [
-      Task(
+      const Task(
         title: 'Buy guinea pig food',
         type: TaskType.pet,
         desc: 'Should buy megazoo',
@@ -39,14 +39,14 @@ void main() {
   });
 
   test('test addTasks', () async {
-    final newTask = Task(
+    const newTask = Task(
       title: 'title',
       desc: 'desc',
       type: TaskType.chores,
       isCompleted: false,
     );
     final todoInMemory = TodoInMemoryDataSource([
-      Task(
+      const Task(
         title: 'Buy guinea pig food',
         type: TaskType.pet,
         desc: 'Should buy megazoo',
@@ -62,7 +62,7 @@ void main() {
   });
 
   test('test delete task', () async {
-    final targetTask = Task(
+    const targetTask = Task(
       title: 'Buy guinea pig food',
       type: TaskType.pet,
       desc: 'Should buy megazoo',

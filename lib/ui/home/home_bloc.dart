@@ -15,7 +15,6 @@ class HomeScreenBloc extends Cubit<HomeScreenState> {
     TodoRepository repository,
   ) : super(const HomeScreenState(taskUiModels: [], showTrashIcon: false)) {
     _repository = repository;
-    updateTasks();
   }
 
   void deleteSelectedTasks() {
