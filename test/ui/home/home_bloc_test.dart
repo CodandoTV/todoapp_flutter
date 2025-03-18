@@ -46,4 +46,63 @@ void main() {
       )
     },
   );
+
+  blocTest(
+    'test completeTask',
+    build: () => build(
+      [
+        const Task(
+          title: 'title',
+          desc: 'desc',
+          type: TaskType.chores,
+          isCompleted: false,
+        )
+      ],
+    ),
+    seed: () => const HomeScreenState(
+      taskUiModels: [
+        TaskCell(
+          task: Task(
+            title: 'title',
+            desc: 'desc',
+            type: TaskType.chores,
+            isCompleted: false,
+          ),
+          isSelected: false,
+          icon: Icons.home,
+        ),
+      ],
+      showTrashIcon: false,
+    ),
+    act: (bloc) => bloc.onCompleteTask(
+      const TaskCell(
+        task: Task(
+          title: 'title',
+          desc: 'desc',
+          type: TaskType.chores,
+          isCompleted: false,
+        ),
+        isSelected: false,
+        icon: Icons.home,
+      ),
+      true,
+    ),
+    expect: () => {
+      const HomeScreenState(
+        taskUiModels: [
+          TaskCell(
+            task: Task(
+              title: 'title',
+              desc: 'desc',
+              type: TaskType.chores,
+              isCompleted: true,
+            ),
+            isSelected: false,
+            icon: Icons.home,
+          )
+        ],
+        showTrashIcon: false,
+      )
+    },
+  );
 }
