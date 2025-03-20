@@ -2,10 +2,17 @@
 
 **TodoApp** is a sample Flutter project designed as a testing playground for experimenting with various features and implementations.
 
-## Android version
+## Tech Stack
+
+- [equatable](https://pub.dev/packages/equatable): data classes comparator;
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc): state management.
+
+## Screenshots
+
+### Android version
 
 ![iOS teaser](/img/android-todoapp.gif)
 
-## Web version
+### Web version
 
 ![iOS teaser](/img/web-todoapp.gif)
