@@ -9,18 +9,18 @@ import 'data/model/task_type.dart';
 
 TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource(
     [
-      Task(
+      const Task(
         title: 'Buy guinea pig food',
         type: TaskType.pet,
         desc: 'Should buy megazoo',
         isCompleted: false,
       ),
-      Task(
+      const Task(
           title: 'Buy dog food',
           type: TaskType.pet,
           desc: null,
           isCompleted: false),
-      Task(
+      const Task(
           title: 'Wash the dishes',
           type: TaskType.chores,
           desc: null,

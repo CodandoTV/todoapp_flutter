@@ -25,9 +25,13 @@ class TodoRepository {
   }
 
   List<String> getCategories() {
-    var tasks = TaskType.values.toList();
+    var tasks = taskCategories();
     tasks.sort(_compare);
     return tasks.map((toElement) => toElement.name).toList();
+  }
+
+  List<TaskType> taskCategories() {
+    return TaskType.values.toList();
   }
 
   int _compare(TaskType a, TaskType b) {
