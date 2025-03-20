@@ -4,6 +4,8 @@
 
 ## Tech Stack
 
+- [provider](https://pub.dev/packages/provider): Dependency injection;
+- [go_router](https://pub.dev/packages/go_router): navigation;
 - [equatable](https://pub.dev/packages/equatable): data classes comparator;
 - [flutter_bloc](https://pub.dev/packages/flutter_bloc): state management.
 
