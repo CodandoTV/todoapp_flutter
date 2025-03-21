@@ -7,11 +7,12 @@ class Task extends Equatable {
   final TaskType type;
   final bool isCompleted;
 
-  const Task(
-      {required this.title,
-      required this.desc,
-      required this.type,
-      required this.isCompleted});
+  const Task({
+    required this.title,
+    required this.desc,
+    required this.type,
+    required this.isCompleted,
+  });
 
   @override
   List<Object?> get props => [title, desc, type, isCompleted];
