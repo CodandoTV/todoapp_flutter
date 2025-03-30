@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/task/task_viewmodel.dart';
-import 'package:todo_app/ui/widgets/custom_app_bar.dart';
-import 'package:todo_app/ui/widgets/task_category_dropdown.dart';
+import 'package:todoapp/ui/task/task_viewmodel.dart';
+import 'package:todoapp/ui/widgets/custom_app_bar.dart';
+import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;

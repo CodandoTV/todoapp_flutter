@@ -1,21 +1,13 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../widgets/task/task_cell.dart';
 
-class HomeScreenState extends Equatable {
-  final List<TaskCell> taskUiModels;
-  final bool showTrashIcon;
+part 'home_screen_state.freezed.dart';
 
-  const HomeScreenState(
-      {required this.taskUiModels, required this.showTrashIcon});
-
-  @override
-  List<Object?> get props => [taskUiModels, showTrashIcon];
-
-  HomeScreenState copy({List<TaskCell>? taskUiModels, bool? showTrashIcon}) {
-    return HomeScreenState(
-      taskUiModels: taskUiModels ?? this.taskUiModels,
-      showTrashIcon: showTrashIcon ?? this.showTrashIcon,
-    );
-  }
+@freezed
+abstract class HomeScreenState with _$HomeScreenState {
+  const factory HomeScreenState({
+    required List<TaskCell> taskUiModels,
+    required bool showTrashIcon,
+  }) = _HomeScreenState;
 }

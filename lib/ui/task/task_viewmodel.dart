@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:todo_app/ui/task/task_screen_state.dart';
+import 'package:todoapp/ui/task/task_screen_state.dart';
 
 import '../../data/model/task.dart';
 import '../../data/model/task_type.dart';

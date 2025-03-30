@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:todo_app/data/todo_repository.dart';
-import 'package:todo_app/ui/widgets/task_type_extension.dart';
+import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/ui/widgets/task_type_extension.dart';
 
 import '../../data/model/task.dart';
 import '../widgets/task/task_cell.dart';
@@ -54,11 +54,13 @@ class HomeViewModel extends ChangeNotifier {
       );
 
       if (result) {
-        final taskUpdated = uiState.taskUiModels[index].task.copy(
+        final taskUpdated = uiState.taskUiModels[index].task.copyWith(
           isCompleted: value,
         );
         final uiModels = List.of(uiState.taskUiModels);
-        uiModels[index] = uiState.taskUiModels[index].copy(task: taskUpdated);
+        uiModels[index] = uiState.taskUiModels[index].copyWith(
+          task: taskUpdated,
+        );
 
         uiState = HomeScreenState(
           taskUiModels: uiModels,
@@ -83,7 +85,7 @@ class HomeViewModel extends ChangeNotifier {
 
       final uiModels = List.of(uiState.taskUiModels);
       uiModels[taskCellToBeDeletedIndex] =
-          uiState.taskUiModels[taskCellToBeDeletedIndex].copy(
+          uiState.taskUiModels[taskCellToBeDeletedIndex].copyWith(
         isSelected: newSelectionValue,
       );
 
