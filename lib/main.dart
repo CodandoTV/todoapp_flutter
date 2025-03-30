@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/data/todo_in_memory_data_source.dart';
-import 'package:todo_app/data/todo_repository.dart';
-import 'package:todo_app/ui/todo_app.dart';
+import 'package:todoapp/data/todo_in_memory_data_source.dart';
+import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/ui/todo_app.dart';
 
-import 'package:todo_app/data/model/task.dart';
-import 'package:todo_app/data/model/task_type.dart';
+import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/model/task_type.dart';
 
 TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource([
   const Task(

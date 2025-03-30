@@ -1,8 +1,8 @@
 // Import the test package and Counter class
 import 'package:test/test.dart';
-import 'package:todo_app/data/model/task.dart';
-import 'package:todo_app/data/model/task_type.dart';
-import 'package:todo_app/data/todo_in_memory_data_source.dart';
+import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/model/task_type.dart';
+import 'package:todoapp/data/todo_in_memory_data_source.dart';
 
 void main() {
   test('test update task', () async {

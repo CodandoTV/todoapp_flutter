@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/ui/widgets/task/task_cell.dart';
-import 'package:todo_app/ui/widgets/task/trailing_icon_type.dart';
+import 'package:todoapp/ui/widgets/task/task_cell.dart';
+import 'package:todoapp/ui/widgets/task/trailing_icon_type.dart';
 import '../../data/model/task.dart';
 import '../../data/model/task_type.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:todo_app/data/todo_repository.dart';
-import 'package:todo_app/ui/widgets/task_type_extension.dart';
+import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/ui/widgets/task_type_extension.dart';
 
 import '../../data/model/task.dart';
 import '../widgets/task/task_cell.dart';

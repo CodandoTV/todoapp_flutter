@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/home/home_viewmodel.dart';
+import 'package:todoapp/ui/home/home_viewmodel.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/task/task_cell_widget.dart';
 
