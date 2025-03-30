@@ -17,7 +17,7 @@ class TaskCategoryDropdown extends StatelessWidget {
     return DropdownButtonFormField<String>(
       value: initialValue,
       decoration: const InputDecoration(
-        labelText: "Type",
+        labelText: 'Type',
         border: OutlineInputBorder(),
       ),
       items: values

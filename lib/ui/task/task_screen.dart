@@ -42,7 +42,9 @@ class _TaskScreenScaffold extends StatelessWidget {
             title: _taskEditingController.text,
             description: _descriptionEditingController.text,
           );
-          context.pop(true);
+          if (context.mounted) {
+            context.pop(true);
+          }
         },
         child: const Icon(
           Icons.save,
@@ -55,7 +57,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             TextField(
               controller: _taskEditingController,
               decoration: const InputDecoration(
-                labelText: "Task",
+                labelText: 'Task',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -63,7 +65,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             TextField(
               controller: _descriptionEditingController,
               decoration: const InputDecoration(
-                labelText: "Description",
+                labelText: 'Description',
                 border: OutlineInputBorder(),
               ),
             ),

@@ -1,0 +1,34 @@
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0' # Set the desired Flutter version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Runner
+        run: dart run build_runner build
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Analyze
+        run: dart analyze
+
+      - name: Build APK
+        run: flutter build apk --debug
