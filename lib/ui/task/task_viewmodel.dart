@@ -11,7 +11,7 @@ class TaskViewModel extends ChangeNotifier {
 
   var uiState = const TaskScreenState(
     categoryNames: [],
-    selectedCategory: "",
+    selectedCategory: '',
   );
 
   TaskViewModel(TodoRepository repository) : super() {
