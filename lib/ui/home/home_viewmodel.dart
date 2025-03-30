@@ -54,11 +54,13 @@ class HomeViewModel extends ChangeNotifier {
       );
 
       if (result) {
-        final taskUpdated = uiState.taskUiModels[index].task.copy(
+        final taskUpdated = uiState.taskUiModels[index].task.copyWith(
           isCompleted: value,
         );
         final uiModels = List.of(uiState.taskUiModels);
-        uiModels[index] = uiState.taskUiModels[index].copy(task: taskUpdated);
+        uiModels[index] = uiState.taskUiModels[index].copyWith(
+          task: taskUpdated,
+        );
 
         uiState = HomeScreenState(
           taskUiModels: uiModels,
@@ -83,7 +85,7 @@ class HomeViewModel extends ChangeNotifier {
 
       final uiModels = List.of(uiState.taskUiModels);
       uiModels[taskCellToBeDeletedIndex] =
-          uiState.taskUiModels[taskCellToBeDeletedIndex].copy(
+          uiState.taskUiModels[taskCellToBeDeletedIndex].copyWith(
         isSelected: newSelectionValue,
       );
 
