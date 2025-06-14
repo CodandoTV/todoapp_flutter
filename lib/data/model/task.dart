@@ -1,14 +1,30 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:todoapp/data/model/task_type.dart';
 
-part 'task.freezed.dart';
+@immutable
+class Task extends Equatable {
+  final String title;
+  final String? desc;
+  final TaskType type;
+  final bool isCompleted;
 
-@freezed
-abstract class Task with _$Task {
-  const factory Task({
-    required String title,
-    required String? desc,
-    required TaskType type,
-    required bool isCompleted,
-  }) = _Task;
+  const Task({
+    required this.title,
+    this.desc,
+    required this.type,
+    required this.isCompleted,
+  });
+
+  @override
+  List<Object?> get props => [title, desc, type, isCompleted];
+
+  copyWith({required bool isCompleted}) {
+    return Task(
+      title: title,
+      desc: desc,
+      type: type,
+      isCompleted: isCompleted,
+    );
+  }
 }

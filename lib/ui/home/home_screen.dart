@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/home/home_viewmodel.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/task/task_cell_widget.dart';
@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = HomeViewModel(context.read());
+    final viewModel = HomeViewModel(getIt.get());
     viewModel.updateTasks();
     return ListenableBuilder(
       listenable: viewModel,

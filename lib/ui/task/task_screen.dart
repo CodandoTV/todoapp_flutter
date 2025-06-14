@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
 import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
@@ -12,7 +12,7 @@ class TaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TaskViewModel(context.read());
+    final viewModel = TaskViewModel(getIt.get());
     return ListenableBuilder(
       listenable: viewModel,
       builder: (context, _) => _TaskScreenScaffold(viewModel),

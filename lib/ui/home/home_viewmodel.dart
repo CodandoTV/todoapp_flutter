@@ -11,7 +11,7 @@ class HomeViewModel extends ChangeNotifier {
 
   List<Task> _deleteTasksBuffer = [];
 
-  var uiState = const HomeScreenState(
+  var uiState = HomeScreenState(
     taskUiModels: [],
     showTrashIcon: false,
   );
@@ -58,8 +58,8 @@ class HomeViewModel extends ChangeNotifier {
           isCompleted: value,
         );
         final uiModels = List.of(uiState.taskUiModels);
-        uiModels[index] = uiState.taskUiModels[index].copyWith(
-          task: taskUpdated,
+        uiModels[index] = uiState.taskUiModels[index].copyWithTask(
+          taskUpdated,
         );
 
         uiState = HomeScreenState(
@@ -85,8 +85,8 @@ class HomeViewModel extends ChangeNotifier {
 
       final uiModels = List.of(uiState.taskUiModels);
       uiModels[taskCellToBeDeletedIndex] =
-          uiState.taskUiModels[taskCellToBeDeletedIndex].copyWith(
-        isSelected: newSelectionValue,
+          uiState.taskUiModels[taskCellToBeDeletedIndex].copyWithIsSelected(
+        newSelectionValue,
       );
 
       uiState = HomeScreenState(
