@@ -11,7 +11,7 @@ class HomeViewModel extends ChangeNotifier {
 
   List<Task> _deleteTasksBuffer = [];
 
-  var uiState = HomeScreenState(
+  var uiState = const HomeScreenState(
     taskUiModels: [],
     showTrashIcon: false,
   );

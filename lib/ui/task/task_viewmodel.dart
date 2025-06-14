@@ -9,7 +9,7 @@ class TaskViewModel extends ChangeNotifier {
   late TodoRepository _repository;
   late TaskType _currentTaskCategory;
 
-  var uiState = TaskScreenState(
+  var uiState = const TaskScreenState(
     categoryNames: [],
     selectedCategory: '',
   );
