@@ -8,19 +8,19 @@ import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/model/task_type.dart';
 
 TodoInMemoryDataSource _todoInMemoryDataSource = TodoInMemoryDataSource([
-  Task(
+  const Task(
     title: 'Buy guinea pig foooo',
     type: TaskType.pet,
-    desc: 'Should buy asdasd',
+    desc: 'Should buy x',
     isCompleted: false,
   ),
-  Task(
+  const Task(
     title: 'Buy dog food',
     type: TaskType.pet,
     desc: null,
     isCompleted: false,
   ),
-  Task(
+  const Task(
     title: 'Wash the sdccsd',
     type: TaskType.chores,
     desc: null,

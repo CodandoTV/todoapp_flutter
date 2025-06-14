@@ -4,12 +4,6 @@
 
 ## How to run the project?
 
-- Generate code:
-
-```shell
- dart pub run build_runner watch --delete-conflicting-outputs
- ```
-
 - Run:
 
 ```shell
@@ -18,10 +12,9 @@ flutter run -d <device target>
 
 ## Tech Stack
 
-- [provider](https://pub.dev/packages/provider): Dependency injection;
+- [equatable](https://pub.dev/packages/equatable): data class solution;
 - [go_router](https://pub.dev/packages/go_router): navigation;
-- [freezed](https://pub.dev/packages/equatable): code generator for data classes.
-- [build_runner](https://pub.dev/packages/build_runner): Standalone generator and watcher for Dart;
+- [get_it](https://pub.dev/packages/get_it) dependency injection.
 
 ## Screenshots
 
