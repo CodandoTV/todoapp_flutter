@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/ui/widgets/task_type_extension.dart';
 
@@ -6,30 +6,40 @@ import '../../data/model/task.dart';
 import '../widgets/task/task_cell.dart';
 import 'home_screen_state.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel extends Cubit<HomeScreenState> {
   late TodoRepository _repository;
-
   List<Task> _deleteTasksBuffer = [];
-
-  var uiState = const HomeScreenState(
-    taskUiModels: [],
-    showTrashIcon: false,
-  );
 
   HomeViewModel(
     TodoRepository repository,
-  ) {
+  ) : super(
+          const HomeScreenState(
+            taskUiModels: [],
+            showTrashIcon: false,
+            isLoading: true,
+          ),
+        ) {
     _repository = repository;
   }
 
-  void deleteSelectedTasks() {
-    _repository.delete(_deleteTasksBuffer);
+  void _onLoad() {
+    emit(
+      state.copyWithIsLoading(isLoading: true),
+    );
+  }
+
+  void deleteSelectedTasks() async {
+    _onLoad();
+
+    await _repository.delete(_deleteTasksBuffer);
     _deleteTasksBuffer = [];
 
     updateTasks();
   }
 
   void updateTasks() async {
+    _onLoad();
+
     var tasks = await _repository.getTasks();
     var taskCells = tasks
         .map(
@@ -38,62 +48,71 @@ class HomeViewModel extends ChangeNotifier {
           ),
         )
         .toList();
-    uiState = HomeScreenState(
-      taskUiModels: taskCells,
-      showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+    emit(
+      HomeScreenState(
+        isLoading: false,
+        taskUiModels: taskCells,
+        showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+      ),
     );
-    notifyListeners();
   }
 
   void onCompleteTask(TaskCell taskCell, bool value) async {
-    var index = uiState.taskUiModels.indexOf(taskCell);
+    _onLoad();
+
+    var index = state.taskUiModels.indexOf(taskCell);
     if (index != -1) {
       var result = await _repository.update(
-        uiState.taskUiModels[index].task,
+        state.taskUiModels[index].task,
         value,
       );
 
       if (result) {
-        final taskUpdated = uiState.taskUiModels[index].task.copyWith(
+        final taskUpdated = state.taskUiModels[index].task.copyWith(
           isCompleted: value,
         );
-        final uiModels = List.of(uiState.taskUiModels);
-        uiModels[index] = uiState.taskUiModels[index].copyWithTask(
+        final uiModels = List.of(state.taskUiModels);
+        uiModels[index] = state.taskUiModels[index].copyWithTask(
           taskUpdated,
         );
 
-        uiState = HomeScreenState(
-          taskUiModels: uiModels,
-          showTrashIcon: uiState.showTrashIcon,
+        emit(
+          HomeScreenState(
+            isLoading: false,
+            taskUiModels: uiModels,
+            showTrashIcon: state.showTrashIcon,
+          ),
         );
-        notifyListeners();
       }
     }
   }
 
   void onRemoveTask(Task task) {
-    var taskCellToBeDeletedIndex =
-        uiState.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
+    _onLoad();
+
+    var taskCellToBeDeletedIndex = state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {
       var newSelectionValue =
-          !uiState.taskUiModels[taskCellToBeDeletedIndex].isSelected;
+          !state.taskUiModels[taskCellToBeDeletedIndex].isSelected;
       if (newSelectionValue) {
         _deleteTasksBuffer.add(task);
       } else {
         _deleteTasksBuffer.remove(task);
       }
 
-      final uiModels = List.of(uiState.taskUiModels);
+      final uiModels = List.of(state.taskUiModels);
       uiModels[taskCellToBeDeletedIndex] =
-          uiState.taskUiModels[taskCellToBeDeletedIndex].copyWithIsSelected(
+          state.taskUiModels[taskCellToBeDeletedIndex].copyWithIsSelected(
         newSelectionValue,
       );
 
-      uiState = HomeScreenState(
-        taskUiModels: uiModels,
-        showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+      emit(
+        HomeScreenState(
+          isLoading: false,
+          taskUiModels: uiModels,
+          showTrashIcon: _deleteTasksBuffer.isNotEmpty,
+        ),
       );
-      notifyListeners();
     }
   }
 }

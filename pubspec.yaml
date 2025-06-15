@@ -38,6 +38,7 @@ dependencies:
   go_router: ^14.8.1
   get_it: ^8.0.3
   equatable: ^2.0.7
+  flutter_bloc: ^9.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

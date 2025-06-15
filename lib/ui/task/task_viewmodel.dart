@@ -1,32 +1,35 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/ui/task/task_screen_state.dart';
 
 import '../../data/model/task.dart';
 import '../../data/model/task_type.dart';
 import '../../data/todo_repository.dart';
 
-class TaskViewModel extends ChangeNotifier {
+class TaskViewModel extends Cubit<TaskScreenState> {
   late TodoRepository _repository;
   late TaskType _currentTaskCategory;
 
-  var uiState = const TaskScreenState(
-    categoryNames: [],
-    selectedCategory: '',
-  );
-
-  TaskViewModel(TodoRepository repository) : super() {
+  TaskViewModel(TodoRepository repository)
+      : super(
+          const TaskScreenState(
+            selectedCategory: '',
+            categoryNames: [],
+          ),
+        ) {
     _currentTaskCategory = repository.taskCategories().first;
     _repository = repository;
 
-    uiState = TaskScreenState(
-      categoryNames: repository.getCategories(),
-      selectedCategory: repository.getCategories().first,
+    emit(
+      TaskScreenState(
+        categoryNames: repository.getCategories(),
+        selectedCategory: repository.getCategories().first,
+      ),
     );
   }
 
   void onCategoryChanged(String? categoryName) {
     var category = TaskType.values.firstWhere(
-          (task) => task.name == categoryName,
+      (task) => task.name == categoryName,
       orElse: () => TaskType.unknown,
     );
     _currentTaskCategory = category;
