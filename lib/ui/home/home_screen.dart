@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:todoapp/main.dart';
+import 'package:todoapp/ui/home/home_screen_state.dart';
 import 'package:todoapp/ui/home/home_viewmodel.dart';
+import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/task/task_cell_widget.dart';
 
@@ -10,19 +13,36 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = HomeViewModel(context.read());
-    viewModel.updateTasks();
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (context, _) => _HomeScaffold(viewModel),
+    final viewModel = HomeViewModel(getIt.get());
+    return BlocProvider(
+      create: (_) => viewModel,
+      child: BlocBuilder<HomeViewModel, HomeScreenState>(
+        builder: (context, uiState) => _HomeScaffold(
+          uiState: uiState,
+          onCompleteTask: viewModel.onCompleteTask,
+          onDeleteTasks: viewModel.deleteSelectedTasks,
+          onRemoveTask: viewModel.onRemoveTask,
+          updateTasks: viewModel.updateTasks,
+        ),
+      ),
     );
   }
 }
 
 class _HomeScaffold extends StatelessWidget {
-  final HomeViewModel viewModel;
+  final HomeScreenState uiState;
+  final Function updateTasks;
+  final Function(TaskCell, bool) onCompleteTask;
+  final Function onDeleteTasks;
+  final Function onRemoveTask;
 
-  const _HomeScaffold(this.viewModel);
+  const _HomeScaffold({
+    required this.uiState,
+    required this.updateTasks,
+    required this.onCompleteTask,
+    required this.onDeleteTasks,
+    required this.onRemoveTask,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +50,14 @@ class _HomeScaffold extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
         title: 'Tasks',
-        showTrashIcon: viewModel.uiState.showTrashIcon,
-        onDelete: viewModel.deleteSelectedTasks,
+        showTrashIcon: uiState.showTrashIcon,
+        onDelete: () => onDeleteTasks(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           bool? result = await context.push('/task');
           if (result == true) {
-            viewModel.updateTasks();
+            updateTasks();
           }
         },
         child: const Icon(
@@ -45,16 +65,16 @@ class _HomeScaffold extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: viewModel.uiState.taskUiModels.length,
+        itemCount: uiState.taskUiModels.length,
         itemBuilder: (context, index) {
-          var taskCell = viewModel.uiState.taskUiModels[index];
+          var taskCell = uiState.taskUiModels[index];
           return TaskCellWidget(
-            onLongPress: () => {viewModel.onRemoveTask(taskCell.task)},
+            onLongPress: () => {onRemoveTask(taskCell.task)},
             onCheckChanged: (value) => {
-              viewModel.onCompleteTask(
+              onCompleteTask(
                 taskCell,
                 value ?? false,
-              ),
+              )
             },
             cell: taskCell,
           );

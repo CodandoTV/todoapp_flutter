@@ -1,15 +1,40 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../data/model/task.dart';
 
-part 'task_cell.freezed.dart';
+@immutable
+class TaskCell extends Equatable {
+  final Task task;
+  final bool isSelected;
+  final IconData icon;
 
-@freezed
-abstract class TaskCell with _$TaskCell {
-  const factory TaskCell({
-    required Task task,
-    required bool isSelected,
-    required IconData icon,
-  }) = _TaskCell;
+  const TaskCell({
+    required this.task,
+    required this.isSelected,
+    required this.icon,
+  });
+
+  @override
+  List<Object?> get props => [
+        task,
+        isSelected,
+        icon,
+      ];
+
+  TaskCell copyWithTask(task) {
+    return TaskCell(
+      task: task,
+      isSelected: isSelected,
+      icon: icon,
+    );
+  }
+
+  TaskCell copyWithIsSelected(isSelected) {
+    return TaskCell(
+      task: task,
+      isSelected: isSelected,
+      icon: icon,
+    );
+  }
 }

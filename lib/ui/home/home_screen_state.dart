@@ -1,13 +1,33 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import '../widgets/task/task_cell.dart';
 
-part 'home_screen_state.freezed.dart';
+@immutable
+class HomeScreenState extends Equatable {
+  final List<TaskCell> taskUiModels;
+  final bool showTrashIcon;
+  final bool isLoading;
 
-@freezed
-abstract class HomeScreenState with _$HomeScreenState {
-  const factory HomeScreenState({
-    required List<TaskCell> taskUiModels,
-    required bool showTrashIcon,
-  }) = _HomeScreenState;
+  const HomeScreenState({
+    required this.taskUiModels,
+    required this.showTrashIcon,
+    required this.isLoading,
+  });
+
+  @override
+  List<Object?> get props => [
+        taskUiModels,
+        showTrashIcon,
+        isLoading,
+      ];
+
+  HomeScreenState copyWithIsLoading({
+    required bool isLoading,
+  }) {
+    return HomeScreenState(
+      taskUiModels: taskUiModels,
+      showTrashIcon: showTrashIcon,
+      isLoading: isLoading,
+    );
+  }
 }

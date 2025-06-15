@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:todoapp/main.dart';
+import 'package:todoapp/ui/task/task_screen_state.dart';
 import 'package:todoapp/ui/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
 import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
@@ -12,10 +14,21 @@ class TaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TaskViewModel(context.read());
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (context, _) => _TaskScreenScaffold(viewModel),
+    final viewModel = TaskViewModel(getIt.get());
+    return BlocProvider(
+      create: (_) => viewModel,
+      child: BlocBuilder<TaskViewModel, TaskScreenState>(
+        builder: (context, uiState) =>
+            _TaskScreenScaffold(
+              uiState: uiState,
+              onAddNewTask: (title, description) =>
+                  viewModel.addTask(
+                    title: title,
+                    description: description,
+                  ),
+              onCategoryChanged: viewModel.onCategoryChanged,
+            ),
+      ),
     );
   }
 }
@@ -23,11 +36,18 @@ class TaskScreen extends StatelessWidget {
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
-      TextEditingController();
+  TextEditingController();
 
-  final TaskViewModel viewModel;
+  final TaskScreenState uiState;
 
-  _TaskScreenScaffold(this.viewModel);
+  final Function(String, String) onAddNewTask;
+  final Function(String?) onCategoryChanged;
+
+  _TaskScreenScaffold({
+    required this.uiState,
+    required this.onAddNewTask,
+    required this.onCategoryChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +58,9 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await viewModel.addTask(
-            title: _taskEditingController.text,
-            description: _descriptionEditingController.text,
+          await onAddNewTask(
+            _taskEditingController.text,
+            _descriptionEditingController.text,
           );
           if (context.mounted) {
             context.pop(true);
@@ -71,9 +91,9 @@ class _TaskScreenScaffold extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             TaskCategoryDropdown(
-              initialValue: viewModel.uiState.selectedCategory,
-              values: viewModel.uiState.categoryNames,
-              onChanged: viewModel.onCategoryChanged,
+              initialValue: uiState.selectedCategory,
+              values: uiState.categoryNames,
+              onChanged: onCategoryChanged,
             )
           ],
         ),
