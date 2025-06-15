@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build Runner
-        run: dart run build_runner build
-
       - name: Run tests
         run: flutter test
 
