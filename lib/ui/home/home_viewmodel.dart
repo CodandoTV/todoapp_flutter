@@ -70,7 +70,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
       );
 
       if (result) {
-        final taskUpdated = state.taskUiModels[index].task.copyWith(
+        final taskUpdated = state.taskUiModels[index].task.copyWithIsComplete(
           isCompleted: value,
         );
         final uiModels = List.of(state.taskUiModels);

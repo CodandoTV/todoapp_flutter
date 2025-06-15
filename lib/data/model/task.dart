@@ -19,7 +19,7 @@ class Task extends Equatable {
   @override
   List<Object?> get props => [title, desc, type, isCompleted];
 
-  copyWith({required bool isCompleted}) {
+  copyWithIsComplete({required bool isCompleted}) {
     return Task(
       title: title,
       desc: desc,
