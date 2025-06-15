@@ -20,6 +20,8 @@ class HomeViewModel extends Cubit<HomeScreenState> {
           ),
         ) {
     _repository = repository;
+
+    updateTasks();
   }
 
   void _onLoad() {

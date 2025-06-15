@@ -14,8 +14,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = HomeViewModel(getIt.get());
-    viewModel.updateTasks();
-
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<HomeViewModel, HomeScreenState>(
