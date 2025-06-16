@@ -2,12 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/ui/task/task_screen_state.dart';
 
 import '../../data/model/task.dart';
-import '../../data/model/task_type.dart';
 import '../../data/todo_repository.dart';
 
 class TaskViewModel extends Cubit<TaskScreenState> {
   late TodoRepository _repository;
-  late TaskType _currentTaskCategory;
+  String _currentTaskCategory = '';
 
   TaskViewModel(TodoRepository repository)
       : super(
@@ -16,23 +15,25 @@ class TaskViewModel extends Cubit<TaskScreenState> {
             categoryNames: [],
           ),
         ) {
-    _currentTaskCategory = repository.taskCategories().first;
     _repository = repository;
+
+    _onLoad();
+  }
+
+  _onLoad() async {
+    final categories = await _repository.taskCategories();
+    _currentTaskCategory = categories.first;
 
     emit(
       TaskScreenState(
-        categoryNames: repository.getCategories(),
-        selectedCategory: repository.getCategories().first,
+        categoryNames: categories,
+        selectedCategory: _currentTaskCategory,
       ),
     );
   }
 
   void onCategoryChanged(String? categoryName) {
-    var category = TaskType.values.firstWhere(
-      (task) => task.name == categoryName,
-      orElse: () => TaskType.unknown,
-    );
-    _currentTaskCategory = category;
+    _currentTaskCategory = categoryName ?? '';
   }
 
   Future<void> addTask({
@@ -41,6 +42,7 @@ class TaskViewModel extends Cubit<TaskScreenState> {
   }) async {
     await _repository.add(
       Task(
+        id: null,
         title: title,
         desc: description,
         type: _currentTaskCategory,

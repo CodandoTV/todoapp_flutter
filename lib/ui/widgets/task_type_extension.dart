@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/trailing_icon_type.dart';
 import '../../data/model/task.dart';
-import '../../data/model/task_type.dart';
 
-extension TaskTypeExtension on TaskType {
+extension TaskTypeExtension on String {
   IconData toIcon() {
     switch (this) {
-      case TaskType.pet:
+      case 'Pet':
         return Icons.pets;
-      case TaskType.supermarket:
+      case 'Supermarket':
         return Icons.shop;
-      case TaskType.chores:
+      case 'Chores':
         return Icons.house;
-      case TaskType.unknown:
+      default:
         return Icons.help;
     }
   }
