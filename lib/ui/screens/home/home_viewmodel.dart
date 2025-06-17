@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/ui/widgets/task_type_extension.dart';
 
-import '../../data/model/task.dart';
-import '../widgets/task/task_cell.dart';
+import '../../../data/model/task.dart';
+import '../../widgets/task/task_cell.dart';
 import 'home_screen_state.dart';
 
 class HomeViewModel extends Cubit<HomeScreenState> {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/home/home_screen_state.dart';
-import 'package:todoapp/ui/home/home_viewmodel.dart';
+import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/task/task_cell_widget.dart';
+import '../../widgets/custom_app_bar.dart';
+import '../../widgets/task/task_cell_widget.dart';
+import 'home_screen_state.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoapp/ui/task/task_screen_state.dart';
+import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 
-import '../../data/model/task.dart';
-import '../../data/todo_repository.dart';
+import '../../../data/model/task.dart';
+import '../../../data/todo_repository.dart';
 
 class TaskViewModel extends Cubit<TaskScreenState> {
   late TodoRepository _repository;

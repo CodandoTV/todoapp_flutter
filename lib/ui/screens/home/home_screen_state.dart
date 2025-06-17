@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import '../widgets/task/task_cell.dart';
+
+import '../../widgets/task/task_cell.dart';
 
 @immutable
 class HomeScreenState extends Equatable {
