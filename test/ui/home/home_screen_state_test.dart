@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/ui/home/home_screen_state.dart';
+import 'package:todoapp/ui/screens/home/home_screen_state.dart';
 
 void main() {
   test('test copyWithIsLoading', () {
-    const state = HomeScreenState(
+    var state = const HomeScreenState(
       taskUiModels: [],
       showTrashIcon: false,
       isLoading: false,

@@ -1,44 +1,30 @@
-import 'package:todoapp/data/todo_in_memory_data_source.dart';
-
+import 'package:todoapp/data/database/todo_category_dao.dart';
+import 'package:todoapp/data/database/todo_dao.dart';
 import 'model/task.dart';
-import 'model/task_type.dart';
 
 class TodoRepository {
-  final TodoInMemoryDataSource _todoInMemoryDataSource;
+  final TodoDAO _todoDAO;
+  final TodoCategoryDAO _categoryDAO;
 
-  TodoRepository(this._todoInMemoryDataSource);
+  TodoRepository(this._todoDAO, this._categoryDAO);
 
   Future<List<Task>> getTasks() async {
-    return _todoInMemoryDataSource.getTasks();
+    return _todoDAO.getAll();
   }
 
   Future<bool> update(Task task, bool isCompletedNewValue) async {
-    return _todoInMemoryDataSource.update(task, isCompletedNewValue);
+    return _todoDAO.update(task, isCompletedNewValue);
   }
 
   Future<bool> add(Task task) async {
-    return _todoInMemoryDataSource.add(task);
+    return _todoDAO.add(task);
   }
 
   Future<bool> delete(List<Task> tasks) async {
-    return _todoInMemoryDataSource.delete(tasks);
+    return _todoDAO.delete(tasks);
   }
 
-  List<String> getCategories() {
-    var tasks = taskCategories();
-    tasks.sort(_compare);
-    return tasks.map((toElement) => toElement.name).toList();
-  }
-
-  List<TaskType> taskCategories() {
-    return TaskType.values.toList();
-  }
-
-  int _compare(TaskType a, TaskType b) {
-    if (a == TaskType.unknown) {
-      return -1;
-    } else {
-      return 1;
-    }
+  Future<List<String>> taskCategories() async {
+    return _categoryDAO.getCategories();
   }
 }
