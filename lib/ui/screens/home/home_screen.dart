@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
+import 'package:todoapp/ui/widgets/tasks_list.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../../widgets/task/task_cell_widget.dart';
 import 'home_screen_state.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -64,21 +64,10 @@ class _HomeScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: ListView.builder(
-        itemCount: uiState.taskUiModels.length,
-        itemBuilder: (context, index) {
-          var taskCell = uiState.taskUiModels[index];
-          return TaskCellWidget(
-            onLongPress: () => {onRemoveTask(taskCell.task)},
-            onCheckChanged: (value) => {
-              onCompleteTask(
-                taskCell,
-                value ?? false,
-              )
-            },
-            cell: taskCell,
-          );
-        },
+      body: TasksList(
+        taskUiModels: uiState.taskUiModels,
+        onRemoveTask: onRemoveTask,
+        onCompleteTask: onCompleteTask,
       ),
     );
   }
