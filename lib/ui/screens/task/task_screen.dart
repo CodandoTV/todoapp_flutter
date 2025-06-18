@@ -6,6 +6,7 @@ import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
 import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;
@@ -18,16 +19,14 @@ class TaskScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TaskViewModel, TaskScreenState>(
-        builder: (context, uiState) =>
-            _TaskScreenScaffold(
-              uiState: uiState,
-              onAddNewTask: (title, description) =>
-                  viewModel.addTask(
-                    title: title,
-                    description: description,
-                  ),
-              onCategoryChanged: viewModel.onCategoryChanged,
-            ),
+        builder: (context, uiState) => _TaskScreenScaffold(
+          uiState: uiState,
+          onAddNewTask: (title, description) => viewModel.addTask(
+            title: title,
+            description: description,
+          ),
+          onCategoryChanged: viewModel.onCategoryChanged,
+        ),
       ),
     );
   }
@@ -36,7 +35,7 @@ class TaskScreen extends StatelessWidget {
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
-  TextEditingController();
+      TextEditingController();
 
   final TaskScreenState uiState;
 
@@ -76,17 +75,17 @@ class _TaskScreenScaffold extends StatelessWidget {
           children: [
             TextField(
               controller: _taskEditingController,
-              decoration: const InputDecoration(
-                labelText: 'Task',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.task,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _descriptionEditingController,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.description,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),
