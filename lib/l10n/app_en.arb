@@ -1,4 +1,5 @@
 {
   "task": "Task",
-  "description": "Description"
+  "description": "Description",
+  "tasks": "Tasks"
 }
