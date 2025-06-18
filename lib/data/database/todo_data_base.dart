@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 class TodoDataBase {
-  late Database _dataBase;
+  late final Database _dataBase;
 
   TodoDataBase(this._dataBase);
 

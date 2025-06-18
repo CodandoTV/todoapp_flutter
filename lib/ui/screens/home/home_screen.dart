@@ -7,6 +7,7 @@ import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/tasks_list.dart';
 import '../../widgets/custom_app_bar.dart';
 import 'home_screen_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -49,7 +50,7 @@ class _HomeScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
-        title: 'Tasks',
+        title: AppLocalizations.of(context)!.tasks,
         showTrashIcon: uiState.showTrashIcon,
         onDelete: () => onDeleteTasks(),
       ),

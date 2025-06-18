@@ -1,0 +1,6 @@
+{
+  "task": "Task",
+  "description": "Description",
+  "tasks": "Tasks",
+  "empty_tasks": "No tasks available"
+}

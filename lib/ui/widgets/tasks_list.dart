@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TasksList extends StatelessWidget {
   final List<TaskCell> taskUiModels;
@@ -16,13 +17,15 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTaskList();
+    return _buildTaskList(context);
   }
 
-  Widget _buildTaskList() {
+  Widget _buildTaskList(BuildContext context) {
     if (taskUiModels.isEmpty) {
-      return const Center(
-        child: Text('No tasks'),
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.empty_tasks,
+        ),
       );
     } else {
       return ListView.builder(
