@@ -50,7 +50,7 @@ class _HomeScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
-        title: AppLocalizations.of(context).tasks,
+        title: AppLocalizations.of(context)!.tasks,
         showTrashIcon: uiState.showTrashIcon,
         onDelete: () => onDeleteTasks(),
       ),
