@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 
 void main() {
-  test('test copyWithIsComplete', () {
+  test('Task -> test copyWithIsComplete', () {
     const task = Task(
       isCompleted: false,
       title: 'title',

@@ -28,7 +28,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
   }
 
-  void deleteSelectedTasks() async {
+  Future<void> deleteSelectedTasks() async {
     _onLoad();
 
     await _repository.delete(_deleteTasksBuffer);
@@ -57,7 +57,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
   }
 
-  void onCompleteTask(TaskCell taskCell, bool value) async {
+  Future<void> onCompleteTask(TaskCell taskCell, bool value) async {
     _onLoad();
 
     var index = state.taskUiModels.indexOf(taskCell);
