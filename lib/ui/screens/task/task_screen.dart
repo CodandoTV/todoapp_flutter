@@ -79,6 +79,7 @@ class _TaskScreenScaffold extends StatelessWidget {
               controller: _taskEditingController,
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!.task,
+                labelStyle: Theme.of(context).textTheme.titleMedium,
                 border: const OutlineInputBorder(),
               ),
             ),
@@ -87,6 +88,7 @@ class _TaskScreenScaffold extends StatelessWidget {
               controller: _descriptionEditingController,
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!.description,
+                labelStyle: Theme.of(context).textTheme.titleMedium,
                 border: const OutlineInputBorder(),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,6 +26,7 @@ class TasksList extends StatelessWidget {
       return Center(
         child: Text(
           AppLocalizations.of(context)!.empty_tasks,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       );
     } else {
