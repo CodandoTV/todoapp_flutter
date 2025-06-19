@@ -12,7 +12,10 @@ void main() {
     'HomeViewModel -> test initial state',
     () {
       // Arrange
-      final repository = FakeRepository([]);
+      final repository = FakeRepository(
+        data: [],
+        categories: [],
+      );
 
       // Act
       final viewModel = HomeViewModel(repository);
@@ -40,7 +43,10 @@ void main() {
         isCompleted: false,
         type: 'Pet',
       );
-      final repository = FakeRepository([task1]);
+      final repository = FakeRepository(
+        data: [task1],
+        categories: [],
+      );
       final viewModel = HomeViewModel(repository);
 
       // Act
@@ -75,7 +81,10 @@ void main() {
         type: 'Pet',
       );
       // Arrange
-      final repository = FakeRepository([task1]);
+      final repository = FakeRepository(
+        data: [task1],
+        categories: [],
+      );
       final viewModel = HomeViewModel(repository);
 
       await viewModel.updateTasks();
@@ -126,7 +135,10 @@ void main() {
         type: 'Pet',
       );
       // Arrange
-      final repository = FakeRepository([task1]);
+      final repository = FakeRepository(
+        data: [task1],
+        categories: [],
+      );
       final viewModel = HomeViewModel(repository);
 
       await viewModel.updateTasks();

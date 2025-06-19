@@ -16,11 +16,9 @@ class TaskViewModel extends Cubit<TaskScreenState> {
           ),
         ) {
     _repository = repository;
-
-    _onLoad();
   }
 
-  _onLoad() async {
+  Future<void> onLoad() async {
     final categories = await _repository.taskCategories();
     _currentTaskCategory = categories.first;
 

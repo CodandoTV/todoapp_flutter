@@ -16,6 +16,8 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(getIt.get());
+    viewModel.onLoad();
+
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TaskViewModel, TaskScreenState>(
