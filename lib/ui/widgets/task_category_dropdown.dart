@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskCategoryDropdown extends StatelessWidget {
-  final String initialValue;
   final List<String> values;
   final ValueChanged<String?> onChanged;
 
   const TaskCategoryDropdown({
     super.key,
-    required this.initialValue,
     required this.values,
     required this.onChanged,
   });
@@ -15,10 +14,11 @@ class TaskCategoryDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: initialValue,
-      decoration: const InputDecoration(
-        labelText: 'Type',
-        border: OutlineInputBorder(),
+      value: null,
+      hint: Text(AppLocalizations.of(context)!.select_category),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.task_category,
+        border: const OutlineInputBorder(),
       ),
       items: values
           .map((item) => DropdownMenuItem(value: item, child: Text(item)))

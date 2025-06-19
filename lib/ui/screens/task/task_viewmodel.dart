@@ -11,7 +11,6 @@ class TaskViewModel extends Cubit<TaskScreenState> {
   TaskViewModel(TodoRepository repository)
       : super(
           const TaskScreenState(
-            selectedCategory: '',
             categoryNames: [],
           ),
         ) {
@@ -20,13 +19,9 @@ class TaskViewModel extends Cubit<TaskScreenState> {
 
   Future<void> onLoad() async {
     final categories = await _repository.taskCategories();
-    _currentTaskCategory = categories.first;
 
     emit(
-      TaskScreenState(
-        categoryNames: categories,
-        selectedCategory: _currentTaskCategory,
-      ),
+      TaskScreenState(categoryNames: categories),
     );
   }
 

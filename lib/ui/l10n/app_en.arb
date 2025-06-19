@@ -2,5 +2,7 @@
   "task": "Task",
   "description": "Description",
   "tasks": "Tasks",
-  "empty_tasks": "No tasks available"
+  "empty_tasks": "No tasks available",
+  "select_category": "Select Category",
+  "task_category": "Type"
 }

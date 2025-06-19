@@ -22,7 +22,6 @@ void main() {
       expect(
         viewModel.state,
         const TaskScreenState(
-          selectedCategory: '',
           categoryNames: [],
         ),
       );
@@ -50,7 +49,6 @@ void main() {
       expect(
         viewModel.state,
         const TaskScreenState(
-          selectedCategory: 'Work',
           categoryNames: [
             'Work',
             'Personal',

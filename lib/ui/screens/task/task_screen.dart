@@ -94,7 +94,6 @@ class _TaskScreenScaffold extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             TaskCategoryDropdown(
-              initialValue: uiState.selectedCategory,
               values: uiState.categoryNames,
               onChanged: onCategoryChanged,
             )
