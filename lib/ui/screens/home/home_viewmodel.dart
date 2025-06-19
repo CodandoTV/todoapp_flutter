@@ -20,8 +20,6 @@ class HomeViewModel extends Cubit<HomeScreenState> {
           ),
         ) {
     _repository = repository;
-
-    updateTasks();
   }
 
   void _onLoad() {
@@ -36,10 +34,10 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     await _repository.delete(_deleteTasksBuffer);
     _deleteTasksBuffer = [];
 
-    updateTasks();
+    await updateTasks();
   }
 
-  void updateTasks() async {
+  Future<void> updateTasks() async {
     _onLoad();
 
     var tasks = await _repository.getTasks();
@@ -92,7 +90,8 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   void onRemoveTask(Task task) {
     _onLoad();
 
-    var taskCellToBeDeletedIndex = state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
+    var taskCellToBeDeletedIndex =
+        state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {
       var newSelectionValue =
           !state.taskUiModels[taskCellToBeDeletedIndex].isSelected;
