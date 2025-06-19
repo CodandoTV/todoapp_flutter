@@ -114,4 +114,37 @@ void main() {
       );
     },
   );
+
+  test(
+    'HomeViewModel -> test deleteSelectedTasks',
+    () async {
+      const task1 = Task(
+        id: 1,
+        title: 'Task 1',
+        desc: 'Description 1',
+        isCompleted: false,
+        type: 'Pet',
+      );
+      // Arrange
+      final repository = FakeRepository([task1]);
+      final viewModel = HomeViewModel(repository);
+
+      await viewModel.updateTasks();
+
+      viewModel.onRemoveTask(task1);
+
+      // Act
+      await viewModel.deleteSelectedTasks();
+
+      // Assert
+      expect(
+        viewModel.state,
+        const HomeScreenState(
+          taskUiModels: [],
+          showTrashIcon: false,
+          isLoading: false,
+        ),
+      );
+    },
+  );
 }
