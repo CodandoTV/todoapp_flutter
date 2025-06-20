@@ -20,8 +20,6 @@ class HomeViewModel extends Cubit<HomeScreenState> {
           ),
         ) {
     _repository = repository;
-
-    updateTasks();
   }
 
   void _onLoad() {
@@ -30,16 +28,16 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
   }
 
-  void deleteSelectedTasks() async {
+  Future<void> deleteSelectedTasks() async {
     _onLoad();
 
     await _repository.delete(_deleteTasksBuffer);
     _deleteTasksBuffer = [];
 
-    updateTasks();
+    await updateTasks();
   }
 
-  void updateTasks() async {
+  Future<void> updateTasks() async {
     _onLoad();
 
     var tasks = await _repository.getTasks();
@@ -59,7 +57,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
   }
 
-  void onCompleteTask(TaskCell taskCell, bool value) async {
+  Future<void> onCompleteTask(TaskCell taskCell, bool value) async {
     _onLoad();
 
     var index = state.taskUiModels.indexOf(taskCell);
@@ -92,7 +90,8 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   void onRemoveTask(Task task) {
     _onLoad();
 
-    var taskCellToBeDeletedIndex = state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
+    var taskCellToBeDeletedIndex =
+        state.taskUiModels.indexWhere((taskCell) => taskCell.task == task);
     if (taskCellToBeDeletedIndex != -1) {
       var newSelectionValue =
           !state.taskUiModels[taskCellToBeDeletedIndex].isSelected;

@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Generate resources
-        run: flutter gen-l10n
-
       - name: Run tests
         run: flutter test
 

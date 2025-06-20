@@ -23,7 +23,7 @@ void main() async {
     getIt<TodoDataBase>(),
   ));
 
-  getIt.registerFactory(() => TodoRepository(
+  getIt.registerFactory<TodoRepository>(() => TodoRepositoryImpl(
         getIt<TodoDAO>(),
         getIt<TodoCategoryDAO>(),
       ));
