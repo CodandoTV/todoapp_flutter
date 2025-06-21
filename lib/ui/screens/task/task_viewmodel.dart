@@ -29,6 +29,10 @@ class TaskViewModel extends Cubit<TaskScreenState> {
     _currentTaskCategory = categoryName ?? '';
   }
 
+  bool validateTaskName(String taskName){
+    return taskName.isNotEmpty;
+  }
+
   Future<void> addTask({
     String? description,
     required String title,

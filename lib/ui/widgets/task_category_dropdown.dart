@@ -4,11 +4,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TaskCategoryDropdown extends StatelessWidget {
   final List<String> values;
   final ValueChanged<String?> onChanged;
+  final String? Function(String?) validator;
 
   const TaskCategoryDropdown({
     super.key,
     required this.values,
     required this.onChanged,
+    required this.validator,
   });
 
   @override
@@ -24,6 +26,7 @@ class TaskCategoryDropdown extends StatelessWidget {
           .map((item) => DropdownMenuItem(value: item, child: Text(item)))
           .toList(),
       onChanged: onChanged,
+      validator: validator,
     );
   }
 }

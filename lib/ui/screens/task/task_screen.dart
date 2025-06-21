@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/task/task_screen_state.dart';
+import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
-import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todoapp/ui/widgets/task_form.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;
@@ -28,6 +28,7 @@ class TaskScreen extends StatelessWidget {
             description: description,
           ),
           onCategoryChanged: viewModel.onCategoryChanged,
+          taskScreenValidator: getIt.get(),
         ),
       ),
     );
@@ -44,10 +45,15 @@ class _TaskScreenScaffold extends StatelessWidget {
   final Function(String, String) onAddNewTask;
   final Function(String?) onCategoryChanged;
 
+  final TaskScreenValidator taskScreenValidator;
+
+  final _formKey = GlobalKey<FormState>();
+
   _TaskScreenScaffold({
     required this.uiState,
     required this.onAddNewTask,
     required this.onCategoryChanged,
+    required this.taskScreenValidator,
   });
 
   @override
@@ -59,6 +65,10 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          if (!_formKey.currentState!.validate()) {
+            return;
+          }
+
           await onAddNewTask(
             _taskEditingController.text,
             _descriptionEditingController.text,
@@ -73,31 +83,13 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _taskEditingController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.task,
-                labelStyle: Theme.of(context).textTheme.titleMedium,
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _descriptionEditingController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.description,
-                labelStyle: Theme.of(context).textTheme.titleMedium,
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            TaskCategoryDropdown(
-              values: uiState.categoryNames,
-              onChanged: onCategoryChanged,
-            )
-          ],
+        child: TaskForm(
+          formKey: _formKey,
+          taskEditingController: _taskEditingController,
+          taskScreenValidator: taskScreenValidator,
+          descriptionEditingController: _descriptionEditingController,
+          onCategoryChanged: onCategoryChanged,
+          categoryNames: uiState.categoryNames,
         ),
       ),
     );

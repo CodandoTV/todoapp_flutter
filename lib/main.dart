@@ -5,6 +5,7 @@ import 'package:todoapp/data/database/todo_category_dao.dart';
 import 'package:todoapp/data/database/todo_dao.dart';
 import 'package:todoapp/data/database/todo_data_base.dart';
 import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/todo_app.dart';
 
 GetIt getIt = GetIt.instance;
@@ -16,6 +17,8 @@ void main() async {
   final database = TodoDataBase(db);
 
   getIt.registerSingleton<TodoDataBase>(database);
+
+  getIt.registerFactory(() => TaskScreenValidator());
 
   getIt.registerSingleton<TodoDAO>(TodoDAO(getIt<TodoDataBase>()));
 
