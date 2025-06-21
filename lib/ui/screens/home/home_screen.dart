@@ -61,6 +61,15 @@ class _HomeScaffold extends StatelessWidget {
           bool? result = await context.push('/task');
           if (result == true) {
             updateTasks();
+            if(context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.task_added,
+                  ),
+                ),
+              );
+            }
           }
         },
         child: const Icon(

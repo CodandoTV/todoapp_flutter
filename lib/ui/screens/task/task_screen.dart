@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/task/task_name_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen_state.dart';
+import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
 import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
@@ -29,7 +29,7 @@ class TaskScreen extends StatelessWidget {
             description: description,
           ),
           onCategoryChanged: viewModel.onCategoryChanged,
-          taskNameValidator: getIt.get(),
+          taskScreenValidator: getIt.get(),
         ),
       ),
     );
@@ -46,7 +46,7 @@ class _TaskScreenScaffold extends StatelessWidget {
   final Function(String, String) onAddNewTask;
   final Function(String?) onCategoryChanged;
 
-  final TaskNameValidator taskNameValidator;
+  final TaskScreenValidator taskScreenValidator;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -54,7 +54,7 @@ class _TaskScreenScaffold extends StatelessWidget {
     required this.uiState,
     required this.onAddNewTask,
     required this.onCategoryChanged,
-    required this.taskNameValidator,
+    required this.taskScreenValidator,
   });
 
   @override
@@ -97,8 +97,8 @@ class _TaskScreenScaffold extends StatelessWidget {
                   border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if(taskNameValidator.validate(value) == false) {
-                    return AppLocalizations.of(context)!.task_required;
+                  if (taskScreenValidator.validateTaskName(value) == false) {
+                    return AppLocalizations.of(context)!.task_name_required;
                   }
                   return null;
                 },
@@ -116,7 +116,13 @@ class _TaskScreenScaffold extends StatelessWidget {
               TaskCategoryDropdown(
                 values: uiState.categoryNames,
                 onChanged: onCategoryChanged,
-              )
+                validator: (value) {
+                  if (taskScreenValidator.validateTaskType(value) == false) {
+                    return AppLocalizations.of(context)!.task_type_required;
+                  }
+                  return null;
+                },
+              ),
             ],
           ),
         ),
