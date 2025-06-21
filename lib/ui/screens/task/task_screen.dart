@@ -6,8 +6,7 @@ import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar.dart';
-import 'package:todoapp/ui/widgets/task_category_dropdown.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todoapp/ui/widgets/task_form.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;
@@ -84,47 +83,13 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _taskEditingController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.task,
-                  labelStyle: Theme.of(context).textTheme.titleMedium,
-                  border: const OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (taskScreenValidator.validateTaskName(value) == false) {
-                    return AppLocalizations.of(context)!.task_name_required;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _descriptionEditingController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.description,
-                  labelStyle: Theme.of(context).textTheme.titleMedium,
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TaskCategoryDropdown(
-                values: uiState.categoryNames,
-                onChanged: onCategoryChanged,
-                validator: (value) {
-                  if (taskScreenValidator.validateTaskType(value) == false) {
-                    return AppLocalizations.of(context)!.task_type_required;
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
+        child: TaskForm(
+          formKey: _formKey,
+          taskEditingController: _taskEditingController,
+          taskScreenValidator: taskScreenValidator,
+          descriptionEditingController: _descriptionEditingController,
+          onCategoryChanged: onCategoryChanged,
+          categoryNames: uiState.categoryNames,
         ),
       ),
     );
