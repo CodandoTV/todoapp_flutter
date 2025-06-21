@@ -4,5 +4,6 @@
   "tasks": "Tasks",
   "empty_tasks": "No tasks available",
   "select_category": "Select Category",
-  "task_category": "Type"
+  "task_category": "Type",
+  "task_required": "Task is required"
 }
