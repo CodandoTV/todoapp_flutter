@@ -7,26 +7,22 @@ import '../../../data/model/task.dart';
 class TaskCell extends Equatable {
   final Task task;
   final bool isSelected;
-  final IconData icon;
 
   const TaskCell({
     required this.task,
     required this.isSelected,
-    required this.icon,
   });
 
   @override
   List<Object?> get props => [
         task,
         isSelected,
-        icon,
       ];
 
   TaskCell copyWithTask(task) {
     return TaskCell(
       task: task,
       isSelected: isSelected,
-      icon: icon,
     );
   }
 
@@ -34,7 +30,6 @@ class TaskCell extends Equatable {
     return TaskCell(
       task: task,
       isSelected: isSelected,
-      icon: icon,
     );
   }
 }

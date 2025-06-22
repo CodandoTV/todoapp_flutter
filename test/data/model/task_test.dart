@@ -6,8 +6,6 @@ void main() {
     const task = Task(
       isCompleted: false,
       title: 'title',
-      type: 'chores',
-      desc: 'desc',
       id: 1,
     );
 

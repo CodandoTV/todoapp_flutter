@@ -26,4 +26,8 @@ flutter run -d <device target>
 
 ### Android version
 
-![Android teaser](/img/android-todoapp.gif)
+![Android teaser](/img/android-teaser2.gif)
+
+### iOS version
+
+![iOS teaser](/img/ios-teaser.gif)]

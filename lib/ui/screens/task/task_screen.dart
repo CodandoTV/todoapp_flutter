@@ -5,8 +5,8 @@ import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
-import 'package:todoapp/ui/widgets/custom_app_bar.dart';
-import 'package:todoapp/ui/widgets/task_form.dart';
+import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;
@@ -16,18 +16,15 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(getIt.get());
-    viewModel.onLoad();
 
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TaskViewModel, TaskScreenState>(
         builder: (context, uiState) => _TaskScreenScaffold(
           uiState: uiState,
-          onAddNewTask: (title, description) => viewModel.addTask(
+          onAddNewTask: (title) => viewModel.addTask(
             title: title,
-            description: description,
           ),
-          onCategoryChanged: viewModel.onCategoryChanged,
           taskScreenValidator: getIt.get(),
         ),
       ),
@@ -37,13 +34,10 @@ class TaskScreen extends StatelessWidget {
 
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
-  final TextEditingController _descriptionEditingController =
-      TextEditingController();
 
   final TaskScreenState uiState;
 
-  final Function(String, String) onAddNewTask;
-  final Function(String?) onCategoryChanged;
+  final Function(String) onAddNewTask;
 
   final TaskScreenValidator taskScreenValidator;
 
@@ -52,14 +46,13 @@ class _TaskScreenScaffold extends StatelessWidget {
   _TaskScreenScaffold({
     required this.uiState,
     required this.onAddNewTask,
-    required this.onCategoryChanged,
     required this.taskScreenValidator,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: const CustomAppBarWidget(
         title: 'Task',
         showTrashIcon: false,
       ),
@@ -71,7 +64,6 @@ class _TaskScreenScaffold extends StatelessWidget {
 
           await onAddNewTask(
             _taskEditingController.text,
-            _descriptionEditingController.text,
           );
           if (context.mounted) {
             context.pop(true);
@@ -83,12 +75,10 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: TaskForm(
+        child: TaskFormWidget(
           formKey: _formKey,
           taskEditingController: _taskEditingController,
           taskScreenValidator: taskScreenValidator,
-          descriptionEditingController: _descriptionEditingController,
-          onCategoryChanged: onCategoryChanged,
           categoryNames: uiState.categoryNames,
         ),
       ),

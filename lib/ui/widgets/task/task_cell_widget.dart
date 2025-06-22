@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
-import 'package:todoapp/ui/widgets/task/task_cell_trailing_icon.dart';
-import 'package:todoapp/ui/widgets/task_type_extension.dart';
+import 'package:todoapp/ui/widgets/task/task_title_widget.dart';
 
 class TaskCellWidget extends StatelessWidget {
   final TaskCell cell;
@@ -17,35 +16,28 @@ class TaskCellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const cardShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    );
+
     return Card(
-      child: GestureDetector(
+      child: InkWell(
         onLongPress: onLongPress,
+        customBorder: cardShape,
         child: ListTile(
-            title: Text(
-              cell.task.title,
-              style: TextStyle(
-                decoration: cell.task.isCompleted
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-              ),
-            ),
-            leading: SizedBox(
-              height: 48,
-              width: 48,
-              child: Icon(cell.icon),
-            ),
-            subtitle: cell.task.desc != null
-                ? Text(
-                    cell.task.desc!,
-                    style: TextStyle(
-                      decoration: cell.task.isCompleted
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
-                    ),
-                  )
-                : null,
-            trailing: TaskCellTrailingIcon(
-                type: cell.toRightIconType(), onCheckChanged: onCheckChanged)),
+          shape: cardShape,
+          title: TaskTitleWidget(
+            taskTitle: cell.task.title,
+            isComplete: cell.task.isCompleted,
+          ),
+          leading: Checkbox(
+            value: cell.task.isCompleted,
+            onChanged: onCheckChanged,
+          ),
+          trailing: cell.isSelected
+              ? const Icon(Icons.check_circle)
+              : const SizedBox.shrink(),
+        ),
       ),
     );
   }

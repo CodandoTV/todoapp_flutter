@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
-import 'package:todoapp/ui/widgets/tasks_list.dart';
-import '../../widgets/custom_app_bar.dart';
+import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
+import '../../widgets/custom_app_bar_widget.dart';
 import 'home_screen_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -51,7 +51,7 @@ class _HomeScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBar(
+      appBar: CustomAppBarWidget(
         title: AppLocalizations.of(context)!.tasks,
         showTrashIcon: uiState.showTrashIcon,
         onDelete: () => onDeleteTasks(),
@@ -76,7 +76,7 @@ class _HomeScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: TasksList(
+      body: TasksListWidget(
         taskUiModels: uiState.taskUiModels,
         onRemoveTask: onRemoveTask,
         onCompleteTask: onCompleteTask,
