@@ -15,7 +15,7 @@ class TaskTitleWidget extends StatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 300),
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(opacity: animation, child: child);
         },
