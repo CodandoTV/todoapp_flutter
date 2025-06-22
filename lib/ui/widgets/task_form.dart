@@ -23,6 +23,7 @@ class TaskForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            autofocus: true,
             controller: taskEditingController,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.task,
