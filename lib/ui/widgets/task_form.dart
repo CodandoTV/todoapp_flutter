@@ -9,6 +9,7 @@ class TaskForm extends StatelessWidget {
   final List<String> categoryNames;
 
   const TaskForm({
+    super.key,
     required this.formKey,
     required this.taskEditingController,
     required this.taskScreenValidator,
