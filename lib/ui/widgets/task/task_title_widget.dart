@@ -12,13 +12,25 @@ class TaskTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      taskTitle,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            decoration:
-                isComplete ? TextDecoration.lineThrough : TextDecoration.none,
-            fontStyle: isComplete ? FontStyle.italic : FontStyle.normal,
-          ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: Text(
+          taskTitle,
+          key: ValueKey(isComplete),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontSize: 18,
+                decoration: isComplete
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+                fontStyle: isComplete ? FontStyle.italic : FontStyle.normal,
+              ),
+        ),
+      ),
     );
   }
 }
