@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_cell.dart';
+import 'package:todoapp/ui/widgets/task/task_title_widget.dart';
 
 class TaskCellWidget extends StatelessWidget {
   final TaskCell cell;
@@ -16,9 +17,7 @@ class TaskCellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const cardShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-          Radius.circular(8)
-      ),
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     );
 
     return Card(
@@ -27,13 +26,9 @@ class TaskCellWidget extends StatelessWidget {
         customBorder: cardShape,
         child: ListTile(
           shape: cardShape,
-          title: Text(
-            cell.task.title,
-            style: TextStyle(
-              decoration: cell.task.isCompleted
-                  ? TextDecoration.lineThrough
-                  : TextDecoration.none,
-            ),
+          title: TaskTitleWidget(
+            taskTitle: cell.task.title,
+            isComplete: cell.task.isCompleted,
           ),
           leading: Checkbox(
             value: cell.task.isCompleted,

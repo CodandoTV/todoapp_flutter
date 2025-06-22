@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../screens/task/task_screen_validator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TaskForm extends StatelessWidget {
+class TaskFormWidget extends StatelessWidget {
   final Key formKey;
   final TextEditingController taskEditingController;
   final TaskScreenValidator taskScreenValidator;
   final List<String> categoryNames;
 
-  const TaskForm({
+  const TaskFormWidget({
     super.key,
     required this.formKey,
     required this.taskEditingController,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onDelete;
   final bool showTrashIcon;
 
-  const CustomAppBar({
+  const CustomAppBarWidget({
     super.key,
     required this.title,
     required this.showTrashIcon,

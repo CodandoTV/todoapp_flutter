@@ -3,12 +3,12 @@ import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TasksList extends StatelessWidget {
+class TasksListWidget extends StatelessWidget {
   final List<TaskCell> taskUiModels;
   final Function onRemoveTask;
   final Function(TaskCell p1, bool p2) onCompleteTask;
 
-  const TasksList({
+  const TasksListWidget({
     super.key,
     required this.taskUiModels,
     required this.onRemoveTask,

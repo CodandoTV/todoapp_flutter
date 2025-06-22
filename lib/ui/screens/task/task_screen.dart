@@ -5,8 +5,8 @@ import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
-import 'package:todoapp/ui/widgets/custom_app_bar.dart';
-import 'package:todoapp/ui/widgets/task_form.dart';
+import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
 class TaskScreen extends StatelessWidget {
   final String? taskUuid;
@@ -52,7 +52,7 @@ class _TaskScreenScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: const CustomAppBarWidget(
         title: 'Task',
         showTrashIcon: false,
       ),
@@ -75,7 +75,7 @@ class _TaskScreenScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: TaskForm(
+        child: TaskFormWidget(
           formKey: _formKey,
           taskEditingController: _taskEditingController,
           taskScreenValidator: taskScreenValidator,
