@@ -15,10 +15,18 @@ class TaskCellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const cardShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+          Radius.circular(8)
+      ),
+    );
+
     return Card(
       child: InkWell(
         onLongPress: onLongPress,
+        customBorder: cardShape,
         child: ListTile(
+          shape: cardShape,
           title: Text(
             cell.task.title,
             style: TextStyle(
