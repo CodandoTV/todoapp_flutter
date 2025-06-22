@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/home/home_screen_state.dart';
@@ -14,7 +13,6 @@ void main() {
       // Arrange
       final repository = FakeRepository(
         data: [],
-        categories: [],
       );
 
       // Act
@@ -39,13 +37,10 @@ void main() {
       const task1 = Task(
         id: 1,
         title: 'Task 1',
-        desc: 'Description 1',
         isCompleted: false,
-        type: 'Pet',
       );
       final repository = FakeRepository(
         data: [task1],
-        categories: [],
       );
       final viewModel = HomeViewModel(repository);
 
@@ -60,7 +55,6 @@ void main() {
             TaskCell(
               task: task1,
               isSelected: false,
-              icon: Icons.pets,
             )
           ],
           showTrashIcon: false,
@@ -76,14 +70,11 @@ void main() {
       const task1 = Task(
         id: 1,
         title: 'Task 1',
-        desc: 'Description 1',
         isCompleted: false,
-        type: 'Pet',
       );
       // Arrange
       final repository = FakeRepository(
         data: [task1],
-        categories: [],
       );
       final viewModel = HomeViewModel(repository);
 
@@ -94,7 +85,6 @@ void main() {
         const TaskCell(
           task: task1,
           isSelected: false,
-          icon: Icons.pets,
         ),
         true,
       );
@@ -103,9 +93,7 @@ void main() {
       const expectedTask = Task(
         id: 1,
         title: 'Task 1',
-        desc: 'Description 1',
         isCompleted: true,
-        type: 'Pet',
       );
       expect(
         viewModel.state,
@@ -114,7 +102,6 @@ void main() {
             TaskCell(
               task: expectedTask,
               isSelected: false,
-              icon: Icons.pets,
             )
           ],
           showTrashIcon: false,
@@ -130,14 +117,11 @@ void main() {
       const task1 = Task(
         id: 1,
         title: 'Task 1',
-        desc: 'Description 1',
         isCompleted: false,
-        type: 'Pet',
       );
       // Arrange
       final repository = FakeRepository(
         data: [task1],
-        categories: [],
       );
       final viewModel = HomeViewModel(repository);
 

@@ -16,18 +16,15 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(getIt.get());
-    viewModel.onLoad();
 
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TaskViewModel, TaskScreenState>(
         builder: (context, uiState) => _TaskScreenScaffold(
           uiState: uiState,
-          onAddNewTask: (title, description) => viewModel.addTask(
+          onAddNewTask: (title) => viewModel.addTask(
             title: title,
-            description: description,
           ),
-          onCategoryChanged: viewModel.onCategoryChanged,
           taskScreenValidator: getIt.get(),
         ),
       ),
@@ -37,13 +34,10 @@ class TaskScreen extends StatelessWidget {
 
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
-  final TextEditingController _descriptionEditingController =
-      TextEditingController();
 
   final TaskScreenState uiState;
 
-  final Function(String, String) onAddNewTask;
-  final Function(String?) onCategoryChanged;
+  final Function(String) onAddNewTask;
 
   final TaskScreenValidator taskScreenValidator;
 
@@ -52,7 +46,6 @@ class _TaskScreenScaffold extends StatelessWidget {
   _TaskScreenScaffold({
     required this.uiState,
     required this.onAddNewTask,
-    required this.onCategoryChanged,
     required this.taskScreenValidator,
   });
 
@@ -71,7 +64,6 @@ class _TaskScreenScaffold extends StatelessWidget {
 
           await onAddNewTask(
             _taskEditingController.text,
-            _descriptionEditingController.text,
           );
           if (context.mounted) {
             context.pop(true);
@@ -87,8 +79,6 @@ class _TaskScreenScaffold extends StatelessWidget {
           formKey: _formKey,
           taskEditingController: _taskEditingController,
           taskScreenValidator: taskScreenValidator,
-          descriptionEditingController: _descriptionEditingController,
-          onCategoryChanged: onCategoryChanged,
           categoryNames: uiState.categoryNames,
         ),
       ),

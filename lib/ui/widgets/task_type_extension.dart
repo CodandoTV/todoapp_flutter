@@ -23,7 +23,6 @@ extension TaskExtension on Task {
     return TaskCell(
       task: this,
       isSelected: isSelected,
-      icon: type.toIcon(),
     );
   }
 }

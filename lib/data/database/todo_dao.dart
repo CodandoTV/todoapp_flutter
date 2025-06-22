@@ -12,8 +12,6 @@ class TodoDAO {
   static const createTableQuery = 'CREATE TABLE ${TodoDAO.tableName} ('
       '${TodoDAO.idKey} INTEGER PRIMARY KEY, '
       '${TodoDAO.titleKey} TEXT, '
-      '${TodoDAO.descKey} TEXT, '
-      '${TodoDAO.typeKey} TEXT, '
       '${TodoDAO.isCompletedKey} INTEGER'
       ')';
 
@@ -30,8 +28,6 @@ class TodoDAO {
           (e) => Task(
             id: e[idKey] as int,
             title: e[titleKey] as String,
-            desc: e[descKey] as String,
-            type: e[typeKey] as String,
             isCompleted: (e[isCompletedKey] as int?) == 1,
           ),
         )
@@ -42,8 +38,6 @@ class TodoDAO {
     return {
       idKey: task.id,
       titleKey: task.title,
-      descKey: task.desc,
-      typeKey: task.type,
       isCompletedKey: task.isCompleted ? 1 : 0
     };
   }

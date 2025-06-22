@@ -3,11 +3,9 @@ import 'package:todoapp/data/todo_repository.dart';
 
 class FakeRepository implements TodoRepository {
   late final List<Task> _data;
-  late final List<String> _categories;
 
-  FakeRepository({required List<Task> data, required List<String> categories}) {
+  FakeRepository({required List<Task> data}) {
     _data = data;
-    _categories = categories;
   }
 
   @override
@@ -27,11 +25,6 @@ class FakeRepository implements TodoRepository {
   @override
   Future<List<Task>> getTasks() async {
     return Future.value(_data);
-  }
-
-  @override
-  Future<List<String>> taskCategories() async {
-    return Future.value(_categories);
   }
 
   @override
