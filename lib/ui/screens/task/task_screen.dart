@@ -54,7 +54,6 @@ class _TaskScreenScaffold extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppBarWidget(
         title: 'Task',
-        showTrashIcon: false,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
