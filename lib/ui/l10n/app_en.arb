@@ -7,5 +7,9 @@
   "task_category": "Type",
   "task_name_required": "Task name is required",
   "task_type_required": "Task type is required",
-  "task_added": "Task was added."
+  "task_added": "Task was added.",
+  "remove_task_dialog_title": "Remove task",
+  "remove_task_dialog_desc": "Are you sure you want to remove this task?",
+  "yes": "Yes",
+  "no": "No"
 }

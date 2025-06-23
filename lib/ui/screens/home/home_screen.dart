@@ -5,6 +5,7 @@ import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
+import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'home_screen_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -56,7 +57,7 @@ class _HomeScaffold extends StatelessWidget {
           bool? result = await context.push('/task');
           if (result == true) {
             updateTasks();
-            if(context.mounted) {
+            if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -73,8 +74,27 @@ class _HomeScaffold extends StatelessWidget {
       ),
       body: TasksListWidget(
         tasks: uiState.tasks,
-        onRemoveTask: onRemoveTask,
+        onRemoveTask: (task) =>
+            _showConfirmationDialogToRemoveTask(context, task),
         onCompleteTask: onCompleteTask,
+      ),
+    );
+  }
+
+  _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => ConfirmationAlertDialogWidget(
+        title: appLocalizations.remove_task_dialog_title,
+        description: appLocalizations.remove_task_dialog_desc,
+        secondaryButtonText: appLocalizations.no,
+        primaryButtonText: appLocalizations.yes,
+        onSecondaryButtonPressed: () => {
+          Navigator.pop(context),
+        },
+        onPrimaryButtonPressed: () =>
+            {Navigator.pop(context), onRemoveTask(task)},
       ),
     );
   }
