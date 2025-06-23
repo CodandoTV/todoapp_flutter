@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
-import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
+import '../../../data/model/task.dart';
+import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'home_screen_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,7 +24,6 @@ class HomeScreen extends StatelessWidget {
         builder: (context, uiState) => _HomeScaffold(
           uiState: uiState,
           onCompleteTask: viewModel.onCompleteTask,
-          onDeleteTasks: viewModel.deleteSelectedTasks,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
         ),
@@ -35,15 +35,13 @@ class HomeScreen extends StatelessWidget {
 class _HomeScaffold extends StatelessWidget {
   final HomeScreenState uiState;
   final Function updateTasks;
-  final Function(TaskCell, bool) onCompleteTask;
-  final Function onDeleteTasks;
-  final Function onRemoveTask;
+  final Function(Task, bool) onCompleteTask;
+  final Function(Task) onRemoveTask;
 
   const _HomeScaffold({
     required this.uiState,
     required this.updateTasks,
     required this.onCompleteTask,
-    required this.onDeleteTasks,
     required this.onRemoveTask,
   });
 
@@ -53,15 +51,13 @@ class _HomeScaffold extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
         title: AppLocalizations.of(context)!.tasks,
-        showTrashIcon: uiState.showTrashIcon,
-        onDelete: () => onDeleteTasks(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           bool? result = await context.push('/task');
           if (result == true) {
             updateTasks();
-            if(context.mounted) {
+            if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -77,9 +73,28 @@ class _HomeScaffold extends StatelessWidget {
         ),
       ),
       body: TasksListWidget(
-        taskUiModels: uiState.taskUiModels,
-        onRemoveTask: onRemoveTask,
+        tasks: uiState.tasks,
+        onRemoveTask: (task) =>
+            _showConfirmationDialogToRemoveTask(context, task),
         onCompleteTask: onCompleteTask,
+      ),
+    );
+  }
+
+  _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => ConfirmationAlertDialogWidget(
+        title: appLocalizations.remove_task_dialog_title,
+        description: appLocalizations.remove_task_dialog_desc,
+        secondaryButtonText: appLocalizations.no,
+        primaryButtonText: appLocalizations.yes,
+        onSecondaryButtonPressed: () => {
+          Navigator.pop(context),
+        },
+        onPrimaryButtonPressed: () =>
+            {Navigator.pop(context), onRemoveTask(task)},
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/home/home_screen_state.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
-import 'package:todoapp/ui/widgets/task/task_cell.dart';
 
 import '../../data/fake_repository.dart';
 
@@ -22,8 +21,7 @@ void main() {
       expect(
         viewModel.state,
         const HomeScreenState(
-          taskUiModels: [],
-          showTrashIcon: false,
+          tasks: [],
           isLoading: true,
         ),
       );
@@ -51,13 +49,9 @@ void main() {
       expect(
         viewModel.state,
         const HomeScreenState(
-          taskUiModels: [
-            TaskCell(
-              task: task1,
-              isSelected: false,
-            )
+          tasks: [
+              task1,
           ],
-          showTrashIcon: false,
           isLoading: false,
         ),
       );
@@ -82,11 +76,8 @@ void main() {
 
       // Act
       await viewModel.onCompleteTask(
-        const TaskCell(
-          task: task1,
-          isSelected: false,
-        ),
-        true,
+          task1,
+          true,
       );
 
       // Assert
@@ -98,13 +89,9 @@ void main() {
       expect(
         viewModel.state,
         const HomeScreenState(
-          taskUiModels: [
-            TaskCell(
-              task: expectedTask,
-              isSelected: false,
-            )
+          tasks: [
+             expectedTask,
           ],
-          showTrashIcon: false,
           isLoading: false,
         ),
       );
@@ -112,7 +99,7 @@ void main() {
   );
 
   test(
-    'HomeViewModel -> test deleteSelectedTasks',
+    'HomeViewModel -> test onRemoveTask',
     () async {
       const task1 = Task(
         id: 1,
@@ -127,17 +114,14 @@ void main() {
 
       await viewModel.updateTasks();
 
-      viewModel.onRemoveTask(task1);
-
       // Act
-      await viewModel.deleteSelectedTasks();
+      await viewModel.onRemoveTask(task1);
 
       // Assert
       expect(
         viewModel.state,
         const HomeScreenState(
-          taskUiModels: [],
-          showTrashIcon: false,
+          tasks: [],
           isLoading: false,
         ),
       );

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../data/model/task.dart';
+
 class TasksListWidget extends StatelessWidget {
-  final List<TaskCell> taskUiModels;
-  final Function onRemoveTask;
-  final Function(TaskCell p1, bool p2) onCompleteTask;
+  final List<Task> tasks;
+  final Function(Task) onRemoveTask;
+  final Function(Task p1, bool p2) onCompleteTask;
 
   const TasksListWidget({
     super.key,
-    required this.taskUiModels,
+    required this.tasks,
     required this.onRemoveTask,
     required this.onCompleteTask,
   });
@@ -21,7 +22,7 @@ class TasksListWidget extends StatelessWidget {
   }
 
   Widget _buildTaskList(BuildContext context) {
-    if (taskUiModels.isEmpty) {
+    if (tasks.isEmpty) {
       return Center(
         child: Text(
           AppLocalizations.of(context)!.empty_tasks,
@@ -30,18 +31,18 @@ class TasksListWidget extends StatelessWidget {
       );
     } else {
       return ListView.builder(
-        itemCount: taskUiModels.length,
+        itemCount: tasks.length,
         itemBuilder: (context, index) {
-          var taskCell = taskUiModels[index];
+          var taskCell = tasks[index];
           return TaskCellWidget(
-            onLongPress: () => {onRemoveTask(taskCell.task)},
+            onRemoveTask: onRemoveTask,
             onCheckChanged: (value) => {
               onCompleteTask(
                 taskCell,
                 value ?? false,
               )
             },
-            cell: taskCell,
+            task: taskCell,
           );
         },
       );

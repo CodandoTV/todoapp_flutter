@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/widgets/task/task_cell.dart';
 import 'package:todoapp/ui/widgets/task/task_title_widget.dart';
 
+import '../../../data/model/task.dart';
+
 class TaskCellWidget extends StatelessWidget {
-  final TaskCell cell;
+  final Task task;
   final Function(bool?) onCheckChanged;
-  final VoidCallback onLongPress;
+  final Function(Task) onRemoveTask;
 
   const TaskCellWidget({
     super.key,
-    required this.cell,
+    required this.task,
     required this.onCheckChanged,
-    required this.onLongPress,
+    required this.onRemoveTask,
   });
 
   @override
@@ -22,21 +23,20 @@ class TaskCellWidget extends StatelessWidget {
 
     return Card(
       child: InkWell(
-        onLongPress: onLongPress,
         customBorder: cardShape,
         child: ListTile(
           shape: cardShape,
           title: TaskTitleWidget(
-            taskTitle: cell.task.title,
-            isComplete: cell.task.isCompleted,
+            taskTitle: task.title,
+            isComplete: task.isCompleted,
           ),
           leading: Checkbox(
-            value: cell.task.isCompleted,
+            value: task.isCompleted,
             onChanged: onCheckChanged,
           ),
-          trailing: cell.isSelected
-              ? const Icon(Icons.check_circle)
-              : const SizedBox.shrink(),
+          trailing: IconButton(
+              onPressed: () => {onRemoveTask(task)},
+              icon: const Icon(Icons.close)),
         ),
       ),
     );

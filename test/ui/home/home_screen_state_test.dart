@@ -4,8 +4,7 @@ import 'package:todoapp/ui/screens/home/home_screen_state.dart';
 void main() {
   test('HomeScreenState -> test copyWithIsLoading', () {
     var state = const HomeScreenState(
-      taskUiModels: [],
-      showTrashIcon: false,
+      tasks: [],
       isLoading: false,
     );
 
