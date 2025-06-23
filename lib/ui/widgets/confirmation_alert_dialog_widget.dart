@@ -24,11 +24,11 @@ class ConfirmationAlertDialogWidget extends StatelessWidget {
       title: Text(title),
       content: description != null ? Text(description!) : null,
       actions: <Widget>[
-        TextButton(
+        OutlinedButton(
           onPressed: onSecondaryButtonPressed,
           child: Text(secondaryButtonText),
         ),
-        TextButton(
+        FilledButton(
           onPressed: onPrimaryButtonPressed,
           child: Text(primaryButtonText),
         ),
