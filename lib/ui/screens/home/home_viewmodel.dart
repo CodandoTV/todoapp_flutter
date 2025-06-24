@@ -7,14 +7,12 @@ import 'home_screen_state.dart';
 class HomeViewModel extends Cubit<HomeScreenState> {
   late TodoRepository _repository;
 
-  HomeViewModel(
-    TodoRepository repository,
-  ) : super(
-          const HomeScreenState(
-            tasks: [],
-            isLoading: true,
-          ),
-        ) {
+  HomeViewModel(TodoRepository repository,) : super(
+    const HomeScreenState(
+      tasks: [],
+      isLoading: true,
+    ),
+  ) {
     _repository = repository;
   }
 
@@ -57,5 +55,18 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     if (result) {
       await updateTasks();
     }
+  }
+
+  reorder(int oldIndex, int newIndex) async {
+    List<Task> tasks = List.from(state.tasks);
+    var task = tasks.removeAt(oldIndex);
+    tasks.insert(newIndex, task);
+
+    emit(
+      HomeScreenState(
+        isLoading: false,
+        tasks: tasks,
+      ),
+    );
   }
 }

@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
+          onReorder: viewModel.reorder,
         ),
       ),
     );
@@ -37,12 +38,14 @@ class _HomeScaffold extends StatelessWidget {
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
+  final Function(int oldIndex, int newIndex) onReorder;
 
   const _HomeScaffold({
     required this.uiState,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
+    required this.onReorder,
   });
 
   @override
@@ -74,6 +77,7 @@ class _HomeScaffold extends StatelessWidget {
       ),
       body: TasksListWidget(
         tasks: uiState.tasks,
+        onReorder: onReorder,
         onRemoveTask: (task) =>
             _showConfirmationDialogToRemoveTask(context, task),
         onCompleteTask: onCompleteTask,
