@@ -79,6 +79,13 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   reorder(int oldIndex, int newIndex) async {
     List<Task> tasks = List.from(state.tasks);
     var task = tasks.removeAt(oldIndex);
+
+    // If moving down the list,
+    // adjust newIndex to account for the removed item
+    if(newIndex > oldIndex) {
+      newIndex--;
+    }
+
     tasks.insert(newIndex, task);
 
     emit(
