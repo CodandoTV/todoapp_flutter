@@ -46,7 +46,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
 
     if (result == true) {
       List<Task> tasks = List.from(state.tasks);
-      var index = state.tasks.indexOf(task);
+      var index = state.tasks.indexWhere((item) => item.id == task.id);
       if (index != -1) {
         tasks[index] = tasks[index].copyWithIsComplete(isCompleted: value);
         emit(
@@ -82,7 +82,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
 
     // If moving down the list,
     // adjust newIndex to account for the removed item
-    if(newIndex > oldIndex) {
+    if (newIndex > oldIndex) {
       newIndex--;
     }
 
