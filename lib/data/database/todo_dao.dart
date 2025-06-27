@@ -66,7 +66,7 @@ class TodoDAO {
     return result == 1 ? true : false;
   }
 
-  Future<void> updateTasksPosition(List<Task> tasks) async {
+  Future<void> updateAll(List<Task> tasks) async {
     for (int i = 0; i < tasks.length; i++) {
       final values = {positionKey: i};
       await _database.update(tableName, values, '$idKey = ${tasks[i].id}');

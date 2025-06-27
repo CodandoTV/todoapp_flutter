@@ -6,7 +6,7 @@ mixin TodoRepository {
   Future<bool> update(Task task, bool isCompletedNewValue);
   Future<bool> add(Task task);
   Future<bool> delete(List<Task> tasks);
-  Future<void> updateTasksPosition(List<Task> tasks);
+  Future<void> updateAll(List<Task> tasks);
 }
 
 class TodoRepositoryImpl implements TodoRepository {
@@ -35,7 +35,7 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<void> updateTasksPosition(List<Task> tasks) {
-    return _todoDAO.updateTasksPosition(tasks);
+  Future<void> updateAll(List<Task> tasks) {
+    return _todoDAO.updateAll(tasks);
   }
 }
