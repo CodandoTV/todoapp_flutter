@@ -13,9 +13,12 @@ class TodoDataBase {
     }
   }
 
-  Future<List<Map<String, Object?>>> query(String tableName) async {
+  Future<List<Map<String, Object?>>> query(
+    String tableName, {
+    String? orderBy,
+  }) async {
     try {
-      return await _dataBase.query(tableName);
+      return await _dataBase.query(tableName, orderBy: orderBy);
     } catch (exception) {
       return [];
     }

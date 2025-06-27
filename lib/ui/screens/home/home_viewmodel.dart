@@ -94,5 +94,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
         tasks: tasks,
       ),
     );
+
+    _repository.updateTasksPosition(tasks);
   }
 }

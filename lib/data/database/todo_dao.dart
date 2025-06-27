@@ -8,11 +8,13 @@ class TodoDAO {
   static const descKey = 'desc';
   static const typeKey = 'type';
   static const isCompletedKey = 'isCompleted';
+  static const positionKey = 'position';
 
   static const createTableQuery = 'CREATE TABLE ${TodoDAO.tableName} ('
       '${TodoDAO.idKey} INTEGER PRIMARY KEY, '
       '${TodoDAO.titleKey} TEXT, '
-      '${TodoDAO.isCompletedKey} INTEGER'
+      '${TodoDAO.isCompletedKey} INTEGER, '
+      '${TodoDAO.positionKey} INTEGER DEFAULT 0'
       ')';
 
   late TodoDataBase _database;
@@ -22,7 +24,10 @@ class TodoDAO {
   }
 
   Future<List<Task>> getAll() async {
-    final result = await _database.query(tableName);
+    final result = await _database.query(
+      tableName,
+      orderBy: '$positionKey ASC',
+    );
     return result
         .map(
           (e) => Task(
@@ -59,5 +64,12 @@ class TodoDAO {
   Future<bool> add(Task task) async {
     final result = await _database.insert(tableName, _taskToValues(task));
     return result == 1 ? true : false;
+  }
+
+  Future<void> updateTasksPosition(List<Task> tasks) async {
+    for (int i = 0; i < tasks.length; i++) {
+      final values = {positionKey: i};
+      await _database.update(tableName, values, '$idKey = ${tasks[i].id}');
+    }
   }
 }
