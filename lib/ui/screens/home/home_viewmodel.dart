@@ -45,7 +45,17 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
 
     if (result == true) {
-      await updateTasks();
+      List<Task> tasks = List.from(state.tasks);
+      var index = state.tasks.indexWhere((item) => item.id == task.id);
+      if (index != -1) {
+        tasks[index] = tasks[index].copyWithIsComplete(isCompleted: value);
+        emit(
+          HomeScreenState(
+            isLoading: false,
+            tasks: tasks,
+          ),
+        );
+      }
     }
   }
 
@@ -55,7 +65,36 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     var result = await _repository.delete([task]);
 
     if (result) {
-      await updateTasks();
+      List<Task> tasks = List.from(state.tasks);
+      tasks.remove(task);
+      emit(
+        HomeScreenState(
+          isLoading: false,
+          tasks: tasks,
+        ),
+      );
     }
+  }
+
+  reorder(int oldIndex, int newIndex) async {
+    List<Task> tasks = List.from(state.tasks);
+    var task = tasks.removeAt(oldIndex);
+
+    // If moving down the list,
+    // adjust newIndex to account for the removed item
+    if (newIndex > oldIndex) {
+      newIndex--;
+    }
+
+    tasks.insert(newIndex, task);
+
+    emit(
+      HomeScreenState(
+        isLoading: false,
+        tasks: tasks,
+      ),
+    );
+
+    _repository.updateAll(tasks);
   }
 }

@@ -8,12 +8,14 @@ class TasksListWidget extends StatelessWidget {
   final List<Task> tasks;
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
+  final Function(int oldIndex, int newIndex) onReorder;
 
   const TasksListWidget({
     super.key,
     required this.tasks,
     required this.onRemoveTask,
     required this.onCompleteTask,
+    required this.onReorder,
   });
 
   @override
@@ -30,21 +32,17 @@ class TasksListWidget extends StatelessWidget {
         ),
       );
     } else {
-      return ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          var taskCell = tasks[index];
-          return TaskCellWidget(
-            onRemoveTask: onRemoveTask,
-            onCheckChanged: (value) => {
-              onCompleteTask(
-                taskCell,
-                value ?? false,
-              )
-            },
-            task: taskCell,
-          );
-        },
+      final children = tasks
+          .map((task) => TaskCellWidget(
+                key: ValueKey(task.id),
+                task: task,
+                onRemoveTask: onRemoveTask,
+                onCheckChanged: (value) => onCompleteTask(task, value ?? false),
+              ))
+          .toList();
+      return ReorderableListView(
+        onReorder: onReorder,
+        children: children,
       );
     }
   }
