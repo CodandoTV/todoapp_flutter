@@ -3,6 +3,7 @@ import 'package:todoapp/ui/screens/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
@@ -12,6 +13,12 @@ final GoRouter _router = GoRouter(
         return const HomeScreen();
       },
       routes: <RouteBase>[
+        GoRoute(
+          path: '/tasks',
+          builder: (BuildContext context, GoRouterState state) {
+            return const TasksScreen();
+          },
+        ),
         GoRoute(
           path: '/task',
           builder: (BuildContext context, GoRouterState state) {
