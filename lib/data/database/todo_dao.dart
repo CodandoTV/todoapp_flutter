@@ -1,4 +1,4 @@
-import 'package:todoapp/data/database/todo_data_base.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/data/model/task.dart';
 
 class TodoDAO {
@@ -17,9 +17,9 @@ class TodoDAO {
       '${TodoDAO.positionKey} INTEGER DEFAULT 0'
       ')';
 
-  late TodoDataBase _database;
+  late Database _database;
 
-  TodoDAO(TodoDataBase database) {
+  TodoDAO(Database database) {
     _database = database;
   }
 
@@ -51,13 +51,13 @@ class TodoDAO {
     final values = {isCompletedKey: isCompletedNewValue ? 1 : 0};
 
     final result =
-        await _database.update(tableName, values, '$idKey = ${task.id}');
+        await _database.update(tableName, values, where: '$idKey = ${task.id}');
     return result == 1 ? true : false;
   }
 
   Future<bool> delete(List<Task> tasks) async {
     final result = await _database.delete(
-        tableName, '$idKey IN (${tasks.map((e) => e.id).join(',')})');
+        tableName, where: '$idKey IN (${tasks.map((e) => e.id).join(',')})');
     return result == 1 ? true : false;
   }
 
@@ -69,7 +69,7 @@ class TodoDAO {
   Future<void> updateAll(List<Task> tasks) async {
     for (int i = 0; i < tasks.length; i++) {
       final values = {positionKey: i};
-      await _database.update(tableName, values, '$idKey = ${tasks[i].id}');
+      await _database.update(tableName, values, where: '$idKey = ${tasks[i].id}');
     }
   }
 }
