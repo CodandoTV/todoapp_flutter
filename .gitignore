@@ -164,3 +164,4 @@ app.*.symbols
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
 .flutter-plugins
+/lib/main.config.dart
