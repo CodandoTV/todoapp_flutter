@@ -44,6 +44,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   sqflite: ^2.4.2
   injectable: ^2.5.0
+  freezed_annotation: ^3.0.0
+  freezed: ^3.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

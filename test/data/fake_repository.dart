@@ -31,7 +31,7 @@ class FakeRepository implements TodoRepository {
   Future<bool> update(Task task, bool isCompletedNewValue) async {
     final index = _data.indexOf(task);
     if (index != -1) {
-      _data[index] = task.copyWithIsComplete(isCompleted: isCompletedNewValue);
+      _data[index] = task.copyWith(isCompleted: isCompletedNewValue);
       return Future.value(true);
     }
     return Future.value(false);

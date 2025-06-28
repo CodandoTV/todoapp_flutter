@@ -20,7 +20,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
 
   void _onLoad() {
     emit(
-      state.copyWithIsLoading(isLoading: true),
+      state.copyWith(isLoading: true),
     );
   }
 
@@ -48,7 +48,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       List<Task> tasks = List.from(state.tasks);
       var index = state.tasks.indexWhere((item) => item.id == task.id);
       if (index != -1) {
-        tasks[index] = tasks[index].copyWithIsComplete(isCompleted: value);
+        tasks[index] = tasks[index].copyWith(isCompleted: value);
         emit(
           TasksScreenState(
             isLoading: false,

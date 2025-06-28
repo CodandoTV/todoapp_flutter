@@ -1,4 +1,7 @@
 
+import 'package:injectable/injectable.dart';
+
+@injectable
 class TaskScreenValidator {
   bool validateTaskName(String? taskName) {
     return taskName != null && taskName.isNotEmpty;

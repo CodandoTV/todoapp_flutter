@@ -1,9 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:todoapp/data/model/task.dart';
 
-@immutable
-class TasksScreenState extends Equatable {
+part 'tasks_screen_state.freezed.dart';
+
+@freezed
+class TasksScreenState with _$TasksScreenState {
   final List<Task> tasks;
   final bool isLoading;
 
@@ -11,19 +12,4 @@ class TasksScreenState extends Equatable {
     required this.tasks,
     required this.isLoading,
   });
-
-  @override
-  List<Object?> get props => [
-    tasks,
-    isLoading,
-  ];
-
-  TasksScreenState copyWithIsLoading({
-    required bool isLoading,
-  }) {
-    return TasksScreenState(
-      tasks: tasks,
-      isLoading: isLoading,
-    );
-  }
 }
