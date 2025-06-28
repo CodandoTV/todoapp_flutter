@@ -12,6 +12,7 @@
 - Generate code:
 
 ```shell
+dart run build_runner clean
 dart run build_runner build --delete-conflicting-outputs
 ```
 
@@ -23,8 +24,15 @@ flutter run -d <device target>
 
 ## Tech Stack
 
-- [equatable](https://pub.dev/packages/equatable): data class solution;
-- [go_router](https://pub.dev/packages/go_router): navigation;
+### Navigation
+
+- [go_router](https://pub.dev/packages/go_router).
+
+### Data classes
+
+- [Freezed](https://pub.dev/packages/freezed);
+
+- [Freezed Annotations](https://pub.dev/packages/freezed_annotation).
 
 ### Dependency injection
 
