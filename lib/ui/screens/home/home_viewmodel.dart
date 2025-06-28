@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
 import '../../../data/model/task.dart';
 import 'home_screen_state.dart';
 
+@injectable
 class HomeViewModel extends Cubit<HomeScreenState> {
   late TodoRepository _repository;
 

@@ -9,6 +9,12 @@
 
 ## How to run the project?
 
+- Generate code:
+
+```shell
+dart run build_runner build --delete-conflicting-outputs
+```
+
 - Run:
 
 ```shell
@@ -19,8 +25,16 @@ flutter run -d <device target>
 
 - [equatable](https://pub.dev/packages/equatable): data class solution;
 - [go_router](https://pub.dev/packages/go_router): navigation;
-- [get_it](https://pub.dev/packages/get_it) dependency injection;
-- [sqflite](https://pub.dev/packages/sqflite) database.
+
+### Dependency injection
+
+- [get_it](https://pub.dev/packages/get_it);
+
+- [injectable](https://pub.dev/packages/injectable).
+
+### Database
+
+- [sqflite](https://pub.dev/packages/sqflite).
 
 ## Screenshots
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/model/task.dart';
+import '../l10n/app_localizations.dart';
 
 class TasksListWidget extends StatelessWidget {
   final List<Task> tasks;

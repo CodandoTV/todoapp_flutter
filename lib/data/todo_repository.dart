@@ -1,7 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/database/task_dao.dart';
 import 'model/task.dart';
 
-mixin TodoRepository {
+abstract class TodoRepository {
   Future<List<Task>> getTasks();
   Future<bool> update(Task task, bool isCompletedNewValue);
   Future<bool> add(Task task);
@@ -9,6 +10,7 @@ mixin TodoRepository {
   Future<void> updateAll(List<Task> tasks);
 }
 
+@Injectable(as: TodoRepository)
 class TodoRepositoryImpl implements TodoRepository {
   final TaskDAO _todoDAO;
 

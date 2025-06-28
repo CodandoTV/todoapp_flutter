@@ -5,10 +5,10 @@ import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'home_screen_state.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

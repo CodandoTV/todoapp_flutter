@@ -1,10 +1,14 @@
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/data/database/task_dao.dart';
 
 const String dataBaseName = 'todo_data_base.db';
 
-class DataBaseBuilder {
-  static Future<Database> build() async {
+@module
+abstract class DataBaseBuilder {
+
+  @preResolve
+  Future<Database> get database async {
     Database dataBase = await openDatabase(
       dataBaseName,
       version: 1,

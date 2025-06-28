@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/data/model/task.dart';
 
+@LazySingleton()
 class TaskDAO {
   static const tableName = 'Todo';
   static const idKey = 'id';

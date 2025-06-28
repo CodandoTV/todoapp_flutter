@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/ui/screens/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
+
+import 'l10n/app_localizations.dart';
 
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
