@@ -1,4 +1,4 @@
-import 'package:todoapp/data/database/todo_dao.dart';
+import 'package:todoapp/data/database/task_dao.dart';
 import 'model/task.dart';
 
 mixin TodoRepository {
@@ -10,7 +10,7 @@ mixin TodoRepository {
 }
 
 class TodoRepositoryImpl implements TodoRepository {
-  final TodoDAO _todoDAO;
+  final TaskDAO _todoDAO;
 
   TodoRepositoryImpl(this._todoDAO);
 

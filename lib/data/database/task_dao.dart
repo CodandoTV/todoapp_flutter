@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/data/model/task.dart';
 
-class TodoDAO {
+class TaskDAO {
   static const tableName = 'Todo';
   static const idKey = 'id';
   static const titleKey = 'title';
@@ -10,16 +10,16 @@ class TodoDAO {
   static const isCompletedKey = 'isCompleted';
   static const positionKey = 'position';
 
-  static const createTableQuery = 'CREATE TABLE ${TodoDAO.tableName} ('
-      '${TodoDAO.idKey} INTEGER PRIMARY KEY, '
-      '${TodoDAO.titleKey} TEXT, '
-      '${TodoDAO.isCompletedKey} INTEGER, '
-      '${TodoDAO.positionKey} INTEGER DEFAULT 0'
+  static const createTableQuery = 'CREATE TABLE ${TaskDAO.tableName} ('
+      '${TaskDAO.idKey} INTEGER PRIMARY KEY, '
+      '${TaskDAO.titleKey} TEXT, '
+      '${TaskDAO.isCompletedKey} INTEGER, '
+      '${TaskDAO.positionKey} INTEGER DEFAULT 0'
       ')';
 
   late Database _database;
 
-  TodoDAO(Database database) {
+  TaskDAO(Database database) {
     _database = database;
   }
 
