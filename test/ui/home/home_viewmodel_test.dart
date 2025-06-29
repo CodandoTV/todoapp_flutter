@@ -11,7 +11,8 @@ void main() {
     () {
       // Arrange
       final repository = FakeRepository(
-        data: [],
+        tasks: [],
+        checklists: [],
       );
 
       // Act
@@ -38,7 +39,8 @@ void main() {
         isCompleted: false,
       );
       final repository = FakeRepository(
-        data: [task1],
+        tasks: [task1],
+        checklists: [],
       );
       final viewModel = HomeViewModel(repository);
 
@@ -68,7 +70,8 @@ void main() {
       );
       // Arrange
       final repository = FakeRepository(
-        data: [task1],
+        tasks: [task1],
+        checklists: [],
       );
       final viewModel = HomeViewModel(repository);
 
@@ -108,7 +111,8 @@ void main() {
       );
       // Arrange
       final repository = FakeRepository(
-        data: [task1],
+        tasks: [task1],
+        checklists: [],
       );
       final viewModel = HomeViewModel(repository);
 

@@ -39,7 +39,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   Future<void> onCompleteTask(Task task, bool value) async {
     _onLoad();
 
-    var result = await _repository.update(
+    var result = await _repository.updateTask(
       task,
       value,
     );
@@ -62,7 +62,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   Future<void> onRemoveTask(Task task) async {
     _onLoad();
 
-    var result = await _repository.delete([task]);
+    var result = await _repository.deleteTasks([task]);
 
     if (result) {
       List<Task> tasks = List.from(state.tasks);
@@ -95,6 +95,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       ),
     );
 
-    _repository.updateAll(tasks);
+    _repository.updateAllTasks(tasks);
   }
 }

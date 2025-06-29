@@ -10,7 +10,8 @@ void main() {
     () {
       // Arrange
       final repository = FakeRepository(
-        data: [],
+        tasks: [],
+        checklists: [],
       );
 
       // Act

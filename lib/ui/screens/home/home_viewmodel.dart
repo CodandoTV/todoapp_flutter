@@ -41,7 +41,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   Future<void> onCompleteTask(Task task, bool value) async {
     _onLoad();
 
-    var result = await _repository.update(
+    var result = await _repository.updateTask(
       task,
       value,
     );
@@ -64,7 +64,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   Future<void> onRemoveTask(Task task) async {
     _onLoad();
 
-    var result = await _repository.delete([task]);
+    var result = await _repository.deleteTasks([task]);
 
     if (result) {
       List<Task> tasks = List.from(state.tasks);
@@ -97,6 +97,6 @@ class HomeViewModel extends Cubit<HomeScreenState> {
       ),
     );
 
-    _repository.updateAll(tasks);
+    _repository.updateAllTasks(tasks);
   }
 }

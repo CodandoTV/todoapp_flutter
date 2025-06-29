@@ -23,7 +23,7 @@ class TaskViewModel extends Cubit<TaskScreenState> {
   Future<void> addTask({
     required String title,
   }) async {
-    await _repository.add(
+    await _repository.addTask(
       Task(
         id: null,
         title: title,

@@ -1,44 +1,69 @@
+import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
 class FakeRepository implements TodoRepository {
-  late List<Task> _data;
+  late List<Task> _tasks;
+  late List<Checklist> _checklists;
 
-  FakeRepository({required List<Task> data}) {
-    _data = data;
+  FakeRepository({
+    required List<Task> tasks,
+    required List<Checklist> checklists,
+  }) {
+    _tasks = tasks;
+    _checklists = checklists;
   }
 
   @override
-  Future<bool> add(Task task) async {
-    _data.add(task);
+  Future<bool> addTask(Task task) async {
+    _tasks.add(task);
     return Future.value(true);
   }
 
   @override
-  Future<bool> delete(List<Task> tasks) async {
+  Future<bool> deleteTasks(List<Task> tasks) async {
     for (var task in tasks) {
-      _data.remove(task);
+      _tasks.remove(task);
     }
     return Future.value(true);
   }
 
   @override
   Future<List<Task>> getTasks() async {
-    return Future.value(_data);
+    return Future.value(_tasks);
   }
 
   @override
-  Future<bool> update(Task task, bool isCompletedNewValue) async {
-    final index = _data.indexOf(task);
+  Future<bool> updateTask(Task task, bool isCompletedNewValue) async {
+    final index = _tasks.indexOf(task);
     if (index != -1) {
-      _data[index] = task.copyWith(isCompleted: isCompletedNewValue);
+      _tasks[index] = task.copyWith(isCompleted: isCompletedNewValue);
       return Future.value(true);
     }
     return Future.value(false);
   }
 
   @override
-  Future<void> updateAll(List<Task> tasks) async {
-    _data = tasks;
+  Future<void> updateAllTasks(List<Task> tasks) async {
+    _tasks = tasks;
+  }
+
+  @override
+  Future<bool> addChecklist(Checklist checklist) async {
+    _checklists.add(checklist);
+    return Future.value(true);
+  }
+
+  @override
+  Future<bool> deleteChecklists(List<Checklist> checklists) async {
+    for (var checklist in checklists) {
+      _checklists.remove(checklist);
+    }
+    return Future.value(true);
+  }
+
+  @override
+  Future<List<Checklist>> getChecklists() async {
+    return Future.value(_checklists);
   }
 }
