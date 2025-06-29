@@ -1,12 +1,12 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:todoapp/data/database/checklist_dao.dart';
 import 'package:todoapp/data/database/task_dao.dart';
 
 const String dataBaseName = 'todo_data_base.db';
 
 @module
 abstract class DataBaseBuilder {
-
   @preResolve
   Future<Database> get database async {
     Database dataBase = await openDatabase(
@@ -15,6 +15,10 @@ abstract class DataBaseBuilder {
       onCreate: (Database db, int version) async {
         await db.execute(
           TaskDAO.createTableQuery,
+        );
+
+        await db.execute(
+          ChecklistDAO.createTableQuery,
         );
       },
     );
