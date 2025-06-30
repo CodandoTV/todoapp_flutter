@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
@@ -16,7 +15,7 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = HomeViewModel(getIt.get());
+    final viewModel = TasksViewModel(getIt.get());
     viewModel.updateTasks();
 
     return BlocProvider(

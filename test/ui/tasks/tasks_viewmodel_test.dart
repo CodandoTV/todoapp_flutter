@@ -2,12 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/home/home_screen_state.dart';
 import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
 import '../../data/fake_repository.dart';
 
 void main() {
   test(
-    'HomeViewModel -> test initial state',
+    'TasksViewModel -> test initial state',
     () {
       // Arrange
       final repository = FakeRepository(
@@ -16,12 +18,12 @@ void main() {
       );
 
       // Act
-      final viewModel = HomeViewModel(repository);
+      final viewModel = TasksViewModel(repository);
 
       // Assert
       expect(
         viewModel.state,
-        const HomeScreenState(
+        const TasksScreenState(
           tasks: [],
           isLoading: true,
         ),
@@ -30,7 +32,7 @@ void main() {
   );
 
   test(
-    'HomeViewModel -> test updateTasks',
+    'TasksViewModel -> test updateTasks',
     () async {
       // Arrange
       const task1 = Task(
@@ -42,7 +44,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = HomeViewModel(repository);
+      final viewModel = TasksViewModel(repository);
 
       // Act
       await viewModel.updateTasks();
@@ -50,7 +52,7 @@ void main() {
       // Assert
       expect(
         viewModel.state,
-        const HomeScreenState(
+        const TasksScreenState(
           tasks: [
               task1,
           ],
@@ -61,7 +63,7 @@ void main() {
   );
 
   test(
-    'HomeViewModel -> test onCompleteTask',
+    'TasksViewModel -> test onCompleteTask',
     () async {
       const task1 = Task(
         id: 1,
@@ -73,7 +75,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = HomeViewModel(repository);
+      final viewModel = TasksViewModel(repository);
 
       await viewModel.updateTasks();
 
@@ -91,7 +93,7 @@ void main() {
       );
       expect(
         viewModel.state,
-        const HomeScreenState(
+        const TasksScreenState(
           tasks: [
              expectedTask,
           ],
@@ -102,7 +104,7 @@ void main() {
   );
 
   test(
-    'HomeViewModel -> test onRemoveTask',
+    'TasksViewModel -> test onRemoveTask',
     () async {
       const task1 = Task(
         id: 1,
@@ -114,7 +116,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = HomeViewModel(repository);
+      final viewModel = TasksViewModel(repository);
 
       await viewModel.updateTasks();
 
@@ -124,7 +126,7 @@ void main() {
       // Assert
       expect(
         viewModel.state,
-        const HomeScreenState(
+        const TasksScreenState(
           tasks: [],
           isLoading: false,
         ),
