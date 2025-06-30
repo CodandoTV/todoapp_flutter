@@ -11,5 +11,6 @@
   "remove_task_dialog_title": "Remove task",
   "remove_task_dialog_desc": "Are you sure you want to remove this task?",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "checklists": "Checklists"
 }

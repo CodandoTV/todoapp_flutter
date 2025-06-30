@@ -166,3 +166,5 @@ app.*.symbols
 .flutter-plugins
 /lib/main.config.dart
 *.freezed.dart
+/lib/ui/l10n/app_localizations.dart
+/lib/ui/l10n/app_localizations_en.dart

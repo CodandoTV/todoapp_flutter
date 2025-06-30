@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/screens/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 
@@ -11,7 +11,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
+        return const ChecklistsScreen();
       },
       routes: <RouteBase>[
         GoRoute(

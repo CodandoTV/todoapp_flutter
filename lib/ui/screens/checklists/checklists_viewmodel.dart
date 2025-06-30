@@ -3,16 +3,16 @@ import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
-import 'home_screen_state.dart';
+import 'checklists_screen_state.dart';
 
 @injectable
-class HomeViewModel extends Cubit<HomeScreenState> {
+class ChecklistsViewModel extends Cubit<ChecklistsScreenState> {
   late TodoRepository _repository;
 
-  HomeViewModel(
+  ChecklistsViewModel(
     TodoRepository repository,
   ) : super(
-          const HomeScreenState(
+          const ChecklistsScreenState(
             checklists: [],
             isLoading: true,
           ),
@@ -31,7 +31,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
 
     var checklists = await _repository.getChecklists();
     emit(
-      HomeScreenState(
+      ChecklistsScreenState(
         isLoading: false,
         checklists: checklists,
       ),
@@ -47,7 +47,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
       List<Checklist> checklists = List.from(state.checklists);
       checklists.remove(checklist);
       emit(
-        HomeScreenState(
+        ChecklistsScreenState(
           isLoading: false,
           checklists: checklists,
         ),
