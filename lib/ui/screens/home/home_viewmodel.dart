@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
-import '../../../data/model/task.dart';
 import 'home_screen_state.dart';
 
 @injectable
@@ -13,7 +13,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     TodoRepository repository,
   ) : super(
           const HomeScreenState(
-            tasks: [],
+            checklists: [],
             isLoading: true,
           ),
         ) {
@@ -26,77 +26,32 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     );
   }
 
-  Future<void> updateTasks() async {
+  Future<void> updateChecklists() async {
     _onLoad();
 
-    var tasks = await _repository.getTasks();
+    var checklists = await _repository.getChecklists();
     emit(
       HomeScreenState(
         isLoading: false,
-        tasks: tasks,
+        checklists: checklists,
       ),
     );
   }
 
-  Future<void> onCompleteTask(Task task, bool value) async {
+  Future<void> onRemoveChecklist(Checklist checklist) async {
     _onLoad();
 
-    var result = await _repository.updateTask(
-      task,
-      value,
-    );
-
-    if (result == true) {
-      List<Task> tasks = List.from(state.tasks);
-      var index = state.tasks.indexWhere((item) => item.id == task.id);
-      if (index != -1) {
-        tasks[index] = tasks[index].copyWith(isCompleted: value);
-        emit(
-          HomeScreenState(
-            isLoading: false,
-            tasks: tasks,
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> onRemoveTask(Task task) async {
-    _onLoad();
-
-    var result = await _repository.deleteTasks([task]);
+    var result = await _repository.deleteChecklists([checklist]);
 
     if (result) {
-      List<Task> tasks = List.from(state.tasks);
-      tasks.remove(task);
+      List<Checklist> checklists = List.from(state.checklists);
+      checklists.remove(checklist);
       emit(
         HomeScreenState(
           isLoading: false,
-          tasks: tasks,
+          checklists: checklists,
         ),
       );
     }
-  }
-
-  reorder(int oldIndex, int newIndex) async {
-    List<Task> tasks = List.from(state.tasks);
-    var task = tasks.removeAt(oldIndex);
-
-    // If moving down the list,
-    // adjust newIndex to account for the removed item
-    if (newIndex > oldIndex) {
-      newIndex--;
-    }
-
-    tasks.insert(newIndex, task);
-
-    emit(
-      HomeScreenState(
-        isLoading: false,
-        tasks: tasks,
-      ),
-    );
-
-    _repository.updateAllTasks(tasks);
   }
 }
