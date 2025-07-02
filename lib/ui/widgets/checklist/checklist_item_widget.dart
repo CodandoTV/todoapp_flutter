@@ -5,7 +5,7 @@ import '../../../data/model/checklist.dart';
 class ChecklistItemWidget extends StatelessWidget {
   final Checklist checklist;
   final Function(Checklist) onRemoveChecklist;
-  final Function(int?) onSelectChecklist;
+  final Function(Checklist) onSelectChecklist;
 
   const ChecklistItemWidget({
     super.key,
@@ -18,7 +18,7 @@ class ChecklistItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: ListTile(
-        onTap: () => onSelectChecklist(checklist.id),
+        onTap: () => onSelectChecklist(checklist),
         title: Text(checklist.title),
         trailing: IconButton(
           icon: const Icon(Icons.delete),

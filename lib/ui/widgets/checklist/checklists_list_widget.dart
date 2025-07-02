@@ -9,7 +9,7 @@ import '../../l10n/app_localizations.dart';
 class ChecklistsListWidget extends StatelessWidget {
   final List<Checklist> checklists;
   final Function(Checklist) onRemoveChecklist;
-  final Function(int?) onSelectChecklist;
+  final Function(Checklist) onSelectChecklist;
 
   const ChecklistsListWidget({
     super.key,

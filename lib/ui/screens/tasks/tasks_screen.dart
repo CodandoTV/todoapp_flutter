@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
@@ -11,16 +12,16 @@ import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 
 class TasksScreen extends StatelessWidget {
-  final int? checklistId;
+  final Checklist checklist;
 
   const TasksScreen({
     super.key,
-    required this.checklistId,
+    required this.checklist,
   });
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TasksViewModel(getIt.get(), checklistId);
+    final viewModel = TasksViewModel(getIt.get(), checklist.id);
     viewModel.updateTasks();
 
     return BlocProvider(
@@ -28,7 +29,8 @@ class TasksScreen extends StatelessWidget {
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
         builder: (context, uiState) => _TasksScaffold(
           uiState: uiState,
-          checklistId: checklistId,
+          checklistId: checklist.id,
+          checklistName: checklist.title,
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
@@ -42,6 +44,7 @@ class TasksScreen extends StatelessWidget {
 class _TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
+  final String checklistName;
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
@@ -49,7 +52,8 @@ class _TasksScaffold extends StatelessWidget {
 
   const _TasksScaffold({
     required this.uiState,
-    this.checklistId,
+    required this.checklistId,
+    required this.checklistName,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
@@ -61,7 +65,7 @@ class _TasksScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
-        title: AppLocalizations.of(context)!.tasks,
+        title: checklistName,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
