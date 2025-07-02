@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
@@ -21,6 +22,7 @@ class ChecklistsScreen extends StatelessWidget {
       child: BlocBuilder<ChecklistsViewModel, ChecklistsScreenState>(
         builder: (context, uiState) => _ChecklistsScaffold(
           uiState: uiState,
+          updateChecklists: viewModel.updateChecklists,
           onRemoveChecklist: viewModel.onRemoveChecklist,
         ),
       ),
@@ -31,9 +33,11 @@ class ChecklistsScreen extends StatelessWidget {
 class _ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
   final Function(Checklist) onRemoveChecklist;
+  final Function updateChecklists;
 
   const _ChecklistsScaffold({
     required this.uiState,
+    required this.updateChecklists,
     required this.onRemoveChecklist,
   });
 
@@ -45,7 +49,21 @@ class _ChecklistsScaffold extends StatelessWidget {
         title: AppLocalizations.of(context)!.checklists,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () async {
+          bool? result = await context.push('/checklist');
+          if (result == true) {
+            updateChecklists();
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.checklist_added,
+                  ),
+                ),
+              );
+            }
+          }
+        },
         child: const Icon(
           Icons.plus_one,
         ),
