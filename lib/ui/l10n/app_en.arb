@@ -15,5 +15,6 @@
   "remove_task_dialog_desc": "Are you sure you want to remove this task?",
   "yes": "Yes",
   "no": "No",
-  "checklists": "Checklists"
+  "checklists": "Checklists",
+  "checklist_name": "Checklist name"
 }

@@ -23,7 +23,7 @@ class ChecklistFormWidget extends StatelessWidget {
             autofocus: true,
             controller: checklistEditingController,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.task,
+              labelText: AppLocalizations.of(context)!.checklist_name,
               labelStyle: Theme.of(context).textTheme.titleMedium,
               border: const OutlineInputBorder(),
             ),
