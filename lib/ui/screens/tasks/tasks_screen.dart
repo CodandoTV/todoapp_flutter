@@ -11,11 +11,16 @@ import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 
 class TasksScreen extends StatelessWidget {
-  const TasksScreen({super.key});
+  final int? checklistId;
+
+  const TasksScreen({
+    super.key,
+    required this.checklistId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TasksViewModel(getIt.get());
+    final viewModel = TasksViewModel(getIt.get(), checklistId);
     viewModel.updateTasks();
 
     return BlocProvider(
@@ -23,6 +28,7 @@ class TasksScreen extends StatelessWidget {
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
         builder: (context, uiState) => _TasksScaffold(
           uiState: uiState,
+          checklistId: checklistId,
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
@@ -35,6 +41,7 @@ class TasksScreen extends StatelessWidget {
 
 class _TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
+  final int? checklistId;
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
@@ -42,6 +49,7 @@ class _TasksScaffold extends StatelessWidget {
 
   const _TasksScaffold({
     required this.uiState,
+    this.checklistId,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
@@ -57,9 +65,9 @@ class _TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await context.push('/task');
+          bool? result = await context.push('/task', extra: checklistId);
           if (result == true) {
-            updateTasks();
+            await updateTasks();
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -95,10 +103,10 @@ class _TasksScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          Navigator.pop(context),
+          context.pop(context),
         },
         onPrimaryButtonPressed: () =>
-        {Navigator.pop(context), onRemoveTask(task)},
+            {context.pop(context), onRemoveTask(task)},
       ),
     );
   }

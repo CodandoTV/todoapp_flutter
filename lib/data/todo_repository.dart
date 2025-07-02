@@ -5,11 +5,11 @@ import 'package:todoapp/data/model/checklist.dart';
 import 'model/task.dart';
 
 abstract class TodoRepository {
-  Future<List<Task>> getTasks();
+  Future<List<Task>> getTasks(int? checklistId);
 
   Future<bool> updateTask(Task task, bool isCompletedNewValue);
 
-  Future<bool> addTask(Task task);
+  Future<bool> addTask(Task task, int? checklistId);
 
   Future<bool> deleteTasks(List<Task> tasks);
 
@@ -33,8 +33,8 @@ class TodoRepositoryImpl implements TodoRepository {
   );
 
   @override
-  Future<List<Task>> getTasks() async {
-    return _todoDAO.getAll();
+  Future<List<Task>> getTasks(int? checklistId) async {
+    return _todoDAO.getAll(checklistId);
   }
 
   @override
@@ -43,8 +43,8 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<bool> addTask(Task task) async {
-    return _todoDAO.add(task);
+  Future<bool> addTask(Task task, int? checklistId) async {
+    return _todoDAO.add(task, checklistId);
   }
 
   @override

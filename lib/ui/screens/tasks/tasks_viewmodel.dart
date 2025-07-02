@@ -6,16 +6,19 @@ import '../../../data/model/task.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
+  late int? _checklistId;
 
   TasksViewModel(
-      TodoRepository repository,
-      ) : super(
-    const TasksScreenState(
-      tasks: [],
-      isLoading: true,
-    ),
-  ) {
+    TodoRepository repository,
+    int? checklistId,
+  ) : super(
+          const TasksScreenState(
+            tasks: [],
+            isLoading: true,
+          ),
+        ) {
     _repository = repository;
+    _checklistId = checklistId;
   }
 
   void _onLoad() {
@@ -27,7 +30,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   Future<void> updateTasks() async {
     _onLoad();
 
-    var tasks = await _repository.getTasks();
+    var tasks = await _repository.getTasks(_checklistId);
     emit(
       TasksScreenState(
         isLoading: false,

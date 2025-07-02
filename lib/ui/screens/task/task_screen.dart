@@ -9,13 +9,19 @@ import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
 class TaskScreen extends StatelessWidget {
-  final String? taskUuid;
+  final int? checklistId;
 
-  const TaskScreen({super.key, required this.taskUuid});
+  const TaskScreen({
+    super.key,
+    required this.checklistId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TaskViewModel(getIt.get());
+    final viewModel = TaskViewModel(
+      getIt.get(),
+      checklistId,
+    );
 
     return BlocProvider(
       create: (_) => viewModel,

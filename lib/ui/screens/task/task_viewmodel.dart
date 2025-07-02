@@ -6,17 +6,19 @@ import '../../../data/todo_repository.dart';
 
 class TaskViewModel extends Cubit<TaskScreenState> {
   late TodoRepository _repository;
+  late int? _checklistId;
 
-  TaskViewModel(TodoRepository repository)
+  TaskViewModel(TodoRepository repository, int? checklistId)
       : super(
           const TaskScreenState(
             categoryNames: [],
           ),
         ) {
     _repository = repository;
+    _checklistId = checklistId;
   }
 
-  bool validateTaskName(String taskName){
+  bool validateTaskName(String taskName) {
     return taskName.isNotEmpty;
   }
 
@@ -29,6 +31,7 @@ class TaskViewModel extends Cubit<TaskScreenState> {
         title: title,
         isCompleted: false,
       ),
+      _checklistId,
     );
   }
 }

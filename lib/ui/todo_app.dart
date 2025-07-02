@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
@@ -18,13 +19,19 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: '/tasks',
           builder: (BuildContext context, GoRouterState state) {
-            return const TasksScreen();
+            int? checklistId = state.extra as int?;
+            return TasksScreen(
+              checklistId: checklistId,
+            );
           },
         ),
         GoRoute(
           path: '/task',
           builder: (BuildContext context, GoRouterState state) {
-            return const TaskScreen(taskUuid: null);
+            int? checklistId = state.extra as int?;
+            return TaskScreen(
+              checklistId: checklistId,
+            );
           },
         ),
         GoRoute(

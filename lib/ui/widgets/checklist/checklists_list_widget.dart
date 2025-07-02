@@ -9,11 +9,13 @@ import '../../l10n/app_localizations.dart';
 class ChecklistsListWidget extends StatelessWidget {
   final List<Checklist> checklists;
   final Function(Checklist) onRemoveChecklist;
+  final Function(int?) onSelectChecklist;
 
   const ChecklistsListWidget({
     super.key,
     required this.checklists,
     required this.onRemoveChecklist,
+    required this.onSelectChecklist,
   });
 
   @override
@@ -30,16 +32,13 @@ class ChecklistsListWidget extends StatelessWidget {
         ),
       );
     } else {
-      final children = checklists
-          .map(
-            (checklist) => ChecklistItemWidget(
-              checklist: checklist,
-              onRemoveChecklist: onRemoveChecklist,
-            ),
-          )
-          .toList();
       return ListView.builder(
-        itemBuilder: (context, index) => children[index],
+        itemCount: checklists.length,
+        itemBuilder: (context, index) => ChecklistItemWidget(
+          checklist: checklists[index],
+          onRemoveChecklist: onRemoveChecklist,
+          onSelectChecklist: onSelectChecklist,
+        ),
       );
     }
   }

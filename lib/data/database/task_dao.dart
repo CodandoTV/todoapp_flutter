@@ -30,10 +30,12 @@ class TaskDAO {
     _database = database;
   }
 
-  Future<List<Task>> getAll() async {
+  Future<List<Task>> getAll(int? checklistId) async {
     final result = await _database.query(
       tableName,
       orderBy: '$positionKey ASC',
+      where: '${TaskDAO.checklistKey} = ?',
+      whereArgs: [checklistId],
     );
     return result
         .map(
@@ -46,11 +48,12 @@ class TaskDAO {
         .toList();
   }
 
-  _taskToValues(Task task) {
+  _taskToValues(Task task, int? checklistId) {
     return {
       idKey: task.id,
       titleKey: task.title,
-      isCompletedKey: task.isCompleted ? 1 : 0
+      isCompletedKey: task.isCompleted ? 1 : 0,
+      checklistKey: checklistId,
     };
   }
 
@@ -68,8 +71,8 @@ class TaskDAO {
     return result == 1 ? true : false;
   }
 
-  Future<bool> add(Task task) async {
-    final result = await _database.insert(tableName, _taskToValues(task));
+  Future<bool> add(Task task, int? checklistId) async {
+    final result = await _database.insert(tableName, _taskToValues(task, checklistId));
     return result == 1 ? true : false;
   }
 
