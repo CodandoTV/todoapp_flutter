@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:todoapp/data/database/task_dao.dart';
 import 'package:todoapp/data/model/checklist.dart';
 
 @LazySingleton()
@@ -39,14 +40,25 @@ class ChecklistDAO {
     };
   }
 
-  Future<bool> delete(List<Checklist> checklists) async {
-    final result = await _database.delete(tableName,
-        where: '$idKey IN (${checklists.map((e) => e.id).join(',')})');
+  Future<bool> delete(Checklist checklist) async {
+    final result = await _database.delete(
+      tableName,
+      where: '$idKey = ?',
+      whereArgs: [checklist.id],
+    );
+
+    await _database.delete(
+      TaskDAO.tableName,
+      where: '${TaskDAO.checklistKey} = ?',
+      whereArgs: [checklist.id],
+    );
+
     return result == 1 ? true : false;
   }
 
   Future<bool> add(Checklist checklist) async {
-    final result = await _database.insert(tableName, _checklistToValues(checklist));
+    final result =
+        await _database.insert(tableName, _checklistToValues(checklist));
     return result == 1 ? true : false;
   }
 }

@@ -17,7 +17,7 @@ abstract class TodoRepository {
 
   Future<bool> addChecklist(Checklist checklist);
 
-  Future<bool> deleteChecklists(List<Checklist> checklists);
+  Future<bool> deleteChecklist(Checklist checklist);
 
   Future<List<Checklist>> getChecklists();
 }
@@ -63,8 +63,8 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<bool> deleteChecklists(List<Checklist> checklists) {
-    return _checklistDAO.delete(checklists);
+  Future<bool> deleteChecklist(Checklist checklist) {
+    return _checklistDAO.delete(checklist);
   }
 
   @override

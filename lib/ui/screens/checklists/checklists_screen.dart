@@ -71,7 +71,7 @@ class _ChecklistsScaffold extends StatelessWidget {
       body: ChecklistsListWidget(
         checklists: uiState.checklists,
         onRemoveChecklist: onRemoveChecklist,
-        onSelectChecklist: (checklist) => context.go(
+        onSelectChecklist: (checklist) => context.push(
           '/tasks',
           extra: checklist,
         ),
