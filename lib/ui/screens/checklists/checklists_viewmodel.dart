@@ -38,7 +38,7 @@ class ChecklistsViewModel extends Cubit<ChecklistsScreenState> {
     );
   }
 
-  Future<void> onRemoveChecklist(Checklist checklist) async {
+  onRemoveChecklist(Checklist checklist) async {
     _onLoad();
 
     var result = await _repository.deleteChecklists([checklist]);

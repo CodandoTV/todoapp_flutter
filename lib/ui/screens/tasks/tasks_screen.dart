@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
-import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
+import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';

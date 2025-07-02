@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
+import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'checklists_screen_state.dart';
@@ -19,6 +21,7 @@ class ChecklistsScreen extends StatelessWidget {
       child: BlocBuilder<ChecklistsViewModel, ChecklistsScreenState>(
         builder: (context, uiState) => _ChecklistsScaffold(
           uiState: uiState,
+          onRemoveChecklist: viewModel.onRemoveChecklist,
         ),
       ),
     );
@@ -27,9 +30,11 @@ class ChecklistsScreen extends StatelessWidget {
 
 class _ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
+  final Function(Checklist) onRemoveChecklist;
 
   const _ChecklistsScaffold({
     required this.uiState,
+    required this.onRemoveChecklist,
   });
 
   @override
@@ -45,7 +50,10 @@ class _ChecklistsScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: const SizedBox()
+      body: ChecklistsListWidget(
+        checklists: uiState.checklists,
+        onRemoveChecklist: onRemoveChecklist,
+      ),
     );
   }
 }
