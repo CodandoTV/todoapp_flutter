@@ -3,6 +3,7 @@
   "description": "Description",
   "tasks": "Tasks",
   "empty_tasks": "No tasks available",
+  "empty_checklists": "No checklists available",
   "select_category": "Select Category",
   "task_category": "Type",
   "task_name_required": "Task name is required",

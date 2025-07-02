@@ -25,7 +25,7 @@ class ChecklistsListWidget extends StatelessWidget {
     if (checklists.isEmpty) {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.empty_tasks,
+          AppLocalizations.of(context)!.empty_checklists,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       );
