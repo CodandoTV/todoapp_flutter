@@ -1,19 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoapp/ui/screens/task/task_screen_state.dart';
-
 import '../../../data/model/task.dart';
 import '../../../data/todo_repository.dart';
 
-class TaskViewModel extends Cubit<TaskScreenState> {
+class TaskViewModel {
   late TodoRepository _repository;
   late int? _checklistId;
 
-  TaskViewModel(TodoRepository repository, int? checklistId)
-      : super(
-          const TaskScreenState(
-            categoryNames: [],
-          ),
-        ) {
+  TaskViewModel(TodoRepository repository, int? checklistId) {
     _repository = repository;
     _checklistId = checklistId;
   }

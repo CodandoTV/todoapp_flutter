@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/task/task_screen_state.dart';
 import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
@@ -23,25 +22,17 @@ class TaskScreen extends StatelessWidget {
       checklistId,
     );
 
-    return BlocProvider(
-      create: (_) => viewModel,
-      child: BlocBuilder<TaskViewModel, TaskScreenState>(
-        builder: (context, uiState) => _TaskScreenScaffold(
-          uiState: uiState,
+    return _TaskScreenScaffold(
           onAddNewTask: (title) => viewModel.addTask(
             title: title,
           ),
           taskScreenValidator: getIt.get(),
-        ),
-      ),
-    );
+        );
   }
 }
 
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
-
-  final TaskScreenState uiState;
 
   final Function(String) onAddNewTask;
 
@@ -50,7 +41,6 @@ class _TaskScreenScaffold extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   _TaskScreenScaffold({
-    required this.uiState,
     required this.onAddNewTask,
     required this.taskScreenValidator,
   });
@@ -84,7 +74,6 @@ class _TaskScreenScaffold extends StatelessWidget {
           formKey: _formKey,
           taskEditingController: _taskEditingController,
           taskScreenValidator: taskScreenValidator,
-          categoryNames: uiState.categoryNames,
         ),
       ),
     );

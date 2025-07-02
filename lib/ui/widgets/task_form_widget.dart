@@ -6,14 +6,12 @@ class TaskFormWidget extends StatelessWidget {
   final Key formKey;
   final TextEditingController taskEditingController;
   final TaskScreenValidator taskScreenValidator;
-  final List<String> categoryNames;
 
   const TaskFormWidget({
     super.key,
     required this.formKey,
     required this.taskEditingController,
     required this.taskScreenValidator,
-    required this.categoryNames,
   });
 
   @override
