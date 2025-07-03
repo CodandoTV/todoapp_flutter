@@ -16,7 +16,7 @@ void main() {
       );
 
       // Act
-      final viewModel = TasksViewModel(repository);
+      final viewModel = TasksViewModel(repository, null);
 
       // Assert
       expect(
@@ -42,7 +42,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository);
+      final viewModel = TasksViewModel(repository, null);
 
       // Act
       await viewModel.updateTasks();
@@ -73,7 +73,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository);
+      final viewModel = TasksViewModel(repository, null);
 
       await viewModel.updateTasks();
 
@@ -114,7 +114,7 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository);
+      final viewModel = TasksViewModel(repository, null);
 
       await viewModel.updateTasks();
 

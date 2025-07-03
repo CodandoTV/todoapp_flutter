@@ -15,7 +15,7 @@ class FakeRepository implements TodoRepository {
   }
 
   @override
-  Future<bool> addTask(Task task) async {
+  Future<bool> addTask(Task task, checklistUuid) async {
     _tasks.add(task);
     return Future.value(true);
   }
@@ -29,7 +29,7 @@ class FakeRepository implements TodoRepository {
   }
 
   @override
-  Future<List<Task>> getTasks() async {
+  Future<List<Task>> getTasks(checklistUuid) async {
     return Future.value(_tasks);
   }
 
@@ -65,5 +65,10 @@ class FakeRepository implements TodoRepository {
   @override
   Future<List<Checklist>> getChecklists() async {
     return Future.value(_checklists);
+  }
+
+  @override
+  Future<bool> deleteChecklist(Checklist checklist) {
+    return Future.value(true);
   }
 }
