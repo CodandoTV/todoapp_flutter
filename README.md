@@ -24,10 +24,6 @@ flutter run -d <device target>
 
 ## Tech Stack
 
-### Navigation
-
-- [go_router](https://pub.dev/packages/go_router).
-
 ### Data classes
 
 - [Freezed](https://pub.dev/packages/freezed);

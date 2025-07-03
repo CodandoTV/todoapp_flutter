@@ -1,58 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
-import 'package:todoapp/ui/screens/task/task_screen.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
-
 import 'l10n/app_localizations.dart';
-
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const ChecklistsScreen();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: '/tasks',
-          builder: (BuildContext context, GoRouterState state) {
-            Checklist checklist = state.extra as Checklist;
-            return TasksScreen(
-              checklist: checklist,
-            );
-          },
-        ),
-        GoRoute(
-          path: '/task',
-          builder: (BuildContext context, GoRouterState state) {
-            int? checklistId = state.extra as int?;
-            return TaskScreen(
-              checklistId: checklistId,
-            );
-          },
-        ),
-        GoRoute(
-          path: '/checklist',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ChecklistScreen(checkListUuid: null);
-          },
-        ),
-      ],
-    ),
-  ],
-);
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Todo list',
-      routerConfig: _router,
+      home: const ChecklistsScreen(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(

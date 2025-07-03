@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 
 class ChecklistScreen extends StatelessWidget {
-  final String? checkListUuid;
-
-  const ChecklistScreen({super.key, required this.checkListUuid});
+  const ChecklistScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            context.pop(true);
+            Navigator.of(context).pop(true);
           }
         },
         child: const Icon(

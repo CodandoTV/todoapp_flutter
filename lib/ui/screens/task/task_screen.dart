@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
@@ -61,7 +59,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             _taskEditingController.text,
           );
           if (context.mounted) {
-            context.pop(true);
+            Navigator.of(context).pop(true);
           }
         },
         child: const Icon(

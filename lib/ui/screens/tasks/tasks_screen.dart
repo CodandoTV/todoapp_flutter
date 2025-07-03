@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
+import 'package:todoapp/ui/screens/task/task_screen.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
@@ -69,7 +69,13 @@ class _TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await context.push('/task', extra: checklistId);
+          bool? result = await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => TaskScreen(
+                checklistId: checklistId,
+              ),
+            ),
+          );
           if (result == true) {
             await updateTasks();
             if (context.mounted) {
@@ -107,10 +113,10 @@ class _TasksScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          context.pop(context),
+          Navigator.of(context).pop(),
         },
         onPrimaryButtonPressed: () =>
-            {context.pop(context), onRemoveTask(task)},
+            {Navigator.of(context).pop(), onRemoveTask(task)},
       ),
     );
   }

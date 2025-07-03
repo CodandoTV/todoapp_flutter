@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
+import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/custom_app_bar_widget.dart';
@@ -50,7 +51,9 @@ class _ChecklistsScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await context.push('/checklist');
+          bool? result = await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const ChecklistScreen(),
+          ));
           if (result == true) {
             updateChecklists();
             if (context.mounted) {
@@ -71,9 +74,10 @@ class _ChecklistsScaffold extends StatelessWidget {
       body: ChecklistsListWidget(
         checklists: uiState.checklists,
         onRemoveChecklist: onRemoveChecklist,
-        onSelectChecklist: (checklist) => context.push(
-          '/tasks',
-          extra: checklist,
+        onSelectChecklist: (checklist) => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TasksScreen(checklist: checklist),
+          ),
         ),
       ),
     );
