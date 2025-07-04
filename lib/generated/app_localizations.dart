@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_pt.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt')
+  ];
 
   /// No description provided for @task.
   ///
@@ -124,18 +128,6 @@ abstract class AppLocalizations {
   /// **'No checklists available'**
   String get empty_checklists;
 
-  /// No description provided for @select_category.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Category'**
-  String get select_category;
-
-  /// No description provided for @task_category.
-  ///
-  /// In en, this message translates to:
-  /// **'Type'**
-  String get task_category;
-
   /// No description provided for @task_name_required.
   ///
   /// In en, this message translates to:
@@ -147,12 +139,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checklist name is required'**
   String get checklist_name_required;
-
-  /// No description provided for @task_type_required.
-  ///
-  /// In en, this message translates to:
-  /// **'Task type is required'**
-  String get task_type_required;
 
   /// No description provided for @task_added.
   ///
@@ -220,7 +206,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -231,6 +217,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(

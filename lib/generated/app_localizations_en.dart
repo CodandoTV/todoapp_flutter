@@ -24,19 +24,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get empty_checklists => 'No checklists available';
 
   @override
-  String get select_category => 'Select Category';
-
-  @override
-  String get task_category => 'Type';
-
-  @override
   String get task_name_required => 'Task name is required';
 
   @override
   String get checklist_name_required => 'Checklist name is required';
-
-  @override
-  String get task_type_required => 'Task type is required';
 
   @override
   String get task_added => 'Task was added.';
