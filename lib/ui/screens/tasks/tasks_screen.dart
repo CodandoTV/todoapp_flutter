@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/screens/todoapp_navigator.dart';
 import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
-import '../../l10n/app_localizations.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 

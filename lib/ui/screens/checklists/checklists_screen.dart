@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
-import '../../l10n/app_localizations.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import '../todoapp_navigator.dart';
 import 'checklists_screen_state.dart';

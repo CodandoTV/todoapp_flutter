@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 import 'package:todoapp/ui/widgets/checklist/checklist_item_widget.dart';
-
-import '../../l10n/app_localizations.dart';
 
 class ChecklistsListWidget extends StatelessWidget {
   final List<Checklist> checklists;

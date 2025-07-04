@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../l10n/app_localizations.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 
 class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;
