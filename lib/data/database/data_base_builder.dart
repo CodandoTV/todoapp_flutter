@@ -10,7 +10,7 @@ const String dataBaseName = 'todo_data_base.db';
 abstract class DataBaseBuilder {
   @preResolve
   Future<Database> get database async {
-    final path = join(await getDatabasesPath(), 'todo_data_base.db');
+    final path = join(await getDatabasesPath(), 'todogbm.db');
     Database dataBase = await openDatabase(
       path,
       version: 1,
