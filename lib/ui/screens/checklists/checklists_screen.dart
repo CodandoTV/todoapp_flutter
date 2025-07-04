@@ -71,12 +71,15 @@ class _ChecklistsScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: ChecklistsListWidget(
-        checklists: uiState.checklists,
-        onRemoveChecklist: onRemoveChecklist,
-        onSelectChecklist: (checklist) => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => TasksScreen(checklist: checklist),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: ChecklistsListWidget(
+          checklists: uiState.checklists,
+          onRemoveChecklist: onRemoveChecklist,
+          onSelectChecklist: (checklist) => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => TasksScreen(checklist: checklist),
+            ),
           ),
         ),
       ),
