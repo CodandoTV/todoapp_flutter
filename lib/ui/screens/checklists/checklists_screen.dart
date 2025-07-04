@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/custom_app_bar_widget.dart';
+import '../todoapp_navigator.dart';
 import 'checklists_screen_state.dart';
 
 class ChecklistsScreen extends StatelessWidget {
@@ -35,8 +34,9 @@ class _ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
+  final TodoAppNavigator navigator = getIt.get();
 
-  const _ChecklistsScaffold({
+  _ChecklistsScaffold({
     required this.uiState,
     required this.updateChecklists,
     required this.onRemoveChecklist,
@@ -51,9 +51,7 @@ class _ChecklistsScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const ChecklistScreen(),
-          ));
+          bool? result = await navigator.navigateToChecklistScreen(context);
           if (result == true) {
             updateChecklists();
             if (context.mounted) {
@@ -76,10 +74,9 @@ class _ChecklistsScaffold extends StatelessWidget {
         child: ChecklistsListWidget(
           checklists: uiState.checklists,
           onRemoveChecklist: onRemoveChecklist,
-          onSelectChecklist: (checklist) => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => TasksScreen(checklist: checklist),
-            ),
+          onSelectChecklist: (checklist) => navigator.navigateToTasksScreen(
+            context,
+            checklist,
           ),
         ),
       ),

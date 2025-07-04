@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/task/task_screen.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
+import 'package:todoapp/ui/screens/todoapp_navigator.dart';
 import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
 import '../../l10n/app_localizations.dart';
@@ -49,8 +49,9 @@ class _TasksScaffold extends StatelessWidget {
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
+  final TodoAppNavigator navigator = getIt.get();
 
-  const _TasksScaffold({
+  _TasksScaffold({
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
@@ -69,12 +70,9 @@ class _TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => TaskScreen(
-                checklistId: checklistId,
-              ),
-            ),
+          bool? result = await navigator.navigateToTaskScreen(
+            context,
+            checklistId,
           );
           if (result == true) {
             await updateTasks();
@@ -113,10 +111,10 @@ class _TasksScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          Navigator.of(context).pop(),
+          navigator.pop(context),
         },
         onPrimaryButtonPressed: () =>
-            {Navigator.of(context).pop(), onRemoveTask(task)},
+            {navigator.pop(context), onRemoveTask(task)},
       ),
     );
   }

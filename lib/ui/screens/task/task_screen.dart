@@ -5,6 +5,8 @@ import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
+import '../todoapp_navigator.dart';
+
 class TaskScreen extends StatelessWidget {
   final int? checklistId;
 
@@ -31,11 +33,9 @@ class TaskScreen extends StatelessWidget {
 
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
-
   final Function(String) onAddNewTask;
-
   final TaskScreenValidator taskScreenValidator;
-
+  final TodoAppNavigator navigator = getIt.get();
   final _formKey = GlobalKey<FormState>();
 
   _TaskScreenScaffold({
@@ -59,7 +59,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             _taskEditingController.text,
           );
           if (context.mounted) {
-            Navigator.of(context).pop(true);
+            navigator.popWithResult(context, true);
           }
         },
         child: const Icon(

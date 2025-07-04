@@ -4,8 +4,12 @@ import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 
+import '../todoapp_navigator.dart';
+
 class ChecklistScreen extends StatelessWidget {
-  const ChecklistScreen({super.key,});
+  const ChecklistScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +26,9 @@ class ChecklistScreen extends StatelessWidget {
 class _ChecklistScreenScaffold extends StatelessWidget {
   final TextEditingController _checklistEditingController =
       TextEditingController();
-
   final Function(String) onAddNewChecklist;
-
   final _formKey = GlobalKey<FormState>();
+  final TodoAppNavigator navigator = getIt.get();
 
   _ChecklistScreenScaffold({
     required this.onAddNewChecklist,
@@ -47,7 +50,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            Navigator.of(context).pop(true);
+            navigator.popWithResult(context, true);
           }
         },
         child: const Icon(
