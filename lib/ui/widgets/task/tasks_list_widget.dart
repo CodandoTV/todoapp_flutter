@@ -42,6 +42,9 @@ class TasksListWidget extends StatelessWidget {
           .toList();
       return ReorderableListView(
         onReorder: onReorder,
+        padding: const EdgeInsets.only(
+            bottom: 120
+        ),
         children: children,
       );
     }

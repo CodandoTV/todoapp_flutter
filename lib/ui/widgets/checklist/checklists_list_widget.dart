@@ -31,9 +31,7 @@ class ChecklistsListWidget extends StatelessWidget {
       );
     } else {
       return GridView.count(
-        padding: const EdgeInsets.only(
-          bottom: 90
-        ),
+        padding: const EdgeInsets.only(bottom: 120),
         crossAxisCount: 2,
         scrollDirection: Axis.vertical,
         crossAxisSpacing: 2,
