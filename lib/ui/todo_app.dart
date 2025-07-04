@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/generated/app_localizations.dart';
+import 'package:todoapp/ui/generated/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 
 class TodoApp extends StatelessWidget {
