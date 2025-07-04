@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/home/home_viewmodel.dart';
-import 'package:todoapp/ui/widgets/tasks_list_widget.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
+import 'package:todoapp/ui/screens/todoapp_navigator.dart';
+import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
-import 'home_screen_state.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class TasksScreen extends StatelessWidget {
+  final Checklist checklist;
+
+  const TasksScreen({
+    super.key,
+    required this.checklist,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = HomeViewModel(getIt.get());
+    final viewModel = TasksViewModel(getIt.get(), checklist.id);
     viewModel.updateTasks();
 
     return BlocProvider(
       create: (_) => viewModel,
-      child: BlocBuilder<HomeViewModel, HomeScreenState>(
-        builder: (context, uiState) => _HomeScaffold(
+      child: BlocBuilder<TasksViewModel, TasksScreenState>(
+        builder: (context, uiState) => _TasksScaffold(
           uiState: uiState,
+          checklistId: checklist.id,
+          checklistName: checklist.title,
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
@@ -33,15 +41,20 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _HomeScaffold extends StatelessWidget {
-  final HomeScreenState uiState;
+class _TasksScaffold extends StatelessWidget {
+  final TasksScreenState uiState;
+  final int? checklistId;
+  final String checklistName;
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
+  final TodoAppNavigator navigator = getIt.get();
 
-  const _HomeScaffold({
+  _TasksScaffold({
     required this.uiState,
+    required this.checklistId,
+    required this.checklistName,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
@@ -53,13 +66,16 @@ class _HomeScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
-        title: AppLocalizations.of(context)!.tasks,
+        title: checklistName,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await context.push('/task');
+          bool? result = await navigator.navigateToTaskScreen(
+            context,
+            checklistId,
+          );
           if (result == true) {
-            updateTasks();
+            await updateTasks();
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -95,10 +111,10 @@ class _HomeScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          Navigator.pop(context),
+          navigator.pop(context),
         },
         onPrimaryButtonPressed: () =>
-            {Navigator.pop(context), onRemoveTask(task)},
+            {navigator.pop(context), onRemoveTask(task)},
       ),
     );
   }

@@ -1,47 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/screens/home/home_screen.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todoapp/ui/screens/task/task_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: '/task',
-          builder: (BuildContext context, GoRouterState state) {
-            return const TaskScreen(taskUuid: null);
-          },
-        ),
-      ],
-    ),
-  ],
-);
+import 'package:todoapp/generated/app_localizations.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    const baseColor = Color.fromARGB(255, 239, 232, 215);
+    return MaterialApp(
       title: 'Todo list',
-      routerConfig: _router,
+      home: const ChecklistsScreen(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 27, 121, 52),
+          seedColor: baseColor,
         ),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 28, 165, 214),
+          seedColor: baseColor,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,

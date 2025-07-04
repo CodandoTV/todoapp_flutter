@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/generated/app_localizations.dart';
-import '../screens/task/task_screen_validator.dart';
 
-class TaskFormWidget extends StatelessWidget {
+class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;
-  final TextEditingController taskEditingController;
-  final TaskScreenValidator taskScreenValidator;
+  final TextEditingController checklistEditingController;
 
-  const TaskFormWidget({
+  const ChecklistFormWidget({
     super.key,
     required this.formKey,
-    required this.taskEditingController,
-    required this.taskScreenValidator,
+    required this.checklistEditingController,
   });
 
   @override
@@ -23,15 +20,15 @@ class TaskFormWidget extends StatelessWidget {
         children: [
           TextFormField(
             autofocus: true,
-            controller: taskEditingController,
+            controller: checklistEditingController,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.task,
+              labelText: AppLocalizations.of(context)!.checklist_name,
               labelStyle: Theme.of(context).textTheme.titleMedium,
               border: const OutlineInputBorder(),
             ),
             validator: (value) {
-              if (taskScreenValidator.validateTaskName(value) == false) {
-                return AppLocalizations.of(context)!.task_name_required;
+              if (value?.isEmpty == true) {
+                return AppLocalizations.of(context)!.checklist_name_required;
               }
               return null;
             },

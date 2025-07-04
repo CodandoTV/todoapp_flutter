@@ -164,3 +164,7 @@ app.*.symbols
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
 .flutter-plugins
+/lib/main.config.dart
+*.freezed.dart
+/lib/ui/l10n/app_localizations.dart
+/lib/ui/l10n/app_localizations_en.dart

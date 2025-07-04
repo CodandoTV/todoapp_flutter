@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/generated/app_localizations.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../data/model/task.dart';
+import '../../../data/model/task.dart';
 
 class TasksListWidget extends StatelessWidget {
   final List<Task> tasks;
@@ -42,6 +42,9 @@ class TasksListWidget extends StatelessWidget {
           .toList();
       return ReorderableListView(
         onReorder: onReorder,
+        padding: const EdgeInsets.only(
+            bottom: 120
+        ),
         children: children,
       );
     }

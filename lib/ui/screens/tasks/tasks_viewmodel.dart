@@ -1,35 +1,38 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 
 import '../../../data/model/task.dart';
-import 'home_screen_state.dart';
 
-class HomeViewModel extends Cubit<HomeScreenState> {
+class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
+  late int? _checklistId;
 
-  HomeViewModel(
+  TasksViewModel(
     TodoRepository repository,
+    int? checklistId,
   ) : super(
-          const HomeScreenState(
+          const TasksScreenState(
             tasks: [],
             isLoading: true,
           ),
         ) {
     _repository = repository;
+    _checklistId = checklistId;
   }
 
   void _onLoad() {
     emit(
-      state.copyWithIsLoading(isLoading: true),
+      state.copyWith(isLoading: true),
     );
   }
 
   Future<void> updateTasks() async {
     _onLoad();
 
-    var tasks = await _repository.getTasks();
+    var tasks = await _repository.getTasks(_checklistId);
     emit(
-      HomeScreenState(
+      TasksScreenState(
         isLoading: false,
         tasks: tasks,
       ),
@@ -39,7 +42,7 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   Future<void> onCompleteTask(Task task, bool value) async {
     _onLoad();
 
-    var result = await _repository.update(
+    var result = await _repository.updateTask(
       task,
       value,
     );
@@ -48,9 +51,9 @@ class HomeViewModel extends Cubit<HomeScreenState> {
       List<Task> tasks = List.from(state.tasks);
       var index = state.tasks.indexWhere((item) => item.id == task.id);
       if (index != -1) {
-        tasks[index] = tasks[index].copyWithIsComplete(isCompleted: value);
+        tasks[index] = tasks[index].copyWith(isCompleted: value);
         emit(
-          HomeScreenState(
+          TasksScreenState(
             isLoading: false,
             tasks: tasks,
           ),
@@ -62,13 +65,13 @@ class HomeViewModel extends Cubit<HomeScreenState> {
   Future<void> onRemoveTask(Task task) async {
     _onLoad();
 
-    var result = await _repository.delete([task]);
+    var result = await _repository.deleteTasks([task]);
 
     if (result) {
       List<Task> tasks = List.from(state.tasks);
       tasks.remove(task);
       emit(
-        HomeScreenState(
+        TasksScreenState(
           isLoading: false,
           tasks: tasks,
         ),
@@ -89,12 +92,12 @@ class HomeViewModel extends Cubit<HomeScreenState> {
     tasks.insert(newIndex, task);
 
     emit(
-      HomeScreenState(
+      TasksScreenState(
         isLoading: false,
         tasks: tasks,
       ),
     );
 
-    _repository.updateAll(tasks);
+    _repository.updateAllTasks(tasks);
   }
 }

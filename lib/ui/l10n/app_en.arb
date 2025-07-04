@@ -3,13 +3,19 @@
   "description": "Description",
   "tasks": "Tasks",
   "empty_tasks": "No tasks available",
+  "empty_checklists": "No checklists available",
   "select_category": "Select Category",
   "task_category": "Type",
   "task_name_required": "Task name is required",
+  "checklist_name_required": "Checklist name is required",
   "task_type_required": "Task type is required",
   "task_added": "Task was added.",
+  "checklist_added": "Checklist was added.",
   "remove_task_dialog_title": "Remove task",
   "remove_task_dialog_desc": "Are you sure you want to remove this task?",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "checklists": "Checklists",
+  "checklist": "Checklist",
+  "checklist_name": "Checklist name"
 }

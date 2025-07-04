@@ -1,19 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'task.freezed.dart';
+part 'checklist.freezed.dart';
 
 @freezed
-class Task with _$Task {
+class Checklist with _$Checklist {
   @override
   final int? id;
   @override
   final String title;
-  @override
-  final bool isCompleted;
 
-  const Task({
+  const Checklist({
     required this.id,
     required this.title,
-    required this.isCompleted,
   });
 }
