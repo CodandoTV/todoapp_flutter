@@ -55,14 +55,6 @@ class FakeRepository implements TodoRepository {
   }
 
   @override
-  Future<bool> deleteChecklists(List<Checklist> checklists) async {
-    for (var checklist in checklists) {
-      _checklists.remove(checklist);
-    }
-    return Future.value(true);
-  }
-
-  @override
   Future<List<Checklist>> getChecklists() async {
     return Future.value(_checklists);
   }

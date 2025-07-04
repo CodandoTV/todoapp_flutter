@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
-import '../screens/task/task_screen_validator.dart';
 
 class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;

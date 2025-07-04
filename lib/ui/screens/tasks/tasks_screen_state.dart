@@ -5,7 +5,9 @@ part 'tasks_screen_state.freezed.dart';
 
 @freezed
 class TasksScreenState with _$TasksScreenState {
+  @override
   final List<Task> tasks;
+  @override
   final bool isLoading;
 
   const TasksScreenState({

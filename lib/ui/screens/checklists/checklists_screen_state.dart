@@ -5,7 +5,9 @@ part 'checklists_screen_state.freezed.dart';
 
 @freezed
 class ChecklistsScreenState with _$ChecklistsScreenState {
+  @override
   final List<Checklist> checklists;
+  @override
   final bool isLoading;
 
   const ChecklistsScreenState({
