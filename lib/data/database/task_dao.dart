@@ -5,7 +5,7 @@ import 'package:todoapp/data/model/task.dart';
 
 @LazySingleton()
 class TaskDAO {
-  static const tableName = 'Todo';
+  static const tableName = 'Task';
   static const idKey = 'id';
   static const titleKey = 'title';
   static const descKey = 'desc';

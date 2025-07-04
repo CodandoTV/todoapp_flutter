@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/generated/app_localizations.dart';
+import 'package:todoapp/ui/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
