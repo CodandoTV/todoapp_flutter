@@ -14,18 +14,48 @@ class ChecklistItemWidget extends StatelessWidget {
     required this.onSelectChecklist,
   });
 
+  Widget _internalContent(
+    BuildContext context,
+    Checklist checklist,
+  ) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          checklist.title,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            IconButton(
+              onPressed: () => {
+                onRemoveChecklist(checklist)
+              },
+              icon: const Icon(
+                Icons.delete,
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: ListTile(
-        onTap: () => onSelectChecklist(checklist),
-        title: Text(checklist.title),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            onRemoveChecklist(checklist);
-          },
+    return Card(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
         ),
+      ),
+      color: Theme.of(context).colorScheme.surfaceBright,
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () => onSelectChecklist(checklist),
+        child: _internalContent(context, checklist),
       ),
     );
   }

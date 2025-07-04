@@ -32,13 +32,18 @@ class ChecklistsListWidget extends StatelessWidget {
         ),
       );
     } else {
-      return ListView.builder(
-        itemCount: checklists.length,
-        itemBuilder: (context, index) => ChecklistItemWidget(
-          checklist: checklists[index],
-          onRemoveChecklist: onRemoveChecklist,
-          onSelectChecklist: onSelectChecklist,
-        ),
+      return GridView.count(
+        crossAxisCount: 2,
+        scrollDirection: Axis.vertical,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 16,
+        children: List.generate(checklists.length, (index) {
+          return ChecklistItemWidget(
+            checklist: checklists[index],
+            onRemoveChecklist: onRemoveChecklist,
+            onSelectChecklist: onSelectChecklist,
+          );
+        }),
       );
     }
   }
