@@ -4,6 +4,7 @@ import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../todoapp_navigator.dart';
 
 class ChecklistScreen extends StatelessWidget {
@@ -37,8 +38,8 @@ class _ChecklistScreenScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBarWidget(
-        title: 'Checklist',
+      appBar: CustomAppBarWidget(
+        title: AppLocalizations.of(context)!.checklist,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
