@@ -36,8 +36,8 @@ class ChecklistsListWidget extends StatelessWidget {
         ),
         crossAxisCount: 2,
         scrollDirection: Axis.vertical,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 16,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 6,
         children: List.generate(checklists.length, (index) {
           return ChecklistItemWidget(
             checklist: checklists[index],
