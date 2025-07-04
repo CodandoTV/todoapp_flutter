@@ -7,6 +7,7 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const baseColor = Color.fromARGB(255, 239, 232, 215);
     return MaterialApp(
       title: 'Todo list',
       home: const ChecklistsScreen(),
@@ -14,13 +15,13 @@ class TodoApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 27, 121, 52),
+          seedColor: baseColor,
         ),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 28, 165, 214),
+          seedColor: baseColor,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
