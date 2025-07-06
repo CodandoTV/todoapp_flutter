@@ -164,6 +164,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to remove this task?'**
   String get remove_task_dialog_desc;
 
+  /// No description provided for @remove_checklist_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove checklist'**
+  String get remove_checklist_dialog_title;
+
+  /// No description provided for @remove_checklist_dialog_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this checklist?'**
+  String get remove_checklist_dialog_desc;
+
   /// No description provided for @yes.
   ///
   /// In en, this message translates to:

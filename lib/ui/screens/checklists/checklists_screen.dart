@@ -5,6 +5,7 @@ import 'package:todoapp/ui/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
+import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import '../todoapp_navigator.dart';
 import 'checklists_screen_state.dart';
@@ -73,12 +74,33 @@ class _ChecklistsScaffold extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: ChecklistsListWidget(
           checklists: uiState.checklists,
-          onRemoveChecklist: onRemoveChecklist,
+          onRemoveChecklist: (checklist) {
+            _showConfirmationDialogToRemoveChecklist(context, checklist);
+          },
           onSelectChecklist: (checklist) => navigator.navigateToTasksScreen(
             context,
             checklist,
           ),
         ),
+      ),
+    );
+  }
+
+  _showConfirmationDialogToRemoveChecklist(
+      BuildContext context, Checklist checklist) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => ConfirmationAlertDialogWidget(
+        title: appLocalizations.remove_checklist_dialog_title,
+        description: appLocalizations.remove_checklist_dialog_desc,
+        secondaryButtonText: appLocalizations.no,
+        primaryButtonText: appLocalizations.yes,
+        onSecondaryButtonPressed: () => {
+          navigator.pop(context),
+        },
+        onPrimaryButtonPressed: () =>
+            {navigator.pop(context), onRemoveChecklist(checklist)},
       ),
     );
   }

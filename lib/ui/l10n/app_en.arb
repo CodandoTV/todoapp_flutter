@@ -10,6 +10,8 @@
   "checklist_added": "Checklist was added.",
   "remove_task_dialog_title": "Remove task",
   "remove_task_dialog_desc": "Are you sure you want to remove this task?",
+  "remove_checklist_dialog_title": "Remove checklist",
+  "remove_checklist_dialog_desc": "Are you sure you want to remove this checklist?",
   "yes": "Yes",
   "no": "No",
   "checklists": "Checklists",

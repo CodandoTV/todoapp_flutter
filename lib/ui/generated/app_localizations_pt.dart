@@ -43,6 +43,13 @@ class AppLocalizationsPt extends AppLocalizations {
       'Você tem certeza que deseja remover essa tarefa?';
 
   @override
+  String get remove_checklist_dialog_title => 'Remover checklist';
+
+  @override
+  String get remove_checklist_dialog_desc =>
+      'Você tem certeza que deseja remover esse checklist?';
+
+  @override
   String get yes => 'Sim';
 
   @override
