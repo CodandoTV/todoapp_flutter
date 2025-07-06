@@ -92,7 +92,10 @@ class _TasksScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 12,
+        ),
         child: TasksListWidget(
           tasks: uiState.tasks,
           onReorder: onReorder,
