@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/generated/app_localizations.dart';
-import '../screens/task/task_screen_validator.dart';
+
+import '../components/form_validator.dart';
 
 class TaskFormWidget extends StatelessWidget {
   final Key formKey;
   final TextEditingController taskEditingController;
-  final TaskScreenValidator taskScreenValidator;
+  final FormScreenValidator formScreenValidator;
 
   const TaskFormWidget({
     super.key,
     required this.formKey,
     required this.taskEditingController,
-    required this.taskScreenValidator,
+    required this.formScreenValidator,
   });
 
   @override
@@ -30,7 +31,7 @@ class TaskFormWidget extends StatelessWidget {
               border: const OutlineInputBorder(),
             ),
             validator: (value) {
-              if (taskScreenValidator.validateTaskName(value) == false) {
+              if (formScreenValidator.validateValue(value) == false) {
                 return AppLocalizations.of(context)!.task_name_required;
               }
               return null;
