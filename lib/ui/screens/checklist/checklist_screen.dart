@@ -5,6 +5,7 @@ import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 
+import '../../components/form_validator.dart';
 import '../todoapp_navigator.dart';
 
 class ChecklistScreen extends StatelessWidget {
@@ -17,6 +18,7 @@ class ChecklistScreen extends StatelessWidget {
     final viewModel = ChecklistViewModel(getIt.get());
 
     return _ChecklistScreenScaffold(
+      formScreenValidator: getIt.get(),
       onAddNewChecklist: (title) => viewModel.addChecklist(
         title: title,
       ),
@@ -30,9 +32,11 @@ class _ChecklistScreenScaffold extends StatelessWidget {
   final Function(String) onAddNewChecklist;
   final _formKey = GlobalKey<FormState>();
   final TodoAppNavigator navigator = getIt.get();
+  final FormScreenValidator formScreenValidator;
 
   _ChecklistScreenScaffold({
     required this.onAddNewChecklist,
+    required this.formScreenValidator,
   });
 
   @override
@@ -59,9 +63,10 @@ class _ChecklistScreenScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12),
         child: ChecklistFormWidget(
           formKey: _formKey,
+          formScreenValidator: formScreenValidator,
           checklistEditingController: _checklistEditingController,
         ),
       ),

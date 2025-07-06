@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/main.dart';
-import 'package:todoapp/ui/screens/task/task_screen_validator.dart';
+import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
@@ -26,7 +26,7 @@ class TaskScreen extends StatelessWidget {
           onAddNewTask: (title) => viewModel.addTask(
             title: title,
           ),
-          taskScreenValidator: getIt.get(),
+          formScreenValidator: getIt.get(),
         );
   }
 }
@@ -34,13 +34,13 @@ class TaskScreen extends StatelessWidget {
 class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
   final Function(String) onAddNewTask;
-  final TaskScreenValidator taskScreenValidator;
+  final FormScreenValidator formScreenValidator;
   final TodoAppNavigator navigator = getIt.get();
   final _formKey = GlobalKey<FormState>();
 
   _TaskScreenScaffold({
     required this.onAddNewTask,
-    required this.taskScreenValidator,
+    required this.formScreenValidator,
   });
 
   @override
@@ -67,11 +67,11 @@ class _TaskScreenScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12),
         child: TaskFormWidget(
           formKey: _formKey,
           taskEditingController: _taskEditingController,
-          taskScreenValidator: taskScreenValidator,
+          formScreenValidator: formScreenValidator,
         ),
       ),
     );

@@ -164,6 +164,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to remove this task?'**
   String get remove_task_dialog_desc;
 
+  /// No description provided for @remove_checklist_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove checklist'**
+  String get remove_checklist_dialog_title;
+
+  /// No description provided for @remove_checklist_dialog_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this checklist?'**
+  String get remove_checklist_dialog_desc;
+
   /// No description provided for @yes.
   ///
   /// In en, this message translates to:
@@ -193,6 +205,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checklist name'**
   String get checklist_name;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
 }
 
 class _AppLocalizationsDelegate

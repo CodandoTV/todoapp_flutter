@@ -43,6 +43,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to remove this task?';
 
   @override
+  String get remove_checklist_dialog_title => 'Remove checklist';
+
+  @override
+  String get remove_checklist_dialog_desc =>
+      'Are you sure you want to remove this checklist?';
+
+  @override
   String get yes => 'Yes';
 
   @override
@@ -56,4 +63,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklist_name => 'Checklist name';
+
+  @override
+  String get remove => 'Remove';
 }
