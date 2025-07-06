@@ -16,5 +16,6 @@
   "no": "Não",
   "checklists": "Checklists",
   "checklist": "Checklist",
-  "checklist_name": "Nome do Checklist"
+  "checklist_name": "Nome do Checklist",
+  "remove": "Deletar"
 }

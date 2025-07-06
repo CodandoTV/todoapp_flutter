@@ -59,7 +59,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12),
         child: ChecklistFormWidget(
           formKey: _formKey,
           checklistEditingController: _checklistEditingController,

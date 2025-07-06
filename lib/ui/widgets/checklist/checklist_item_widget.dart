@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/ui/generated/app_localizations.dart';
 
 import '../../../data/model/checklist.dart';
 
@@ -19,26 +20,18 @@ class ChecklistItemWidget extends StatelessWidget {
     Checklist checklist,
   ) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
           checklist.title,
-          style: Theme.of(context).textTheme.headlineSmall,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            IconButton(
-              onPressed: () => {
-                onRemoveChecklist(checklist)
-              },
-              icon: const Icon(
-                Icons.delete,
-              ),
-            ),
-          ],
-        )
+        OutlinedButton(
+          onPressed: () => {onRemoveChecklist(checklist)},
+          child: Text(AppLocalizations.of(context)!.remove),
+        ),
       ],
     );
   }
@@ -55,7 +48,10 @@ class ChecklistItemWidget extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () => onSelectChecklist(checklist),
-        child: _internalContent(context, checklist),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: _internalContent(context, checklist),
+        ),
       ),
     );
   }

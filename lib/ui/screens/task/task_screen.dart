@@ -67,7 +67,7 @@ class _TaskScreenScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12),
         child: TaskFormWidget(
           formKey: _formKey,
           taskEditingController: _taskEditingController,

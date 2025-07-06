@@ -63,4 +63,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get checklist_name => 'Nome do Checklist';
+
+  @override
+  String get remove => 'Deletar';
 }

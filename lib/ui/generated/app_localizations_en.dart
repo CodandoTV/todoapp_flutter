@@ -63,4 +63,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklist_name => 'Checklist name';
+
+  @override
+  String get remove => 'Remove';
 }

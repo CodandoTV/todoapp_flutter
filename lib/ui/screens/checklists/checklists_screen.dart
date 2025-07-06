@@ -71,7 +71,10 @@ class _ChecklistsScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 12
+        ),
         child: ChecklistsListWidget(
           checklists: uiState.checklists,
           onRemoveChecklist: (checklist) {

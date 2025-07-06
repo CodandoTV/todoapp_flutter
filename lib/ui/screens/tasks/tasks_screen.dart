@@ -91,12 +91,15 @@ class _TasksScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: TasksListWidget(
-        tasks: uiState.tasks,
-        onReorder: onReorder,
-        onRemoveTask: (task) =>
-            _showConfirmationDialogToRemoveTask(context, task),
-        onCompleteTask: onCompleteTask,
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: TasksListWidget(
+          tasks: uiState.tasks,
+          onReorder: onReorder,
+          onRemoveTask: (task) =>
+              _showConfirmationDialogToRemoveTask(context, task),
+          onCompleteTask: onCompleteTask,
+        ),
       ),
     );
   }
