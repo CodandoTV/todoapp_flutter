@@ -22,6 +22,7 @@ class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = TasksViewModel(
+      formatTaskListUseCase: getIt.get(),
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
