@@ -21,7 +21,11 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = TasksViewModel(getIt.get(), checklist.id);
+    final viewModel = TasksViewModel(
+      repository: getIt.get(),
+      shareMessageHandler: getIt.get(),
+      checklistId: checklist.id,
+    );
     viewModel.updateTasks();
 
     return BlocProvider(
@@ -35,6 +39,9 @@ class TasksScreen extends StatelessWidget {
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
           onReorder: viewModel.reorder,
+          onShare: () => {
+            viewModel.shareTasks(checklistName: checklist.title),
+          },
         ),
       ),
     );
@@ -49,6 +56,7 @@ class _TasksScaffold extends StatelessWidget {
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
+  final Function() onShare;
   final TodoAppNavigator navigator = getIt.get();
 
   _TasksScaffold({
@@ -59,14 +67,20 @@ class _TasksScaffold extends StatelessWidget {
     required this.onCompleteTask,
     required this.onRemoveTask,
     required this.onReorder,
+    required this.onShare,
   });
 
   @override
   Widget build(BuildContext context) {
+    final showShareOption = uiState.tasks.isNotEmpty;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
         title: checklistName,
+        actions: _buildTopBarActions(
+          showShareButton: showShareOption,
+          onShare: onShare,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -123,5 +137,21 @@ class _TasksScaffold extends StatelessWidget {
             {navigator.pop(context), onRemoveTask(task)},
       ),
     );
+  }
+
+  List<Widget>? _buildTopBarActions({
+    required bool showShareButton,
+    required VoidCallback onShare,
+  }) {
+    if (showShareButton) {
+      return [
+        IconButton(
+          onPressed: onShare,
+          icon: const Icon(Icons.share),
+        ),
+      ];
+    } else {
+      return null;
+    }
   }
 }

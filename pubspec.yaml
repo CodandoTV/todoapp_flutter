@@ -46,6 +46,7 @@ dependencies:
   freezed_annotation: ^3.0.0
   freezed: ^3.0.6
   path: ^1.9.1
+  share_plus: ^11.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
