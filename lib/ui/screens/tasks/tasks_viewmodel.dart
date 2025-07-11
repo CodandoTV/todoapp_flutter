@@ -1,23 +1,31 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/domain/format_tasklist_use_case.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/util/share_message_handler.dart';
 
 import '../../../data/model/task.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
+  late ShareMessageHandler _shareMessageHandler;
+  late FormatTaskListUseCase _formatTaskListUseCase;
   late int? _checklistId;
 
-  TasksViewModel(
-    TodoRepository repository,
+  TasksViewModel({
+    required TodoRepository repository,
+    required ShareMessageHandler shareMessageHandler,
+    required FormatTaskListUseCase formatTaskListUseCase,
     int? checklistId,
-  ) : super(
+  }) : super(
           const TasksScreenState(
             tasks: [],
             isLoading: true,
           ),
         ) {
     _repository = repository;
+    _shareMessageHandler = shareMessageHandler;
+    _formatTaskListUseCase = formatTaskListUseCase;
     _checklistId = checklistId;
   }
 
@@ -36,6 +44,18 @@ class TasksViewModel extends Cubit<TasksScreenState> {
         isLoading: false,
         tasks: tasks,
       ),
+    );
+  }
+
+  shareTasks({required String checklistName}) async {
+    final checklist = _formatTaskListUseCase.execute(
+      tasks: state.tasks,
+      formatMode: FormatMode.onlyNotCompleted,
+    );
+
+    await _shareMessageHandler.share(
+      text: checklist,
+      title: checklistName,
     );
   }
 

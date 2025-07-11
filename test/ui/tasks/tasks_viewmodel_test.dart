@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/format_tasklist_use_case.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
-import '../../data/fake_repository.dart';
+import '../../fakes/fake_repository.dart';
+import '../../fakes/fake_share_message_handler.dart';
 
 void main() {
   test(
@@ -16,7 +18,12 @@ void main() {
       );
 
       // Act
-      final viewModel = TasksViewModel(repository, null);
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        formatTaskListUseCase: FormatTaskListUseCase(),
+        shareMessageHandler: FakeShareMessageHandler(),
+      );
 
       // Assert
       expect(
@@ -42,7 +49,12 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository, null);
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        formatTaskListUseCase: FormatTaskListUseCase(),
+        shareMessageHandler: FakeShareMessageHandler(),
+      );
 
       // Act
       await viewModel.updateTasks();
@@ -52,7 +64,7 @@ void main() {
         viewModel.state,
         const TasksScreenState(
           tasks: [
-              task1,
+            task1,
           ],
           isLoading: false,
         ),
@@ -73,14 +85,19 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository, null);
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        formatTaskListUseCase: FormatTaskListUseCase(),
+        shareMessageHandler: FakeShareMessageHandler(),
+      );
 
       await viewModel.updateTasks();
 
       // Act
       await viewModel.onCompleteTask(
-          task1,
-          true,
+        task1,
+        true,
       );
 
       // Assert
@@ -93,7 +110,7 @@ void main() {
         viewModel.state,
         const TasksScreenState(
           tasks: [
-             expectedTask,
+            expectedTask,
           ],
           isLoading: false,
         ),
@@ -114,7 +131,12 @@ void main() {
         tasks: [task1],
         checklists: [],
       );
-      final viewModel = TasksViewModel(repository, null);
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        formatTaskListUseCase: FormatTaskListUseCase(),
+        shareMessageHandler: FakeShareMessageHandler(),
+      );
 
       await viewModel.updateTasks();
 
