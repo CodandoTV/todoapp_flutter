@@ -12,6 +12,10 @@ class CalculateTaskProgressUseCase {
       }
     }
 
-    return completedTasks / tasks.length.toDouble();
+    if(tasks.isNotEmpty) {
+      return completedTasks / tasks.length.toDouble();
+    } else {
+      return 0.0;
+    }
   }
 }

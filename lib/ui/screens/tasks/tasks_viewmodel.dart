@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/domain/calculate_task_progress_use_case.dart';
 import 'package:todoapp/domain/format_tasklist_use_case.dart';
+import 'package:todoapp/domain/should_show_share_use_case.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
@@ -12,6 +13,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   late ShareMessageHandler _shareMessageHandler;
   late FormatTaskListUseCase _formatTaskListUseCase;
   late CalculateTaskProgressUseCase _calculateTaskProgressUseCase;
+  late ShouldShowShareUseCase _shouldShowShareUseCase;
   late int? _checklistId;
 
   TasksViewModel({
@@ -19,18 +21,23 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     required ShareMessageHandler shareMessageHandler,
     required FormatTaskListUseCase formatTaskListUseCase,
     required CalculateTaskProgressUseCase calculateTaskProgressUseCase,
+    required ShouldShowShareUseCase shouldShowShareUseCase,
     int? checklistId,
   }) : super(
           const TasksScreenState(
             tasks: [],
             progress: 0,
             isLoading: true,
+            showShareIcon: false,
           ),
         ) {
     _repository = repository;
+
     _shareMessageHandler = shareMessageHandler;
     _formatTaskListUseCase = formatTaskListUseCase;
     _calculateTaskProgressUseCase = calculateTaskProgressUseCase;
+    _shouldShowShareUseCase = shouldShowShareUseCase;
+
     _checklistId = checklistId;
   }
 
@@ -48,6 +55,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       TasksScreenState(
         isLoading: false,
         tasks: tasks,
+        showShareIcon: _shouldShowShareUseCase.execute(tasks),
         progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
       ),
     );
@@ -81,6 +89,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
         emit(
           TasksScreenState(
             progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
+            showShareIcon: _shouldShowShareUseCase.execute(tasks),
             isLoading: false,
             tasks: tasks,
           ),
@@ -100,6 +109,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       emit(
         TasksScreenState(
           progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
+          showShareIcon: _shouldShowShareUseCase.execute(tasks),
           isLoading: false,
           tasks: tasks,
         ),
@@ -123,6 +133,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       TasksScreenState(
         progress: state.progress,
         isLoading: false,
+        showShareIcon: _shouldShowShareUseCase.execute(tasks),
         tasks: tasks,
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/domain/calculate_task_progress_use_case.dart';
 import 'package:todoapp/domain/format_tasklist_use_case.dart';
+import 'package:todoapp/domain/should_show_share_use_case.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
@@ -25,6 +26,7 @@ void main() {
         calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
         formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
+        shouldShowShareUseCase: ShouldShowShareUseCase(),
       );
 
       // Assert
@@ -32,6 +34,7 @@ void main() {
         viewModel.state,
         const TasksScreenState(
           tasks: [],
+          showShareIcon: false,
           isLoading: true,
           progress: 0,
         ),
@@ -58,6 +61,7 @@ void main() {
         calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
         formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
+        shouldShowShareUseCase: ShouldShowShareUseCase(),
       );
 
       // Act
@@ -70,6 +74,7 @@ void main() {
           tasks: [
             task1,
           ],
+          showShareIcon: true,
           progress: 0,
           isLoading: false,
         ),
@@ -96,6 +101,7 @@ void main() {
         calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
         formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
+        shouldShowShareUseCase: ShouldShowShareUseCase(),
       );
 
       await viewModel.updateTasks();
@@ -118,6 +124,7 @@ void main() {
           tasks: [
             expectedTask,
           ],
+          showShareIcon: false,
           progress: 1,
           isLoading: false,
         ),
@@ -141,6 +148,7 @@ void main() {
       final viewModel = TasksViewModel(
         repository: repository,
         checklistId: null,
+        shouldShowShareUseCase: ShouldShowShareUseCase(),
         calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
         formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
@@ -157,6 +165,7 @@ void main() {
         const TasksScreenState(
           progress: 0,
           tasks: [],
+          showShareIcon: false,
           isLoading: false,
         ),
       );

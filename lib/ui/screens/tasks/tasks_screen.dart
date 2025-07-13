@@ -28,6 +28,7 @@ class TasksScreen extends StatelessWidget {
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
       calculateTaskProgressUseCase: getIt.get(),
+      shouldShowShareUseCase: getIt.get(),
     );
     viewModel.updateTasks();
 
@@ -75,13 +76,12 @@ class _TasksScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showShareOption = uiState.tasks.isNotEmpty;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
         title: checklistName,
         actions: _buildTopBarActions(
-          showShareButton: showShareOption,
+          showShareButton: uiState.showShareIcon,
           onShare: onShare,
         ),
       ),

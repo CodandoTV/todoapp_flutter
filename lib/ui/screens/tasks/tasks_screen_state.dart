@@ -11,10 +11,13 @@ class TasksScreenState with _$TasksScreenState {
   final bool isLoading;
   @override
   final double progress;
+  @override
+  final bool showShareIcon;
 
   const TasksScreenState({
     required this.tasks,
     required this.isLoading,
     required this.progress,
+    required this.showShareIcon,
   });
 }
