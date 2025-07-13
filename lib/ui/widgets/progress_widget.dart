@@ -21,14 +21,10 @@ class ProgressWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.onTertiary,
           ),
         ),
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 900),
-          curve: Curves.easeInOut,
-          child: LayoutBuilder(
-            builder: (context, constraints) => _buildProgressBar(
-              progress: _progress,
-              maxWidth: constraints.maxWidth,
-            ),
+        LayoutBuilder(
+          builder: (context, constraints) => _buildProgressBar(
+            progress: _progress,
+            maxWidth: constraints.maxWidth,
           ),
         ),
       ],
