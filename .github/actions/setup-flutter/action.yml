@@ -11,6 +11,8 @@ runs:
 
     - name: Install dependencies
       run: flutter pub get
+      shell: bash
 
     - name: Generate files
       run: dart run build_runner build --delete-conflicting-outputs
+      shell: bash
