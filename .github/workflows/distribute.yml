@@ -1,0 +1,40 @@
+name: Manual Publish to Firebase
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-notes:
+        description: 'Release notes'
+        required: false
+        default: 'Manual release'
+
+jobs:
+  deploy:
+    name: Upload APK to Firebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+      - uses: ./.github/actions/setup-flutter
+
+      - name: Setup Flutter dependencies
+        uses: ./.github/actions/setup-flutter-deps
+
+      - name: Build APK
+        run: flutter build apk --debug
+
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: build/app/outputs/apk/release/app-release.apk
+          releaseNotes: ${{ github.event.inputs.release-notes }}
