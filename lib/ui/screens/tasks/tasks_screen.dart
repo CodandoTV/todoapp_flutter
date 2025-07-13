@@ -6,6 +6,7 @@ import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/screens/todoapp_navigator.dart';
+import 'package:todoapp/ui/widgets/progress_widget.dart';
 import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
@@ -26,6 +27,7 @@ class TasksScreen extends StatelessWidget {
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
+      calculateTaskProgressUseCase: getIt.get(),
     );
     viewModel.updateTasks();
 
@@ -106,18 +108,25 @@ class _TasksScaffold extends StatelessWidget {
           Icons.plus_one,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 12,
-          right: 12,
-        ),
-        child: TasksListWidget(
-          tasks: uiState.tasks,
-          onReorder: onReorder,
-          onRemoveTask: (task) =>
-              _showConfirmationDialogToRemoveTask(context, task),
-          onCompleteTask: onCompleteTask,
-        ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            child: TasksListWidget(
+              tasks: uiState.tasks,
+              onReorder: onReorder,
+              onRemoveTask: (task) =>
+                  _showConfirmationDialogToRemoveTask(context, task),
+              onCompleteTask: onCompleteTask,
+            ),
+          ),
+          ProgressWidget(
+            progress: uiState.progress,
+          ),
+        ],
       ),
     );
   }

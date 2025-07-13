@@ -9,9 +9,12 @@ class TasksScreenState with _$TasksScreenState {
   final List<Task> tasks;
   @override
   final bool isLoading;
+  @override
+  final double progress;
 
   const TasksScreenState({
     required this.tasks,
     required this.isLoading,
+    required this.progress,
   });
 }
