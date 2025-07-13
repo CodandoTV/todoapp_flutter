@@ -1,8 +1,0 @@
-name: 'Install flutter deps'
-description: 'Reusable action to install Flutter deps'
-
-runs:
-  using: "composite"
-  steps:
-    - name: Install dependencies and Generate files
-      run: flutter pub get && dart run build_runner build --delete-conflicting-outputs

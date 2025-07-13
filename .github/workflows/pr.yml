@@ -16,9 +16,6 @@ jobs:
       - name: Set up Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Setup Flutter dependencies
-        uses: ./.github/actions/setup-flutter-deps
-
       - name: Run tests
         run: flutter test
 
