@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double containerHeight = 9.0;
+
 class ProgressWidget extends StatelessWidget {
   late final double _progress;
 
@@ -10,15 +12,26 @@ class ProgressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 900),
-      curve: Curves.easeInOut,
-      child: LayoutBuilder(
-        builder: (context, constraints) => _buildProgressBar(
-          progress: _progress,
-          maxWidth: constraints.maxWidth,
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: containerHeight,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onTertiary,
+          ),
         ),
-      ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 900),
+          curve: Curves.easeInOut,
+          child: LayoutBuilder(
+            builder: (context, constraints) => _buildProgressBar(
+              progress: _progress,
+              maxWidth: constraints.maxWidth,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -33,7 +46,7 @@ class ProgressWidget extends StatelessWidget {
 
     return Container(
       width: endWidth,
-      height: 9,
+      height: containerHeight,
       decoration: BoxDecoration(
         color: decorationColor,
       ),

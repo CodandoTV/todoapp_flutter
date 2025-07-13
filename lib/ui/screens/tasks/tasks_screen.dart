@@ -123,8 +123,13 @@ class _TasksScaffold extends StatelessWidget {
               onCompleteTask: onCompleteTask,
             ),
           ),
-          ProgressWidget(
-            progress: uiState.progress,
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 12,
+            ),
+            child: ProgressWidget(
+              progress: uiState.progress,
+            ),
           ),
         ],
       ),
