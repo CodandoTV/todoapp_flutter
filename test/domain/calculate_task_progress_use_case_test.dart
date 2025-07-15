@@ -152,10 +152,7 @@ void main() {
       );
 
       // Assert
-      expect(
-        result,
-        0.0,
-      );
+      expect(result, 0.0);
     },
   );
 }
