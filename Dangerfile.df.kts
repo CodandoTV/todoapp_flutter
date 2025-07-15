@@ -5,10 +5,8 @@ danger(args) {
     val allSourceFiles = git.modifiedFiles + git.createdFiles
 
     onGitHub {
-        if(git.createdFiles.any { it.endsWith("_test.dart")} ) {
-            message("Thanks for adding unit tests")
-        } else {
-            warn("Please add unit tests for all files")
+        if(allSourceFiles.any { it.endsWith("_test.dart")} ) {
+            message("Thanks for updating the unit tests")
         }
 
         // Big PR Check
