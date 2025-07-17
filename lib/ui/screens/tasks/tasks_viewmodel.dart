@@ -64,7 +64,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   shareTasks({required String checklistName}) async {
     final checklist = _formatTaskListUseCase.execute(
       tasks: state.tasks,
-      formatMode: FormatMode.onlyNotCompleted,
     );
 
     await _shareMessageHandler.share(
