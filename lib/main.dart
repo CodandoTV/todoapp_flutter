@@ -15,7 +15,5 @@ void main() async {
 
   await configureDependencies();
 
-  runApp(
-    const TodoApp(),
-  );
+  runApp(TodoApp());
 }

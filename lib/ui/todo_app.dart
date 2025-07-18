@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/generated/app_localizations.dart';
-import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
+import 'package:todoapp/ui/todo_app_router_config.dart';
 
 class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+  final _todoAppRouterConfig = TodoAppRouterConfig();
+
+  TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     const baseColor = Color.fromARGB(255, 239, 232, 215);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Todo list',
-      home: const ChecklistsScreen(),
+      routerConfig: _todoAppRouterConfig.config(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(

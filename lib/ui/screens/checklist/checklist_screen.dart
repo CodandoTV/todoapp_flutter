@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/generated/app_localizations.dart';
 import 'package:todoapp/main.dart';
@@ -6,8 +7,8 @@ import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 
 import '../../components/form_validator.dart';
-import '../todoapp_navigator.dart';
 
+@RoutePage()
 class ChecklistScreen extends StatelessWidget {
   const ChecklistScreen({
     super.key,
@@ -31,7 +32,6 @@ class _ChecklistScreenScaffold extends StatelessWidget {
       TextEditingController();
   final Function(String) onAddNewChecklist;
   final _formKey = GlobalKey<FormState>();
-  final TodoAppNavigator navigator = getIt.get();
   final FormScreenValidator formScreenValidator;
 
   _ChecklistScreenScaffold({
@@ -41,6 +41,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = AutoRouter.of(context);
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: AppLocalizations.of(context)!.checklist,
@@ -55,7 +56,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            navigator.popWithResult(context, true);
+            router.pop(true);
           }
         },
         child: const Icon(

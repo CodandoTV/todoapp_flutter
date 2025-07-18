@@ -1,3 +1,5 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
@@ -5,8 +7,7 @@ import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
-import '../todoapp_navigator.dart';
-
+@RoutePage()
 class TaskScreen extends StatelessWidget {
   final int? checklistId;
 
@@ -35,7 +36,6 @@ class _TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
   final Function(String) onAddNewTask;
   final FormScreenValidator formScreenValidator;
-  final TodoAppNavigator navigator = getIt.get();
   final _formKey = GlobalKey<FormState>();
 
   _TaskScreenScaffold({
@@ -45,6 +45,7 @@ class _TaskScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = AutoRouter.of(context);
     return Scaffold(
       appBar: const CustomAppBarWidget(
         title: 'Task',
@@ -59,7 +60,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             _taskEditingController.text,
           );
           if (context.mounted) {
-            navigator.popWithResult(context, true);
+            router.pop(true);
           }
         },
         child: const Icon(
