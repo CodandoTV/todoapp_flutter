@@ -11,7 +11,5 @@ GetIt getIt = GetIt.instance;
 Future<void> configureDependencies() => getIt.init();
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
   runApp(TodoApp());
 }
