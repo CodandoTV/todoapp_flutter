@@ -22,7 +22,7 @@ class CustomAppBarWidget extends StatelessWidget
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
-      actions: this.actions,
+      actions: actions,
     );
   }
 

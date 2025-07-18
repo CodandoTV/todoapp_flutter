@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
-import 'package:todoapp/ui/l10n//app_localizations.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;
