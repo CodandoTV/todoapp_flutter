@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/l10n//app_localizations.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/todo_app_router_config.dart';
 
 class TodoApp extends StatelessWidget {
