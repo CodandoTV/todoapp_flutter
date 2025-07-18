@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/generated/app_localizations.dart';
+import 'package:todoapp/ui/l10n//app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
