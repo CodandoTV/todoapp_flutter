@@ -10,10 +10,8 @@ GetIt getIt = GetIt.instance;
 @InjectableInit()
 Future<void> configureDependencies() => getIt.init();
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await configureDependencies();
 
   runApp(TodoApp());
 }
