@@ -40,6 +40,10 @@ flutter run -d <device target>
 
 - [sqflite](https://pub.dev/packages/sqflite).
 
+### Navigation
+
+- [AutoRoute](https://pub.dev/packages/auto_route)
+
 ## Screenshots
 
 ### Android version
