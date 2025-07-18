@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/generated/app_localizations.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 import '../../../data/model/checklist.dart';
 
@@ -25,6 +25,7 @@ class ChecklistItemWidget extends StatelessWidget {
         Text(
           checklist.title,
           maxLines: 2,
+          textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleMedium,
         ),

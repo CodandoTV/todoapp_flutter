@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/generated/app_localizations.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 import '../components/form_validator.dart';
 

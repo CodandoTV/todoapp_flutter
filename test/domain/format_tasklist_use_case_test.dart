@@ -12,7 +12,6 @@ void main() {
       // Act
       final result = useCase.execute(
         tasks: [],
-        formatMode: FormatMode.allTasks,
       );
 
       // Assert
@@ -45,7 +44,6 @@ void main() {
             isCompleted: true,
           ),
         ],
-        formatMode: FormatMode.onlyNotCompleted,
       );
 
       // Assert
@@ -53,44 +51,6 @@ void main() {
         result,
         '- Task A - Not completed\n'
         '- Task B - Not completed\n',
-      );
-    },
-  );
-
-  test(
-    'FormatTasklistUseCase -> test all tasks',
-    () {
-      // Arrange
-      final useCase = FormatTaskListUseCase();
-
-      // Act
-      final result = useCase.execute(
-        tasks: [
-          const Task(
-            id: null,
-            title: 'Task A - Not completed',
-            isCompleted: false,
-          ),
-          const Task(
-            id: null,
-            title: 'Task B - Not completed',
-            isCompleted: false,
-          ),
-          const Task(
-            id: null,
-            title: 'Task C - Completed',
-            isCompleted: true,
-          ),
-        ],
-        formatMode: FormatMode.allTasks,
-      );
-
-      // Assert
-      expect(
-        result,
-        '- Task A - Not completed\n'
-        '- Task B - Not completed\n'
-        '- Task C - Completed\n',
       );
     },
   );

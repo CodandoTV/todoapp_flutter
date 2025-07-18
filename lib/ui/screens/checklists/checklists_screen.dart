@@ -1,15 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/generated/app_localizations.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
+import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
-import '../todoapp_navigator.dart';
 import 'checklists_screen_state.dart';
 
+@RoutePage()
 class ChecklistsScreen extends StatelessWidget {
   const ChecklistsScreen({super.key});
 
@@ -35,9 +37,8 @@ class _ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
-  final TodoAppNavigator navigator = getIt.get();
 
-  _ChecklistsScaffold({
+  const _ChecklistsScaffold({
     required this.uiState,
     required this.updateChecklists,
     required this.onRemoveChecklist,
@@ -45,6 +46,7 @@ class _ChecklistsScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = AutoRouter.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
@@ -52,7 +54,8 @@ class _ChecklistsScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await navigator.navigateToChecklistScreen(context);
+          bool? result = await router.push(const ChecklistRoute());
+
           if (result == true) {
             updateChecklists();
             if (context.mounted) {
@@ -71,18 +74,14 @@ class _ChecklistsScaffold extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 12,
-          right: 12
-        ),
+        padding: const EdgeInsets.only(left: 12, right: 12),
         child: ChecklistsListWidget(
           checklists: uiState.checklists,
           onRemoveChecklist: (checklist) {
             _showConfirmationDialogToRemoveChecklist(context, checklist);
           },
-          onSelectChecklist: (checklist) => navigator.navigateToTasksScreen(
-            context,
-            checklist,
+          onSelectChecklist: (checklist) => router.push(
+            TasksRoute(checklist: checklist),
           ),
         ),
       ),
@@ -90,7 +89,10 @@ class _ChecklistsScaffold extends StatelessWidget {
   }
 
   _showConfirmationDialogToRemoveChecklist(
-      BuildContext context, Checklist checklist) {
+    BuildContext context,
+    Checklist checklist,
+  ) {
+    final router = AutoRouter.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
@@ -100,10 +102,10 @@ class _ChecklistsScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          navigator.pop(context),
+          router.pop(),
         },
         onPrimaryButtonPressed: () =>
-            {navigator.pop(context), onRemoveChecklist(checklist)},
+            {router.pop(), onRemoveChecklist(checklist)},
       ),
     );
   }
