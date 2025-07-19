@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
+
+import '../../../util/di/dependency_startup_handler.dart';
 
 @RoutePage()
 class TaskScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(
-      getIt.get(),
+      GetItStartupHandlerWrapper.getIt.get(),
       checklistId,
     );
 
@@ -26,7 +27,7 @@ class TaskScreen extends StatelessWidget {
           onAddNewTask: (title) => viewModel.addTask(
             title: title,
           ),
-          formScreenValidator: getIt.get(),
+          formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
         );
   }
 }

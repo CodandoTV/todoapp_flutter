@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
-import 'package:todoapp/main.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/ui/widgets/progress_widget.dart';
 import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
 import '../../../data/model/task.dart';
+import '../../../util/di/dependency_startup_handler.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 
@@ -24,6 +24,7 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final getIt = GetItStartupHandlerWrapper.getIt;
     final viewModel = TasksViewModel(
       formatTaskListUseCase: getIt.get(),
       repository: getIt.get(),
