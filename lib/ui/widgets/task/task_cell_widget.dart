@@ -25,17 +25,18 @@ class TaskCellWidget extends StatelessWidget {
       elevation: 4,
       shape: cardShape,
       child: ListTile(
+        leading: IconButton(
+          onPressed: () => {onRemoveTask(task)},
+          icon: const Icon(Icons.close),
+        ),
         title: TaskTitleWidget(
           taskTitle: task.title,
           isComplete: task.isCompleted,
         ),
-        leading: Checkbox(
+        trailing: Checkbox(
           value: task.isCompleted,
           onChanged: onCheckChanged,
         ),
-        trailing: IconButton(
-            onPressed: () => {onRemoveTask(task)},
-            icon: const Icon(Icons.close)),
       ),
     );
   }

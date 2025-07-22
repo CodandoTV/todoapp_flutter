@@ -20,15 +20,19 @@ class ChecklistItemWidget extends StatelessWidget {
     Checklist checklist,
   ) {
     return ListTile(
+      leading: IconButton(
+        onPressed: () => onRemoveChecklist(checklist),
+        icon: const Icon(Icons.close),
+      ),
       title: Text(
         checklist.title,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      trailing: IconButton(
-        onPressed: () => onRemoveChecklist(checklist),
-        icon: const Icon(Icons.delete),
+      trailing: const Icon(
+        Icons.chevron_right,
+        size: 32,
       ),
     );
   }
@@ -47,7 +51,12 @@ class ChecklistItemWidget extends StatelessWidget {
       child: InkWell(
         onTap: () => onSelectChecklist(checklist),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.only(
+            left: 8,
+            right: 8,
+            top: 16,
+            bottom: 16,
+          ),
           child: _internalContent(context, checklist),
         ),
       ),
