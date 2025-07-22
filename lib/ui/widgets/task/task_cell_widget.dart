@@ -22,22 +22,20 @@ class TaskCellWidget extends StatelessWidget {
     );
 
     return Card(
-      child: InkWell(
-        customBorder: cardShape,
-        child: ListTile(
-          shape: cardShape,
-          title: TaskTitleWidget(
-            taskTitle: task.title,
-            isComplete: task.isCompleted,
-          ),
-          leading: Checkbox(
-            value: task.isCompleted,
-            onChanged: onCheckChanged,
-          ),
-          trailing: IconButton(
-              onPressed: () => {onRemoveTask(task)},
-              icon: const Icon(Icons.close)),
+      elevation: 4,
+      shape: cardShape,
+      child: ListTile(
+        title: TaskTitleWidget(
+          taskTitle: task.title,
+          isComplete: task.isCompleted,
         ),
+        leading: Checkbox(
+          value: task.isCompleted,
+          onChanged: onCheckChanged,
+        ),
+        trailing: IconButton(
+            onPressed: () => {onRemoveTask(task)},
+            icon: const Icon(Icons.close)),
       ),
     );
   }

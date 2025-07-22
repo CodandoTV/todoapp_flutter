@@ -32,21 +32,20 @@ class TasksListWidget extends StatelessWidget {
         ),
       );
     } else {
-      final children = tasks
-          .map((task) => TaskCellWidget(
-                key: ValueKey(task.id),
-                task: task,
-                onRemoveTask: onRemoveTask,
-                onCheckChanged: (value) => onCompleteTask(task, value ?? false),
-              ))
-          .toList();
-      return ReorderableListView(
+      return ReorderableListView.builder(
         onReorder: onReorder,
         padding: const EdgeInsets.only(
           top: 12,
           bottom: 120,
         ),
-        children: children,
+        itemBuilder: (context, index) => TaskCellWidget(
+          key: ValueKey(tasks[index].id),
+          task: tasks[index],
+          onRemoveTask: onRemoveTask,
+          onCheckChanged: (value) =>
+              onCompleteTask(tasks[index], value ?? false),
+        ),
+        itemCount: tasks.length,
       );
     }
   }
