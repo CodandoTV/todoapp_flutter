@@ -19,21 +19,17 @@ class ChecklistItemWidget extends StatelessWidget {
     BuildContext context,
     Checklist checklist,
   ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          checklist.title,
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        OutlinedButton(
-          onPressed: () => {onRemoveChecklist(checklist)},
-          child: Text(AppLocalizations.of(context)!.remove),
-        ),
-      ],
+    return ListTile(
+      title: Text(
+        checklist.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      trailing: IconButton(
+        onPressed: () => onRemoveChecklist(checklist),
+        icon: const Icon(Icons.delete),
+      ),
     );
   }
 
