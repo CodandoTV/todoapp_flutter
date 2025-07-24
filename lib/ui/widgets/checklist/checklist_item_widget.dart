@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 import '../../../data/model/checklist.dart';
 
@@ -19,27 +18,28 @@ class ChecklistItemWidget extends StatelessWidget {
     BuildContext context,
     Checklist checklist,
   ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          checklist.title,
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        OutlinedButton(
-          onPressed: () => {onRemoveChecklist(checklist)},
-          child: Text(AppLocalizations.of(context)!.remove),
-        ),
-      ],
+    return ListTile(
+      leading: IconButton(
+        onPressed: () => onRemoveChecklist(checklist),
+        icon: const Icon(Icons.close),
+      ),
+      title: Text(
+        checklist.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      trailing: const Icon(
+        Icons.chevron_right,
+        size: 32,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(12),
@@ -50,7 +50,12 @@ class ChecklistItemWidget extends StatelessWidget {
       child: InkWell(
         onTap: () => onSelectChecklist(checklist),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.only(
+            left: 8,
+            right: 8,
+            top: 16,
+            bottom: 16,
+          ),
           child: _internalContent(context, checklist),
         ),
       ),

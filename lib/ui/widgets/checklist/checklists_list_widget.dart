@@ -29,19 +29,14 @@ class ChecklistsListWidget extends StatelessWidget {
         ),
       );
     } else {
-      return GridView.count(
+      return ListView.builder(
         padding: const EdgeInsets.only(top: 12, bottom: 120),
-        crossAxisCount: 2,
-        scrollDirection: Axis.vertical,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
-        children: List.generate(checklists.length, (index) {
-          return ChecklistItemWidget(
+        itemBuilder: (context, index) => ChecklistItemWidget(
             checklist: checklists[index],
             onRemoveChecklist: onRemoveChecklist,
             onSelectChecklist: onSelectChecklist,
-          );
-        }),
+        ),
+        itemCount: checklists.length,
       );
     }
   }
