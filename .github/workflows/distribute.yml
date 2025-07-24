@@ -21,7 +21,7 @@ jobs:
         uses: ./.github/actions/setup-flutter
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --debug
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
