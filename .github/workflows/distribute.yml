@@ -21,7 +21,7 @@ jobs:
         uses: ./.github/actions/setup-flutter
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --debug
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -29,5 +29,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIALS_FILE }}
           groups: codandotv-creators
-          file: build/app/outputs/apk/release/app-release.apk
+          file: build/app/outputs/apk/debug/app-debug.apk
           releaseNotes: ${{ github.event.inputs.release-notes }}
