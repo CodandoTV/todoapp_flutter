@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 import '../../../data/model/checklist.dart';
 
