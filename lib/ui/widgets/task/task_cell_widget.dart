@@ -21,6 +21,10 @@ class TaskCellWidget extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(8)),
     );
 
+    String checkboxKeyValue = task.isCompleted
+        ? 'TaskCellWidget_Completed'
+        : 'TaskCellWidget_NotCompleted';
+
     return Card(
       elevation: 4,
       shape: cardShape,
@@ -34,6 +38,7 @@ class TaskCellWidget extends StatelessWidget {
           isComplete: task.isCompleted,
         ),
         trailing: Checkbox(
+          key: Key(checkboxKeyValue),
           value: task.isCompleted,
           onChanged: onCheckChanged,
         ),
