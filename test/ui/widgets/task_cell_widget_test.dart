@@ -3,14 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
 
+import '../widgets_util.dart';
+
 void main() {
   testWidgets(
     'TaskCellWidget has a title',
     (tester) async {
       const taskName = 'Task A';
 
-      final widget = MaterialApp(
-        home: TaskCellWidget(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TaskCellWidget(
           task: const Task(
             id: null,
             title: taskName,
@@ -32,8 +34,8 @@ void main() {
     'TaskCellWidget is completed',
     (tester) async {
       // Arrange
-      final widget = MaterialApp(
-        home: TaskCellWidget(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TaskCellWidget(
           task: const Task(
             id: null,
             title: 'Anything',
@@ -59,8 +61,8 @@ void main() {
     'TaskCellWidget is not completed',
     (tester) async {
       // Arrange
-      final widget = MaterialApp(
-        home: TaskCellWidget(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TaskCellWidget(
           task: const Task(
             id: null,
             title: 'Anything',
