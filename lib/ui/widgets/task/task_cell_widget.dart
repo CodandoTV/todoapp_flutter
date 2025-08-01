@@ -4,6 +4,8 @@ import 'package:todoapp/ui/widgets/task/task_title_widget.dart';
 import '../../../data/model/task.dart';
 
 class TaskCellWidget extends StatelessWidget {
+  static const checkboxKey = 'TaskCellWidget_Checkbox';
+
   final Task task;
   final Function(bool?) onCheckChanged;
   final Function(Task) onRemoveTask;
@@ -21,10 +23,6 @@ class TaskCellWidget extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(8)),
     );
 
-    String checkboxKeyValue = task.isCompleted
-        ? 'TaskCellWidget_Completed'
-        : 'TaskCellWidget_NotCompleted';
-
     return Card(
       elevation: 4,
       shape: cardShape,
@@ -38,7 +36,7 @@ class TaskCellWidget extends StatelessWidget {
           isComplete: task.isCompleted,
         ),
         trailing: Checkbox(
-          key: Key(checkboxKeyValue),
+          key: const Key(checkboxKey),
           value: task.isCompleted,
           onChanged: onCheckChanged,
         ),

@@ -23,13 +23,15 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      find.text(taskName);
+      final taskNameFinder = find.text(taskName);
+      expect(taskNameFinder, findsOneWidget);
     },
   );
 
   testWidgets(
     'TaskCellWidget is completed',
-        (tester) async {
+    (tester) async {
+      // Arrange
       final widget = MaterialApp(
         home: TaskCellWidget(
           task: const Task(
@@ -42,15 +44,21 @@ void main() {
         ),
       );
 
+      // Act
       await tester.pumpWidget(widget);
 
-      find.byKey(const Key('TaskCellWidget_Completed'));
+      final checkboxFinder = find.byKey(const Key(TaskCellWidget.checkboxKey));
+      final checkbox = tester.widget(checkboxFinder) as Checkbox;
+
+      // Assert
+      expect(checkbox.value, true);
     },
   );
 
   testWidgets(
     'TaskCellWidget is not completed',
-        (tester) async {
+    (tester) async {
+      // Arrange
       final widget = MaterialApp(
         home: TaskCellWidget(
           task: const Task(
@@ -63,9 +71,14 @@ void main() {
         ),
       );
 
+      // Act
       await tester.pumpWidget(widget);
 
-      find.byKey(const Key('TaskCellWidget_NotCompleted'));
+      final checkboxFinder = find.byKey(const Key(TaskCellWidget.checkboxKey));
+      final checkbox = tester.widget(checkboxFinder) as Checkbox;
+
+      // Assert
+      expect(checkbox.value, false);
     },
   );
 }
