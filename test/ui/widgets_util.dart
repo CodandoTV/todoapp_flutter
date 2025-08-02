@@ -11,6 +11,7 @@ class WidgetsUtil {
 
     return MaterialApp(
       home: child,
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: baseColor,

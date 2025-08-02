@@ -18,10 +18,7 @@ jobs:
 
       - name: Generate Resources
         run: flutter gen-l10n
-
-      - name: Install dependencies - Snapshot testes
-        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev liblzma-dev libglu1-mesa-dev
-
+        
       - name: Run tests
         run: flutter test
 
