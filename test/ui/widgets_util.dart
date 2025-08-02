@@ -10,20 +10,18 @@ class WidgetsUtil {
     _setupDeviceConstraintsForSnapshotTests(tester);
 
     return MaterialApp(
-      home: Scaffold(
-        body: child,
-      ),
+      home: child,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: baseColor,
-          ),
-          useMaterial3: true,
-          fontFamily: 'Roboto'),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: baseColor,
+        ),
+        useMaterial3: true,
+      ),
     );
   }
 
   static _setupDeviceConstraintsForSnapshotTests(WidgetTester tester) {
-    tester.view.physicalSize = const Size(568, 724);
+    tester.view.physicalSize = const Size(300, 600);
     tester.view.devicePixelRatio = 1.0;
 
     addTearDown(() {
