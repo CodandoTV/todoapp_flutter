@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class WidgetsUtil {
   static buildMaterialAppWidgetTest({
     required Widget child,
+    required WidgetTester tester,
   }) {
     const baseColor = Color.fromARGB(255, 236, 185, 57);
+    _setupDeviceConstraintsForSnapshotTests(tester);
+
     return MaterialApp(
       home: Scaffold(
         body: child,
@@ -16,5 +20,16 @@ class WidgetsUtil {
           useMaterial3: true,
           fontFamily: 'Roboto'),
     );
+  }
+
+  static _setupDeviceConstraintsForSnapshotTests(WidgetTester tester) {
+    tester.view.physicalSize = const Size(568, 724);
+    tester.view.devicePixelRatio = 1.0;
+
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+      tester.binding.platformDispatcher.clearTextScaleFactorTestValue();
+    });
   }
 }

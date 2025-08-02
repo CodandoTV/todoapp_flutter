@@ -12,6 +12,7 @@ void main() {
       const taskName = 'Task A';
 
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        tester: tester,
         child: TaskCellWidget(
           task: const Task(
             id: null,
@@ -35,6 +36,7 @@ void main() {
     (tester) async {
       // Arrange
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        tester: tester,
         child: TaskCellWidget(
           task: const Task(
             id: null,
@@ -62,6 +64,7 @@ void main() {
     (tester) async {
       // Arrange
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        tester: tester,
         child: TaskCellWidget(
           task: const Task(
             id: null,

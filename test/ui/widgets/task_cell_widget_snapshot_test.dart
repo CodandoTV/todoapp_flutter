@@ -20,6 +20,7 @@ void main() {
           onCheckChanged: (_) => {},
           onRemoveTask: (_) => {},
         ),
+        tester: tester,
       );
 
       await tester.pumpWidget(widget);
@@ -47,6 +48,7 @@ void main() {
           onCheckChanged: (_) => {},
           onRemoveTask: (_) => {},
         ),
+        tester: tester,
       );
 
       await tester.pumpWidget(widget);
