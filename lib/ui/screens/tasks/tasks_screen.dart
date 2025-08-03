@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/providers/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
@@ -39,6 +40,7 @@ class TasksScreen extends StatelessWidget {
       create: (_) => viewModel,
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
         builder: (context, uiState) => TasksScaffold(
+          navigatorProvider: getIt.get(),
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
@@ -64,6 +66,7 @@ class TasksScaffold extends StatelessWidget {
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
+  final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
     super.key,
@@ -75,11 +78,11 @@ class TasksScaffold extends StatelessWidget {
     required this.onRemoveTask,
     required this.onReorder,
     required this.onShare,
+    required this.navigatorProvider,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
@@ -91,7 +94,8 @@ class TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await router.push(
+          bool? result = await navigatorProvider.push(
+            context,
             TaskRoute(
               checklistId: checklistId,
             ),
@@ -143,7 +147,6 @@ class TasksScaffold extends StatelessWidget {
 
   _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
     final appLocalizations = AppLocalizations.of(context)!;
-    final router = AutoRouter.of(context);
 
     showDialog(
       context: context,
@@ -153,9 +156,12 @@ class TasksScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          router.pop(),
+          navigatorProvider.onPop(context, null),
         },
-        onPrimaryButtonPressed: () => {router.pop(), onRemoveTask(task)},
+        onPrimaryButtonPressed: () => {
+          navigatorProvider.onPop(context, null),
+          onRemoveTask(task),
+        },
       ),
     );
   }
