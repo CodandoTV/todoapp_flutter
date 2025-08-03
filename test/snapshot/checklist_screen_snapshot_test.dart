@@ -3,6 +3,7 @@ import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen_text_values.dart';
 
+import '../fakes/fake_navigator_provider.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
@@ -18,7 +19,7 @@ void main() {
           ),
           onAddNewChecklist: (_) => {},
           formScreenValidator: FormScreenValidator(),
-          onPop: (_) => {},
+          navigatorProvider: FakeNavigatorProvider(),
         ),
         tester: tester,
       );
