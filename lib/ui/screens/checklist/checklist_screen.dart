@@ -19,7 +19,7 @@ class ChecklistScreen extends StatelessWidget {
     final viewModel =
         ChecklistViewModel(GetItStartupHandlerWrapper.getIt.get());
 
-    return _ChecklistScreenScaffold(
+    return ChecklistScreenScaffold(
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
       onAddNewChecklist: (title) => viewModel.addChecklist(
         title: title,
@@ -28,14 +28,14 @@ class ChecklistScreen extends StatelessWidget {
   }
 }
 
-class _ChecklistScreenScaffold extends StatelessWidget {
+class ChecklistScreenScaffold extends StatelessWidget {
   final TextEditingController _checklistEditingController =
       TextEditingController();
   final Function(String) onAddNewChecklist;
   final _formKey = GlobalKey<FormState>();
   final FormScreenValidator formScreenValidator;
 
-  _ChecklistScreenScaffold({
+  ChecklistScreenScaffold({
     required this.onAddNewChecklist,
     required this.formScreenValidator,
   });

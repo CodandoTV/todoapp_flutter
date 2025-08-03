@@ -6,6 +6,7 @@ import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
 import '../../../util/di/dependency_startup_handler.dart';
+import '../../l10n/app_localizations.dart';
 
 @RoutePage()
 class TaskScreen extends StatelessWidget {
@@ -22,30 +23,42 @@ class TaskScreen extends StatelessWidget {
       GetItStartupHandlerWrapper.getIt.get(),
       checklistId,
     );
+    final router = AutoRouter.of(context);
+    final taskErrorMessage = AppLocalizations.of(context)!.task_name_required;
+    final taskLabel = AppLocalizations.of(context)!.task;
 
-    return _TaskScreenScaffold(
-          onAddNewTask: (title) => viewModel.addTask(
-            title: title,
-          ),
-          formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
-        );
+    return TaskScreenScaffold(
+      taskErrorMessage: taskErrorMessage,
+      taskLabel: taskLabel,
+      onAddNewTask: (title) => viewModel.addTask(
+        title: title,
+      ),
+      formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
+      onPop: (result) => {router.pop(result)},
+    );
   }
 }
 
-class _TaskScreenScaffold extends StatelessWidget {
+class TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
   final Function(String) onAddNewTask;
   final FormScreenValidator formScreenValidator;
   final _formKey = GlobalKey<FormState>();
+  final Function(bool) onPop;
+  final String taskErrorMessage;
+  final String taskLabel;
 
-  _TaskScreenScaffold({
+  TaskScreenScaffold({
+    super.key,
+    required this.taskErrorMessage,
+    required this.taskLabel,
     required this.onAddNewTask,
     required this.formScreenValidator,
+    required this.onPop,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       appBar: const CustomAppBarWidget(
         title: 'Task',
@@ -60,7 +73,7 @@ class _TaskScreenScaffold extends StatelessWidget {
             _taskEditingController.text,
           );
           if (context.mounted) {
-            router.pop(true);
+            onPop(true);
           }
         },
         child: const Icon(
@@ -71,6 +84,8 @@ class _TaskScreenScaffold extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: TaskFormWidget(
           formKey: _formKey,
+          taskLabel: taskLabel,
+          taskErrorMessage: taskErrorMessage,
           taskEditingController: _taskEditingController,
           formScreenValidator: formScreenValidator,
         ),
