@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/widgets/task/task_cell_widget.dart';
 
-import '../widgets_util.dart';
+import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(

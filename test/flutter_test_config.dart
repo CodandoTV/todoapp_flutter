@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'ui/utils/local_file_comparator_with_threshold.dart';
+import 'utils/local_file_comparator_with_threshold.dart';
 
 /// Customise your threshold here
 /// For example, the error threshold here is 0.5%

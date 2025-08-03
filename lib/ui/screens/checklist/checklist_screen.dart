@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
-import 'package:todoapp/ui/widgets/checklist_form_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/util/di/dependency_startup_handler.dart';
 
 import '../../components/form_validator.dart';
+import '../../l10n/app_localizations.dart';
+import '../../widgets/checklist_form_widget.dart';
+import 'checklist_screen_text_values.dart';
 
 @RoutePage()
 class ChecklistScreen extends StatelessWidget {
@@ -16,36 +17,51 @@ class ChecklistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        ChecklistViewModel(GetItStartupHandlerWrapper.getIt.get());
+    final viewModel = ChecklistViewModel(
+      GetItStartupHandlerWrapper.getIt.get(),
+    );
+    final router = AutoRouter.of(context);
 
-    return _ChecklistScreenScaffold(
+    final checklistScreenTextValues = ChecklistScreenTextValues(
+      screenTitle: AppLocalizations.of(context)!.checklist,
+      checklistErrorMessage:
+          AppLocalizations.of(context)!.checklist_name_required,
+      checklistLabel: AppLocalizations.of(context)!.checklist,
+    );
+
+    return ChecklistScreenScaffold(
+      checklistScreenTextValues: checklistScreenTextValues,
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
       onAddNewChecklist: (title) => viewModel.addChecklist(
         title: title,
       ),
+      onPop: (result) => {router.pop(result)},
     );
   }
 }
 
-class _ChecklistScreenScaffold extends StatelessWidget {
+class ChecklistScreenScaffold extends StatelessWidget {
   final TextEditingController _checklistEditingController =
       TextEditingController();
   final Function(String) onAddNewChecklist;
   final _formKey = GlobalKey<FormState>();
   final FormScreenValidator formScreenValidator;
+  final ChecklistScreenTextValues checklistScreenTextValues;
+  final Function(bool) onPop;
 
-  _ChecklistScreenScaffold({
+  ChecklistScreenScaffold({
+    super.key,
+    required this.checklistScreenTextValues,
     required this.onAddNewChecklist,
     required this.formScreenValidator,
+    required this.onPop,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       appBar: CustomAppBarWidget(
-        title: AppLocalizations.of(context)!.checklist,
+        title: checklistScreenTextValues.screenTitle,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -57,7 +73,7 @@ class _ChecklistScreenScaffold extends StatelessWidget {
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            router.pop(true);
+            onPop(true);
           }
         },
         child: const Icon(
@@ -68,6 +84,9 @@ class _ChecklistScreenScaffold extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: ChecklistFormWidget(
           formKey: _formKey,
+          checklistLabel: checklistScreenTextValues.checklistLabel,
+          checklistErrorMessage:
+              checklistScreenTextValues.checklistErrorMessage,
           formScreenValidator: formScreenValidator,
           checklistEditingController: _checklistEditingController,
         ),

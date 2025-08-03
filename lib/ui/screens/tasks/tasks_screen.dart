@@ -38,7 +38,7 @@ class TasksScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
-        builder: (context, uiState) => _TasksScaffold(
+        builder: (context, uiState) => TasksScaffold(
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
@@ -55,7 +55,7 @@ class TasksScreen extends StatelessWidget {
   }
 }
 
-class _TasksScaffold extends StatelessWidget {
+class TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
   final String checklistName;
@@ -65,7 +65,8 @@ class _TasksScaffold extends StatelessWidget {
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
 
-  const _TasksScaffold({
+  const TasksScaffold({
+    super.key,
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
@@ -154,8 +155,7 @@ class _TasksScaffold extends StatelessWidget {
         onSecondaryButtonPressed: () => {
           router.pop(),
         },
-        onPrimaryButtonPressed: () =>
-            {router.pop(), onRemoveTask(task)},
+        onPrimaryButtonPressed: () => {router.pop(), onRemoveTask(task)},
       ),
     );
   }
