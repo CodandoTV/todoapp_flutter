@@ -1,6 +1,6 @@
 import 'package:auto_route/src/route/page_route_info.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:todoapp/ui/components/providers/navigation_provider.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 
 class FakeNavigatorProvider extends NavigatorProvider {
   @override

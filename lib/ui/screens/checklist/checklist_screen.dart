@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/ui/components/providers/navigation_provider.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/util/di/dependency_startup_handler.dart';
