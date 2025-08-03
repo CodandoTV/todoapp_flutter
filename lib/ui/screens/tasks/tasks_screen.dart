@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
@@ -36,6 +37,17 @@ class TasksScreen extends StatelessWidget {
     );
     viewModel.updateTasks();
 
+    final tasksScreenTextValues = TasksScreenTextValues(
+      taskAdded: AppLocalizations.of(context)!.task_added,
+      removeTaskDialogTitle:
+          AppLocalizations.of(context)!.remove_task_dialog_title,
+      removeTaskDialogDesc:
+          AppLocalizations.of(context)!.remove_task_dialog_desc,
+      yes: AppLocalizations.of(context)!.yes,
+      no: AppLocalizations.of(context)!.no,
+      emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
+    );
+
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
@@ -44,6 +56,7 @@ class TasksScreen extends StatelessWidget {
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
+          tasksScreenTextValues: tasksScreenTextValues,
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
@@ -61,6 +74,7 @@ class TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
   final String checklistName;
+  final TasksScreenTextValues tasksScreenTextValues;
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
@@ -73,6 +87,7 @@ class TasksScaffold extends StatelessWidget {
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
+    required this.tasksScreenTextValues,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
@@ -106,7 +121,7 @@ class TasksScaffold extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    AppLocalizations.of(context)!.task_added,
+                    tasksScreenTextValues.taskAdded,
                   ),
                 ),
               );
@@ -126,6 +141,7 @@ class TasksScaffold extends StatelessWidget {
             ),
             child: TasksListWidget(
               tasks: uiState.tasks,
+              emptyTasksMessage: tasksScreenTextValues.emptyTasksMessage,
               onReorder: onReorder,
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
@@ -146,15 +162,13 @@ class TasksScaffold extends StatelessWidget {
   }
 
   _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
-    final appLocalizations = AppLocalizations.of(context)!;
-
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: appLocalizations.remove_task_dialog_title,
-        description: appLocalizations.remove_task_dialog_desc,
-        secondaryButtonText: appLocalizations.no,
-        primaryButtonText: appLocalizations.yes,
+        title: tasksScreenTextValues.removeTaskDialogTitle,
+        description: tasksScreenTextValues.removeTaskDialogDesc,
+        secondaryButtonText: tasksScreenTextValues.no,
+        primaryButtonText: tasksScreenTextValues.yes,
         onSecondaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
         },
