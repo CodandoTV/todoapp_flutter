@@ -8,13 +8,13 @@ void main() {
   testWidgets(
     'TaskScreen - Snapshot - Insert a new task',
     (tester) async {
-
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TaskScreenScaffold(
           onAddNewTask: (_) => {},
           taskErrorMessage: 'Task name is required',
           taskLabel: 'Task',
-          formScreenValidator: FormScreenValidator(), onPop: (_) => {  },
+          formScreenValidator: FormScreenValidator(),
+          onPop: (_) => {},
         ),
         tester: tester,
       );
@@ -24,7 +24,8 @@ void main() {
       await expectLater(
         find.byType(TaskScreenScaffold),
         matchesGoldenFile(
-            'goldens/task_screen_snapshot.png'),
+          'goldens/task_screen_snapshot.png',
+        ),
       );
     },
   );

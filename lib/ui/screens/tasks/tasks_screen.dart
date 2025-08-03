@@ -66,6 +66,7 @@ class TasksScaffold extends StatelessWidget {
   final Function() onShare;
 
   const TasksScaffold({
+    super.key,
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
@@ -154,8 +155,7 @@ class TasksScaffold extends StatelessWidget {
         onSecondaryButtonPressed: () => {
           router.pop(),
         },
-        onPrimaryButtonPressed: () =>
-            {router.pop(), onRemoveTask(task)},
+        onPrimaryButtonPressed: () => {router.pop(), onRemoveTask(task)},
       ),
     );
   }

@@ -17,7 +17,8 @@ class ChecklistsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ChecklistsViewModel(GetItStartupHandlerWrapper.getIt.get());
+    final viewModel =
+        ChecklistsViewModel(GetItStartupHandlerWrapper.getIt.get());
     viewModel.updateChecklists();
 
     return BlocProvider(
@@ -39,6 +40,7 @@ class ChecklistsScaffold extends StatelessWidget {
   final Function updateChecklists;
 
   const ChecklistsScaffold({
+    super.key,
     required this.uiState,
     required this.updateChecklists,
     required this.onRemoveChecklist,

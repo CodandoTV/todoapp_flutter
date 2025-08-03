@@ -36,6 +36,7 @@ class ChecklistScreenScaffold extends StatelessWidget {
   final FormScreenValidator formScreenValidator;
 
   ChecklistScreenScaffold({
+    super.key,
     required this.onAddNewChecklist,
     required this.formScreenValidator,
   });
