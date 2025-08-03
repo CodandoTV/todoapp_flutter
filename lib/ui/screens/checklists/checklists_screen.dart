@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/providers/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
@@ -28,6 +29,7 @@ class ChecklistsScreen extends StatelessWidget {
           uiState: uiState,
           updateChecklists: viewModel.updateChecklists,
           onRemoveChecklist: viewModel.onRemoveChecklist,
+          navigatorProvider: GetItStartupHandlerWrapper.getIt.get(),
         ),
       ),
     );
@@ -38,17 +40,18 @@ class ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
+  final NavigatorProvider navigatorProvider;
 
   const ChecklistsScaffold({
     super.key,
     required this.uiState,
     required this.updateChecklists,
     required this.onRemoveChecklist,
+    required this.navigatorProvider,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
@@ -56,7 +59,10 @@ class ChecklistsScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await router.push(const ChecklistRoute());
+          bool? result = await navigatorProvider.push(
+            context,
+            const ChecklistRoute(),
+          );
 
           if (result == true) {
             updateChecklists();
@@ -82,7 +88,8 @@ class ChecklistsScaffold extends StatelessWidget {
           onRemoveChecklist: (checklist) {
             _showConfirmationDialogToRemoveChecklist(context, checklist);
           },
-          onSelectChecklist: (checklist) => router.push(
+          onSelectChecklist: (checklist) => navigatorProvider.push(
+            context,
             TasksRoute(checklist: checklist),
           ),
         ),
@@ -94,7 +101,6 @@ class ChecklistsScaffold extends StatelessWidget {
     BuildContext context,
     Checklist checklist,
   ) {
-    final router = AutoRouter.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
@@ -104,10 +110,12 @@ class ChecklistsScaffold extends StatelessWidget {
         secondaryButtonText: appLocalizations.no,
         primaryButtonText: appLocalizations.yes,
         onSecondaryButtonPressed: () => {
-          router.pop(),
+          navigatorProvider.onPop(context, null),
         },
-        onPrimaryButtonPressed: () =>
-            {router.pop(), onRemoveChecklist(checklist)},
+        onPrimaryButtonPressed: () => {
+          navigatorProvider.onPop(context, null),
+          onRemoveChecklist(checklist)
+        },
       ),
     );
   }
