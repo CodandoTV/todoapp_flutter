@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/util/di/dependency_startup_handler.dart';
@@ -20,7 +21,6 @@ class ChecklistScreen extends StatelessWidget {
     final viewModel = ChecklistViewModel(
       GetItStartupHandlerWrapper.getIt.get(),
     );
-    final router = AutoRouter.of(context);
 
     final checklistScreenTextValues = ChecklistScreenTextValues(
       screenTitle: AppLocalizations.of(context)!.checklist,
@@ -35,7 +35,7 @@ class ChecklistScreen extends StatelessWidget {
       onAddNewChecklist: (title) => viewModel.addChecklist(
         title: title,
       ),
-      onPop: (result) => {router.pop(result)},
+      navigatorProvider: GetItStartupHandlerWrapper.getIt.get(),
     );
   }
 }
@@ -47,14 +47,14 @@ class ChecklistScreenScaffold extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final FormScreenValidator formScreenValidator;
   final ChecklistScreenTextValues checklistScreenTextValues;
-  final Function(bool) onPop;
+  final NavigatorProvider navigatorProvider;
 
   ChecklistScreenScaffold({
     super.key,
     required this.checklistScreenTextValues,
     required this.onAddNewChecklist,
     required this.formScreenValidator,
-    required this.onPop,
+    required this.navigatorProvider,
   });
 
   @override
@@ -73,7 +73,7 @@ class ChecklistScreenScaffold extends StatelessWidget {
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            onPop(true);
+            navigatorProvider.onPop(context, true);
           }
         },
         child: const Icon(

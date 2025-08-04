@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
@@ -24,7 +25,9 @@ class TaskScreen extends StatelessWidget {
       GetItStartupHandlerWrapper.getIt.get(),
       checklistId,
     );
-    final router = AutoRouter.of(context);
+    final NavigatorProvider navigatorProvider =
+        GetItStartupHandlerWrapper.getIt.get();
+
     final taskScreenTextValues = TaskScreenTextValues(
       taskErrorMessage: AppLocalizations.of(context)!.task_name_required,
       taskLabel: AppLocalizations.of(context)!.task,
@@ -36,7 +39,7 @@ class TaskScreen extends StatelessWidget {
         title: title,
       ),
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
-      onPop: (result) => {router.pop(result)},
+      navigatorProvider: navigatorProvider,
     );
   }
 }
@@ -46,7 +49,7 @@ class TaskScreenScaffold extends StatelessWidget {
   final Function(String) onAddNewTask;
   final FormScreenValidator formScreenValidator;
   final _formKey = GlobalKey<FormState>();
-  final Function(bool) onPop;
+  final NavigatorProvider navigatorProvider;
   final TaskScreenTextValues taskScreenTextValues;
 
   TaskScreenScaffold({
@@ -54,7 +57,7 @@ class TaskScreenScaffold extends StatelessWidget {
     required this.taskScreenTextValues,
     required this.onAddNewTask,
     required this.formScreenValidator,
-    required this.onPop,
+    required this.navigatorProvider,
   });
 
   @override
@@ -73,7 +76,7 @@ class TaskScreenScaffold extends StatelessWidget {
             _taskEditingController.text,
           );
           if (context.mounted) {
-            onPop(true);
+            navigatorProvider.onPop(context, true);
           }
         },
         child: const Icon(

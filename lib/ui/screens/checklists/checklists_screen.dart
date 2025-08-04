@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
@@ -17,17 +19,32 @@ class ChecklistsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        ChecklistsViewModel(GetItStartupHandlerWrapper.getIt.get());
+    final viewModel = ChecklistsViewModel(
+      GetItStartupHandlerWrapper.getIt.get(),
+    );
     viewModel.updateChecklists();
+
+    final checklistScreenTextValues = ChecklistsScreenTextValues(
+      screenTitle: AppLocalizations.of(context)!.checklists,
+      checklistAdded: AppLocalizations.of(context)!.checklist_added,
+      removeChecklistDialogTitle:
+          AppLocalizations.of(context)!.remove_checklist_dialog_title,
+      removeChecklistDialogDesc:
+          AppLocalizations.of(context)!.remove_checklist_dialog_desc,
+      yes: AppLocalizations.of(context)!.yes,
+      no: AppLocalizations.of(context)!.no,
+      emptyChecklistMessage: AppLocalizations.of(context)!.empty_checklists,
+    );
 
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<ChecklistsViewModel, ChecklistsScreenState>(
         builder: (context, uiState) => ChecklistsScaffold(
           uiState: uiState,
+          checklistsScreenTextValues: checklistScreenTextValues,
           updateChecklists: viewModel.updateChecklists,
           onRemoveChecklist: viewModel.onRemoveChecklist,
+          navigatorProvider: GetItStartupHandlerWrapper.getIt.get(),
         ),
       ),
     );
@@ -38,25 +55,31 @@ class ChecklistsScaffold extends StatelessWidget {
   final ChecklistsScreenState uiState;
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
+  final NavigatorProvider navigatorProvider;
+  final ChecklistsScreenTextValues checklistsScreenTextValues;
 
   const ChecklistsScaffold({
     super.key,
     required this.uiState,
+    required this.checklistsScreenTextValues,
     required this.updateChecklists,
     required this.onRemoveChecklist,
+    required this.navigatorProvider,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
-        title: AppLocalizations.of(context)!.checklists,
+        title: checklistsScreenTextValues.screenTitle,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await router.push(const ChecklistRoute());
+          bool? result = await navigatorProvider.push(
+            context,
+            const ChecklistRoute(),
+          );
 
           if (result == true) {
             updateChecklists();
@@ -79,10 +102,13 @@ class ChecklistsScaffold extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12, right: 12),
         child: ChecklistsListWidget(
           checklists: uiState.checklists,
+          emptyChecklistMessage:
+              checklistsScreenTextValues.emptyChecklistMessage,
           onRemoveChecklist: (checklist) {
             _showConfirmationDialogToRemoveChecklist(context, checklist);
           },
-          onSelectChecklist: (checklist) => router.push(
+          onSelectChecklist: (checklist) => navigatorProvider.push(
+            context,
             TasksRoute(checklist: checklist),
           ),
         ),
@@ -94,20 +120,20 @@ class ChecklistsScaffold extends StatelessWidget {
     BuildContext context,
     Checklist checklist,
   ) {
-    final router = AutoRouter.of(context);
-    final appLocalizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: appLocalizations.remove_checklist_dialog_title,
-        description: appLocalizations.remove_checklist_dialog_desc,
-        secondaryButtonText: appLocalizations.no,
-        primaryButtonText: appLocalizations.yes,
+        title: checklistsScreenTextValues.removeChecklistDialogTitle,
+        description: checklistsScreenTextValues.removeChecklistDialogDesc,
+        secondaryButtonText: checklistsScreenTextValues.no,
+        primaryButtonText: checklistsScreenTextValues.yes,
         onSecondaryButtonPressed: () => {
-          router.pop(),
+          navigatorProvider.onPop(context, null),
         },
-        onPrimaryButtonPressed: () =>
-            {router.pop(), onRemoveChecklist(checklist)},
+        onPrimaryButtonPressed: () => {
+          navigatorProvider.onPop(context, null),
+          onRemoveChecklist(checklist)
+        },
       ),
     );
   }

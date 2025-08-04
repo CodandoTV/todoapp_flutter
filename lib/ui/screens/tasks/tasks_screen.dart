@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
@@ -35,13 +37,26 @@ class TasksScreen extends StatelessWidget {
     );
     viewModel.updateTasks();
 
+    final tasksScreenTextValues = TasksScreenTextValues(
+      taskAdded: AppLocalizations.of(context)!.task_added,
+      removeTaskDialogTitle:
+          AppLocalizations.of(context)!.remove_task_dialog_title,
+      removeTaskDialogDesc:
+          AppLocalizations.of(context)!.remove_task_dialog_desc,
+      yes: AppLocalizations.of(context)!.yes,
+      no: AppLocalizations.of(context)!.no,
+      emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
+    );
+
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
         builder: (context, uiState) => TasksScaffold(
+          navigatorProvider: getIt.get(),
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
+          tasksScreenTextValues: tasksScreenTextValues,
           onCompleteTask: viewModel.onCompleteTask,
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
@@ -59,27 +74,30 @@ class TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
   final String checklistName;
+  final TasksScreenTextValues tasksScreenTextValues;
   final Function updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
+  final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
     super.key,
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
+    required this.tasksScreenTextValues,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
     required this.onReorder,
     required this.onShare,
+    required this.navigatorProvider,
   });
 
   @override
   Widget build(BuildContext context) {
-    final router = AutoRouter.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
@@ -91,7 +109,8 @@ class TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? result = await router.push(
+          bool? result = await navigatorProvider.push(
+            context,
             TaskRoute(
               checklistId: checklistId,
             ),
@@ -102,7 +121,7 @@ class TasksScaffold extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    AppLocalizations.of(context)!.task_added,
+                    tasksScreenTextValues.taskAdded,
                   ),
                 ),
               );
@@ -122,6 +141,7 @@ class TasksScaffold extends StatelessWidget {
             ),
             child: TasksListWidget(
               tasks: uiState.tasks,
+              emptyTasksMessage: tasksScreenTextValues.emptyTasksMessage,
               onReorder: onReorder,
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
@@ -142,20 +162,20 @@ class TasksScaffold extends StatelessWidget {
   }
 
   _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
-    final appLocalizations = AppLocalizations.of(context)!;
-    final router = AutoRouter.of(context);
-
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: appLocalizations.remove_task_dialog_title,
-        description: appLocalizations.remove_task_dialog_desc,
-        secondaryButtonText: appLocalizations.no,
-        primaryButtonText: appLocalizations.yes,
+        title: tasksScreenTextValues.removeTaskDialogTitle,
+        description: tasksScreenTextValues.removeTaskDialogDesc,
+        secondaryButtonText: tasksScreenTextValues.no,
+        primaryButtonText: tasksScreenTextValues.yes,
         onSecondaryButtonPressed: () => {
-          router.pop(),
+          navigatorProvider.onPop(context, null),
         },
-        onPrimaryButtonPressed: () => {router.pop(), onRemoveTask(task)},
+        onPrimaryButtonPressed: () => {
+          navigatorProvider.onPop(context, null),
+          onRemoveTask(task),
+        },
       ),
     );
   }

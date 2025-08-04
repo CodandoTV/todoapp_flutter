@@ -31,8 +31,10 @@ class ProgressWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressBar(
-      {required double progress, required double maxWidth}) {
+  Widget _buildProgressBar({
+    required double progress,
+    required double maxWidth,
+  }) {
     final double endWidth = maxWidth * progress;
     Color decorationColor = Colors.blueAccent;
 
@@ -40,7 +42,8 @@ class ProgressWidget extends StatelessWidget {
       decorationColor = Colors.green;
     }
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 400),
       width: endWidth,
       height: containerHeight,
       decoration: BoxDecoration(
