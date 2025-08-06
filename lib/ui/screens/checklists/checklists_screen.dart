@@ -67,6 +67,13 @@ class ChecklistsScaffold extends StatelessWidget {
     required this.navigatorProvider,
   });
 
+  _buildFloatingActionButton(Function() onPressed) {
+    return FloatingActionButton(
+      onPressed: onPressed,
+      child: Image.asset('assets/exposure_plus.png'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,8 +81,8 @@ class ChecklistsScaffold extends StatelessWidget {
       appBar: CustomAppBarWidget(
         title: checklistsScreenTextValues.screenTitle,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+      floatingActionButton: _buildFloatingActionButton(
+        () async {
           bool? result = await navigatorProvider.push(
             context,
             const ChecklistRoute(),
@@ -94,9 +101,6 @@ class ChecklistsScaffold extends StatelessWidget {
             }
           }
         },
-        child: const Icon(
-          Icons.plus_one,
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),
