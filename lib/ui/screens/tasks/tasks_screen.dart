@@ -111,6 +111,7 @@ class TasksScaffold extends StatelessWidget {
       appBar: CustomAppBarWidget(
         title: checklistName,
         actions: _buildTopBarActions(
+          context: context,
           showShareButton: uiState.showShareIcon,
           onShare: onShare,
         ),
@@ -188,12 +189,16 @@ class TasksScaffold extends StatelessWidget {
   List<Widget>? _buildTopBarActions({
     required bool showShareButton,
     required VoidCallback onShare,
+    required BuildContext context,
   }) {
     if (showShareButton) {
       return [
         IconButton(
           onPressed: onShare,
-          icon: const Icon(Icons.share),
+          icon: AssetImageWidget(
+            iconType: IconType.share,
+            color: Theme.of(context).colorScheme.onInverseSurface,
+          ),
         ),
       ];
     } else {

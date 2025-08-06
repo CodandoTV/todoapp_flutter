@@ -110,7 +110,7 @@ void main() {
             ],
             isLoading: false,
             progress: 1,
-            showShareIcon: true,
+            showShareIcon: false,
           ),
           updateTasks: () => {},
           onShare: () => {},

@@ -1,16 +1,24 @@
 import 'package:flutter/cupertino.dart';
 
-enum IconType { plus, save, chevronForward, close }
+enum IconType { plus, save, chevronForward, close, share }
 
 class AssetImageWidget extends StatelessWidget {
   final IconType iconType;
+  final Color? color;
 
-  const AssetImageWidget({super.key, required this.iconType});
+  const AssetImageWidget({
+    super.key,
+    required this.iconType,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     final String assetPath;
     switch (iconType) {
+      case IconType.share:
+        assetPath = 'assets/share.png';
+        break;
       case IconType.plus:
         assetPath = 'assets/exposure_plus.png';
         break;
@@ -24,6 +32,9 @@ class AssetImageWidget extends StatelessWidget {
         assetPath = 'assets/close.png';
         break;
     }
-    return Image.asset(assetPath);
+    return Image.asset(
+      assetPath,
+      color: color,
+    );
   }
 }
