@@ -26,10 +26,19 @@ class WidgetsUtil {
   }
 
   static _loadFont() async {
-      final fontData = await rootBundle.load('fonts/Roboto-Regular.ttf');
-      final fontLoader = FontLoader('Roboto');
+    final fonts = [
+      'fonts/Roboto-Regular.ttf',
+      'fonts/Roboto-SemiBold.ttf',
+      'fonts/Roboto-SemiBoldItalic.ttf',
+      'fonts/Roboto-Thin.ttf',
+      'fonts/Roboto-ThinItalic.ttf',
+    ];
+    final fontLoader = FontLoader('Roboto');
+    for (final font in fonts) {
+      final fontData = await rootBundle.load(font);
       fontLoader.addFont(Future.value(fontData));
-      await fontLoader.load();
+    }
+    await fontLoader.load();
   }
 
   static _setupDeviceConstraintsForSnapshotTests(WidgetTester tester) {
