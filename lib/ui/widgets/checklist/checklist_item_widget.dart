@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/ui/widgets/asset_images_widget.dart';
 
 import '../../../data/model/checklist.dart';
 
@@ -21,7 +22,7 @@ class ChecklistItemWidget extends StatelessWidget {
     return ListTile(
       leading: IconButton(
         onPressed: () => onRemoveChecklist(checklist),
-        icon: const Icon(Icons.close),
+        icon: const AssetImageWidget(iconType: IconType.close),
       ),
       title: Text(
         checklist.title,
@@ -29,10 +30,7 @@ class ChecklistItemWidget extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      trailing: const Icon(
-        Icons.chevron_right,
-        size: 32,
-      ),
+      trailing: const AssetImageWidget(iconType: IconType.chevronForward),
     );
   }
 

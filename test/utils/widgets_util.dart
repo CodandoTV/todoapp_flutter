@@ -9,6 +9,8 @@ class WidgetsUtil {
   }) async {
     await _loadFont();
 
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     const baseColor = Color.fromARGB(255, 239, 232, 215);
     _setupDeviceConstraintsForSnapshotTests(tester);
 
