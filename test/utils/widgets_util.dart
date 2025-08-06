@@ -9,15 +9,16 @@ class WidgetsUtil {
   }) async {
     await _loadFont();
 
-    const baseColor = Color.fromARGB(255, 236, 185, 57);
+    const baseColor = Color.fromARGB(255, 239, 232, 215);
     _setupDeviceConstraintsForSnapshotTests(tester);
 
     return MaterialApp(
       home: child,
       themeMode: ThemeMode.dark,
-      theme: ThemeData(
+      darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: baseColor,
+          brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
