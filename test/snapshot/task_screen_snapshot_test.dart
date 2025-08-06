@@ -10,7 +10,7 @@ void main() {
   testWidgets(
     'TaskScreen - Snapshot - Insert a new task',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TaskScreenScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           onAddNewTask: (_) => {},

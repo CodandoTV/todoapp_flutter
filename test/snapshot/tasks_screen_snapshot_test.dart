@@ -11,7 +11,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Empty state',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -53,7 +53,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 50%',
         (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -100,7 +100,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 100%',
         (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(

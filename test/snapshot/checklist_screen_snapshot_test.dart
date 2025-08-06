@@ -10,7 +10,7 @@ void main() {
   testWidgets(
     'ChecklistScreen - Snapshot - Insert a new checklist',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistScreenScaffold(
           checklistScreenTextValues: ChecklistScreenTextValues(
             screenTitle: 'Checklist',

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class WidgetsUtil {
   static buildMaterialAppWidgetTest({
     required Widget child,
     required WidgetTester tester,
-  }) {
+  }) async {
+    await _loadFont();
+
     const baseColor = Color.fromARGB(255, 236, 185, 57);
     _setupDeviceConstraintsForSnapshotTests(tester);
 
@@ -19,6 +22,13 @@ class WidgetsUtil {
         useMaterial3: true,
       ),
     );
+  }
+
+  static _loadFont() async {
+      final fontData = await rootBundle.load('fonts/Roboto-Regular.ttf');
+      final fontLoader = FontLoader('Roboto');
+      fontLoader.addFont(Future.value(fontData));
+      await fontLoader.load();
   }
 
   static _setupDeviceConstraintsForSnapshotTests(WidgetTester tester) {
