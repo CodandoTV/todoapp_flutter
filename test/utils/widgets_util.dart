@@ -32,8 +32,8 @@ class WidgetsUtil {
   }
 
   static _setupDeviceConstraintsForSnapshotTests(WidgetTester tester) {
-    tester.view.physicalSize = const Size(300, 600);
-    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1.0;
 
     addTearDown(() {
       tester.view.resetPhysicalSize();
