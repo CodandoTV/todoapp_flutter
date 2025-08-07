@@ -197,7 +197,7 @@ class TasksScaffold extends StatelessWidget {
           onPressed: onShare,
           icon: AssetImageWidget(
             iconType: IconType.share,
-            color: Theme.of(context).colorScheme.onInverseSurface,
+            color: Colors.black,
           ),
         ),
       ];
