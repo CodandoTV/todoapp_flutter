@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
-import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;
   final TextEditingController checklistEditingController;
   final FormScreenValidator formScreenValidator;
+  final String checklistLabel;
+  final String checklistErrorMessage;
 
   const ChecklistFormWidget({
     super.key,
     required this.formKey,
+    required this.checklistLabel,
+    required this.checklistErrorMessage,
     required this.checklistEditingController,
     required this.formScreenValidator,
   });
@@ -25,13 +28,13 @@ class ChecklistFormWidget extends StatelessWidget {
             autofocus: true,
             controller: checklistEditingController,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.checklist_name,
+              labelText: checklistLabel,
               labelStyle: Theme.of(context).textTheme.titleMedium,
               border: const OutlineInputBorder(),
             ),
             validator: (value) {
               if (formScreenValidator.validateValue(value) == false) {
-                return AppLocalizations.of(context)!.checklist_name_required;
+                return checklistErrorMessage;
               }
               return null;
             },

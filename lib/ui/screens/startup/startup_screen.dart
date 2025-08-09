@@ -14,7 +14,7 @@ class StartupScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<StartupViewmodel, bool>(
-        builder: (context, uiState) => _StartupScreen(
+        builder: (context, uiState) => StartupContainer(
           isLoading: uiState,
         ),
       ),
@@ -22,10 +22,10 @@ class StartupScreen extends StatelessWidget {
   }
 }
 
-class _StartupScreen extends StatelessWidget {
+class StartupContainer extends StatelessWidget {
   final bool isLoading;
 
-  const _StartupScreen({
+  const StartupContainer({super.key,
     required this.isLoading,
   });
 

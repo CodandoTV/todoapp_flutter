@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/widgets/checklist/checklist_item_widget.dart';
 
 class ChecklistsListWidget extends StatelessWidget {
   final List<Checklist> checklists;
   final Function(Checklist) onRemoveChecklist;
   final Function(Checklist) onSelectChecklist;
+  final String emptyChecklistMessage;
 
   const ChecklistsListWidget({
     super.key,
     required this.checklists,
+    required this.emptyChecklistMessage,
     required this.onRemoveChecklist,
     required this.onSelectChecklist,
   });
@@ -24,24 +25,20 @@ class ChecklistsListWidget extends StatelessWidget {
     if (checklists.isEmpty) {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.empty_checklists,
+          emptyChecklistMessage,
+          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       );
     } else {
-      return GridView.count(
+      return ListView.builder(
         padding: const EdgeInsets.only(top: 12, bottom: 120),
-        crossAxisCount: 2,
-        scrollDirection: Axis.vertical,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
-        children: List.generate(checklists.length, (index) {
-          return ChecklistItemWidget(
+        itemBuilder: (context, index) => ChecklistItemWidget(
             checklist: checklists[index],
             onRemoveChecklist: onRemoveChecklist,
             onSelectChecklist: onSelectChecklist,
-          );
-        }),
+        ),
+        itemCount: checklists.length,
       );
     }
   }
