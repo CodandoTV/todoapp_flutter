@@ -11,7 +11,7 @@ void main() {
   testWidgets(
     'ChecklistsScreen - Snapshot - Empty state',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
             checklists: [],
@@ -47,7 +47,7 @@ void main() {
   testWidgets(
     'ChecklistsScreen - Snapshot - Some checklists',
         (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
             checklists: [

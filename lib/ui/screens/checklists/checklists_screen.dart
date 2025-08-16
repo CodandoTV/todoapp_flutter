@@ -10,6 +10,7 @@ import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
 import '../../../util/di/dependency_startup_handler.dart';
+import '../../widgets/asset_images_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'checklists_screen_state.dart';
 
@@ -67,6 +68,13 @@ class ChecklistsScaffold extends StatelessWidget {
     required this.navigatorProvider,
   });
 
+  _buildFloatingActionButton(Function() onPressed) {
+    return FloatingActionButton(
+      onPressed: onPressed,
+      child: const AssetImageWidget(iconType: IconType.plus),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,8 +82,8 @@ class ChecklistsScaffold extends StatelessWidget {
       appBar: CustomAppBarWidget(
         title: checklistsScreenTextValues.screenTitle,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+      floatingActionButton: _buildFloatingActionButton(
+        () async {
           bool? result = await navigatorProvider.push(
             context,
             const ChecklistRoute(),
@@ -94,9 +102,6 @@ class ChecklistsScaffold extends StatelessWidget {
             }
           }
         },
-        child: const Icon(
-          Icons.plus_one,
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),

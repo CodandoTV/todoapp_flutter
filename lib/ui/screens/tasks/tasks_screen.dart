@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
+import 'package:todoapp/ui/widgets/asset_images_widget.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
@@ -96,6 +97,13 @@ class TasksScaffold extends StatelessWidget {
     required this.navigatorProvider,
   });
 
+  _buildFloatingActionButton(Function() onPressed) {
+    return FloatingActionButton(
+      onPressed: onPressed,
+      child: const AssetImageWidget(iconType: IconType.plus),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,12 +111,13 @@ class TasksScaffold extends StatelessWidget {
       appBar: CustomAppBarWidget(
         title: checklistName,
         actions: _buildTopBarActions(
+          context: context,
           showShareButton: uiState.showShareIcon,
           onShare: onShare,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+      floatingActionButton: _buildFloatingActionButton(
+        () async {
           bool? result = await navigatorProvider.push(
             context,
             TaskRoute(
@@ -128,9 +137,6 @@ class TasksScaffold extends StatelessWidget {
             }
           }
         },
-        child: const Icon(
-          Icons.plus_one,
-        ),
       ),
       body: Stack(
         children: [
@@ -183,12 +189,16 @@ class TasksScaffold extends StatelessWidget {
   List<Widget>? _buildTopBarActions({
     required bool showShareButton,
     required VoidCallback onShare,
+    required BuildContext context,
   }) {
     if (showShareButton) {
       return [
         IconButton(
           onPressed: onShare,
-          icon: const Icon(Icons.share),
+          icon: AssetImageWidget(
+            iconType: IconType.share,
+            color: Colors.black,
+          ),
         ),
       ];
     } else {

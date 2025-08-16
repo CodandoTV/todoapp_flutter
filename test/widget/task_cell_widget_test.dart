@@ -11,7 +11,7 @@ void main() {
     (tester) async {
       const taskName = 'Task A';
 
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         tester: tester,
         child: TaskCellWidget(
           task: const Task(
@@ -35,7 +35,7 @@ void main() {
     'TaskCellWidget is completed',
     (tester) async {
       // Arrange
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         tester: tester,
         child: TaskCellWidget(
           task: const Task(
@@ -63,7 +63,7 @@ void main() {
     'TaskCellWidget is not completed',
     (tester) async {
       // Arrange
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         tester: tester,
         child: TaskCellWidget(
           task: const Task(

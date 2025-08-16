@@ -11,7 +11,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Empty state',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -26,14 +26,14 @@ void main() {
           onRemoveTask: (_) => {},
           onReorder: (_, __) => {},
           checklistId: 1,
-          checklistName: 'pets',
+          checklistName: 'Pets',
           tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'taskAdded',
-            removeTaskDialogTitle: 'removeTaskDialogTitle',
-            removeTaskDialogDesc: 'removeTaskDialogDesc',
+            taskAdded: 'Task added.',
+            removeTaskDialogTitle: 'Remove task',
+            removeTaskDialogDesc: 'Are you sure?',
             yes: 'yes',
             no: 'no',
-            emptyTasksMessage: 'emptyTasksMessage',
+            emptyTasksMessage: 'No Tasks available',
           ),
         ),
         tester: tester,
@@ -53,7 +53,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 50%',
         (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -73,14 +73,14 @@ void main() {
           onRemoveTask: (_) => {},
           onReorder: (_, __) => {},
           checklistId: 1,
-          checklistName: 'pets',
+          checklistName: 'Pets',
           tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'taskAdded',
-            removeTaskDialogTitle: 'removeTaskDialogTitle',
-            removeTaskDialogDesc: 'removeTaskDialogDesc',
+            taskAdded: 'Task Added',
+            removeTaskDialogTitle: 'Remove Task',
+            removeTaskDialogDesc: 'Are you sure?',
             yes: 'yes',
             no: 'no',
-            emptyTasksMessage: 'emptyTasksMessage',
+            emptyTasksMessage: 'No tasks available',
           ),
         ),
         tester: tester,
@@ -100,7 +100,7 @@ void main() {
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 100%',
         (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -110,7 +110,7 @@ void main() {
             ],
             isLoading: false,
             progress: 1,
-            showShareIcon: true,
+            showShareIcon: false,
           ),
           updateTasks: () => {},
           onShare: () => {},
@@ -120,12 +120,12 @@ void main() {
           checklistId: 1,
           checklistName: 'pets',
           tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'taskAdded',
-            removeTaskDialogTitle: 'removeTaskDialogTitle',
-            removeTaskDialogDesc: 'removeTaskDialogDesc',
+            taskAdded: 'Task added.',
+            removeTaskDialogTitle: 'Remove task',
+            removeTaskDialogDesc: 'Are you sure?',
             yes: 'yes',
             no: 'no',
-            emptyTasksMessage: 'emptyTasksMessage',
+            emptyTasksMessage: 'No tasks here',
           ),
         ),
         tester: tester,

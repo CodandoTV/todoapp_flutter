@@ -7,7 +7,7 @@ void main() {
   testWidgets(
     'StartupScreen - Snapshot - Loading state',
     (tester) async {
-      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: const StartupContainer(
           isLoading: true,
         ),

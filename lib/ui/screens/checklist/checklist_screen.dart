@@ -7,6 +7,7 @@ import 'package:todoapp/util/di/dependency_startup_handler.dart';
 
 import '../../components/form_validator.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/asset_images_widget.dart';
 import '../../widgets/checklist_form_widget.dart';
 import 'checklist_screen_text_values.dart';
 
@@ -76,9 +77,7 @@ class ChecklistScreenScaffold extends StatelessWidget {
             navigatorProvider.onPop(context, true);
           }
         },
-        child: const Icon(
-          Icons.save,
-        ),
+        child: const AssetImageWidget(iconType: IconType.save),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
