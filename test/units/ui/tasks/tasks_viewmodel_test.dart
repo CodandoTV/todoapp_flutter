@@ -171,4 +171,45 @@ void main() {
       );
     },
   );
+
+  test(
+    'TasksViewModel -> test onSort',
+    () async {
+      const task1 = Task(
+        id: 1,
+        title: 'Task 1',
+        isCompleted: true,
+      );
+      const task2 = Task(
+        id: 2,
+        title: 'Task 2',
+        isCompleted: false,
+      );
+
+      // Arrange
+      final repository = FakeRepository(
+        tasks: [task1, task2],
+        checklists: [],
+      );
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        shouldShowShareUseCase: ShouldShowShareUseCase(),
+        calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
+        formatTaskListUseCase: FormatTaskListUseCase(),
+        shareMessageHandler: FakeShareMessageHandler(),
+      );
+
+      await viewModel.updateTasks();
+
+      // Act
+      await viewModel.onSort();
+
+      // Assert
+      expect(
+        viewModel.state.tasks,
+        [task2, task1],
+      );
+    },
+  );
 }
