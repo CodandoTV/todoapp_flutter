@@ -199,13 +199,15 @@ class TasksScaffold extends StatelessWidget {
     List<Widget> menuActions = [];
 
     if (showShareButton) {
-      menuActions.add(IconButton(
-        onPressed: onShare,
-        icon: const AssetImageWidget(
-          iconType: IconType.share,
-          color: Colors.black,
+      menuActions.add(
+        IconButton(
+          onPressed: onShare,
+          icon: const AssetImageWidget(
+            iconType: IconType.share,
+            color: Colors.black,
+          ),
         ),
-      ));
+      );
     }
 
     menuActions.add(
