@@ -90,6 +90,7 @@ flutter:
     - assets/close.png
     - assets/save.png
     - assets/share.png
+    - assets/sort.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

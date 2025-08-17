@@ -62,6 +62,7 @@ class TasksScreen extends StatelessWidget {
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
           onReorder: viewModel.reorder,
+          onSort: viewModel.onSort,
           onShare: () => {
             viewModel.shareTasks(checklistName: checklist.title),
           },
@@ -81,6 +82,7 @@ class TasksScaffold extends StatelessWidget {
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
+  final Function() onSort;
   final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
@@ -94,6 +96,7 @@ class TasksScaffold extends StatelessWidget {
     required this.onRemoveTask,
     required this.onReorder,
     required this.onShare,
+    required this.onSort,
     required this.navigatorProvider,
   });
 
@@ -114,6 +117,7 @@ class TasksScaffold extends StatelessWidget {
           context: context,
           showShareButton: uiState.showShareIcon,
           onShare: onShare,
+          onSort: onSort,
         ),
       ),
       floatingActionButton: _buildFloatingActionButton(
@@ -186,23 +190,31 @@ class TasksScaffold extends StatelessWidget {
     );
   }
 
-  List<Widget>? _buildTopBarActions({
+  List<Widget> _buildTopBarActions({
     required bool showShareButton,
     required VoidCallback onShare,
+    required VoidCallback onSort,
     required BuildContext context,
   }) {
-    if (showShareButton) {
-      return [
-        IconButton(
-          onPressed: onShare,
-          icon: AssetImageWidget(
-            iconType: IconType.share,
-            color: Colors.black,
-          ),
+    var menuActions = [
+      IconButton(
+        onPressed: onSort,
+        icon: const AssetImageWidget(
+          iconType: IconType.sort,
+          color: Colors.black,
         ),
-      ];
-    } else {
-      return null;
+      )
+    ];
+
+    if (showShareButton) {
+      menuActions.add(IconButton(
+        onPressed: onShare,
+        icon: const AssetImageWidget(
+          iconType: IconType.share,
+          color: Colors.black,
+        ),
+      ));
     }
+    return menuActions;
   }
 }

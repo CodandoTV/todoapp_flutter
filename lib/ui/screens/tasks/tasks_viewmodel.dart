@@ -52,7 +52,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
 
     var tasks = await _repository.getTasks(_checklistId);
     emit(
-      TasksScreenState(
+      state.copyWith(
         isLoading: false,
         tasks: tasks,
         showShareIcon: _shouldShowShareUseCase.execute(tasks),
@@ -86,7 +86,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       if (index != -1) {
         tasks[index] = tasks[index].copyWith(isCompleted: value);
         emit(
-          TasksScreenState(
+          state.copyWith(
             progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
             showShareIcon: _shouldShowShareUseCase.execute(tasks),
             isLoading: false,
@@ -106,12 +106,11 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       List<Task> tasks = List.from(state.tasks);
       tasks.remove(task);
       emit(
-        TasksScreenState(
-          progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
-          showShareIcon: _shouldShowShareUseCase.execute(tasks),
-          isLoading: false,
-          tasks: tasks,
-        ),
+        state.copyWith(
+            progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
+            showShareIcon: _shouldShowShareUseCase.execute(tasks),
+            isLoading: false,
+            tasks: tasks),
       );
     }
   }
@@ -129,8 +128,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     tasks.insert(newIndex, task);
 
     emit(
-      TasksScreenState(
-        progress: state.progress,
+      state.copyWith(
         isLoading: false,
         showShareIcon: _shouldShowShareUseCase.execute(tasks),
         tasks: tasks,
@@ -138,5 +136,25 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     );
 
     _repository.updateAllTasks(tasks);
+  }
+
+  onSort() {
+    List<Task> tasksToBeSorted = List.from(state.tasks);
+    tasksToBeSorted.sort((a, b) => _sort(a, b));
+    emit(
+      state.copyWith(tasks: tasksToBeSorted),
+    );
+
+    _repository.updateAllTasks(tasksToBeSorted);
+  }
+
+  int _sort(Task a, Task b) {
+    if (a.isCompleted == false && b.isCompleted) {
+      return -1;
+    } else if (a.isCompleted && b.isCompleted == false) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }
