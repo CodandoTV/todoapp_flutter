@@ -196,15 +196,7 @@ class TasksScaffold extends StatelessWidget {
     required VoidCallback onSort,
     required BuildContext context,
   }) {
-    var menuActions = [
-      IconButton(
-        onPressed: onSort,
-        icon: const AssetImageWidget(
-          iconType: IconType.sort,
-          color: Colors.black,
-        ),
-      )
-    ];
+    List<Widget> menuActions = [];
 
     if (showShareButton) {
       menuActions.add(IconButton(
@@ -215,6 +207,17 @@ class TasksScaffold extends StatelessWidget {
         ),
       ));
     }
+
+    menuActions.add(
+      IconButton(
+        onPressed: onSort,
+        icon: const AssetImageWidget(
+          iconType: IconType.sort,
+          color: Colors.black,
+        ),
+      ),
+    );
+
     return menuActions;
   }
 }
