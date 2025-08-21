@@ -29,12 +29,10 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final getIt = GetItStartupHandlerWrapper.getIt;
     final viewModel = TasksViewModel(
-      formatTaskListUseCase: getIt.get(),
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
-      calculateTaskProgressUseCase: getIt.get(),
-      shouldShowShareUseCase: getIt.get(),
+      tasksHelper: getIt.get(),
     );
     viewModel.updateTasks();
 
@@ -62,6 +60,9 @@ class TasksScreen extends StatelessWidget {
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
           onReorder: viewModel.reorder,
+          onSort: () => {
+            viewModel.onSort()
+          },
           onShare: () => {
             viewModel.shareTasks(checklistName: checklist.title),
           },
@@ -81,6 +82,7 @@ class TasksScaffold extends StatelessWidget {
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
+  final Function() onSort;
   final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
@@ -94,6 +96,7 @@ class TasksScaffold extends StatelessWidget {
     required this.onRemoveTask,
     required this.onReorder,
     required this.onShare,
+    required this.onSort,
     required this.navigatorProvider,
   });
 
@@ -114,6 +117,7 @@ class TasksScaffold extends StatelessWidget {
           context: context,
           showShareButton: uiState.showShareIcon,
           onShare: onShare,
+          onSort: onSort,
         ),
       ),
       floatingActionButton: _buildFloatingActionButton(
@@ -186,23 +190,36 @@ class TasksScaffold extends StatelessWidget {
     );
   }
 
-  List<Widget>? _buildTopBarActions({
+  List<Widget> _buildTopBarActions({
     required bool showShareButton,
     required VoidCallback onShare,
+    required VoidCallback onSort,
     required BuildContext context,
   }) {
+    List<Widget> menuActions = [];
+
     if (showShareButton) {
-      return [
+      menuActions.add(
         IconButton(
           onPressed: onShare,
-          icon: AssetImageWidget(
+          icon: const AssetImageWidget(
             iconType: IconType.share,
             color: Colors.black,
           ),
         ),
-      ];
-    } else {
-      return null;
+      );
     }
+
+    menuActions.add(
+      IconButton(
+        onPressed: onSort,
+        icon: const AssetImageWidget(
+          iconType: IconType.sort,
+          color: Colors.black,
+        ),
+      ),
+    );
+
+    return menuActions;
   }
 }

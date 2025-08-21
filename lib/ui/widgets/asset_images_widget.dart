@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-enum IconType { plus, save, chevronForward, close, share }
+enum IconType { plus, save, chevronForward, close, share, sort }
 
 class AssetImageWidget extends StatelessWidget {
   final IconType iconType;
@@ -30,6 +30,9 @@ class AssetImageWidget extends StatelessWidget {
         break;
       case IconType.close:
         assetPath = 'assets/close.png';
+        break;
+      case IconType.sort:
+        assetPath = 'assets/sort.png';
         break;
     }
     return Image.asset(

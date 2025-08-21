@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/should_show_share_use_case.dart';
+import 'package:todoapp/domain/tasks_helper.dart';
 
 void main() {
   test(
-    'ShouldShowShareUseCase -> test empty task list',
+    'shouldShowShareButton -> test empty task list',
     () {
       // Arrange
-      final useCase = ShouldShowShareUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute([]);
+      final result = taskHelper.shouldShowShareButton([]);
 
       // Assert
       expect(result, false);
@@ -18,13 +18,13 @@ void main() {
   );
 
   test(
-    'ShouldShowShareUseCase -> there is a task not completed',
+    'shouldShowShareButton -> there is a task not completed',
     () {
       // Arrange
-      final useCase = ShouldShowShareUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.shouldShowShareButton(
         [
           const Task(
             id: null,
@@ -53,13 +53,13 @@ void main() {
   );
 
   test(
-    'ShouldShowShareUseCase -> there is none not completed task',
+    'shouldShowShareButton -> there is none not completed task',
     () {
       // Arrange
-      final useCase = ShouldShowShareUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.shouldShowShareButton(
         [
           const Task(
             id: null,

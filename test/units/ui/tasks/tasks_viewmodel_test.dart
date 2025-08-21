@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/calculate_task_progress_use_case.dart';
-import 'package:todoapp/domain/format_tasklist_use_case.dart';
-import 'package:todoapp/domain/should_show_share_use_case.dart';
+import 'package:todoapp/domain/tasks_helper.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
@@ -23,10 +21,8 @@ void main() {
       final viewModel = TasksViewModel(
         repository: repository,
         checklistId: null,
-        calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
-        formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
-        shouldShowShareUseCase: ShouldShowShareUseCase(),
+        tasksHelper: TasksHelperImpl(),
       );
 
       // Assert
@@ -58,10 +54,8 @@ void main() {
       final viewModel = TasksViewModel(
         repository: repository,
         checklistId: null,
-        calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
-        formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
-        shouldShowShareUseCase: ShouldShowShareUseCase(),
+        tasksHelper: TasksHelperImpl(),
       );
 
       // Act
@@ -98,10 +92,8 @@ void main() {
       final viewModel = TasksViewModel(
         repository: repository,
         checklistId: null,
-        calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
-        formatTaskListUseCase: FormatTaskListUseCase(),
+        tasksHelper: TasksHelperImpl(),
         shareMessageHandler: FakeShareMessageHandler(),
-        shouldShowShareUseCase: ShouldShowShareUseCase(),
       );
 
       await viewModel.updateTasks();
@@ -148,10 +140,8 @@ void main() {
       final viewModel = TasksViewModel(
         repository: repository,
         checklistId: null,
-        shouldShowShareUseCase: ShouldShowShareUseCase(),
-        calculateTaskProgressUseCase: CalculateTaskProgressUseCase(),
-        formatTaskListUseCase: FormatTaskListUseCase(),
         shareMessageHandler: FakeShareMessageHandler(),
+        tasksHelper: TasksHelperImpl(),
       );
 
       await viewModel.updateTasks();
@@ -168,6 +158,45 @@ void main() {
           showShareIcon: false,
           isLoading: false,
         ),
+      );
+    },
+  );
+
+  test(
+    'TasksViewModel -> test onSort',
+    () async {
+      const task1 = Task(
+        id: 1,
+        title: 'Task 1',
+        isCompleted: true,
+      );
+      const task2 = Task(
+        id: 2,
+        title: 'Task 2',
+        isCompleted: false,
+      );
+
+      // Arrange
+      final repository = FakeRepository(
+        tasks: [task1, task2],
+        checklists: [],
+      );
+      final viewModel = TasksViewModel(
+        repository: repository,
+        checklistId: null,
+        shareMessageHandler: FakeShareMessageHandler(),
+        tasksHelper: TasksHelperImpl(),
+      );
+
+      await viewModel.updateTasks();
+
+      // Act
+      await viewModel.onSort();
+
+      // Assert
+      expect(
+        viewModel.state.tasks,
+        [task2, task1],
       );
     },
   );

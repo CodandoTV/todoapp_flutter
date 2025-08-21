@@ -35,6 +35,7 @@ void main() {
             no: 'no',
             emptyTasksMessage: 'No Tasks available',
           ),
+          onSort: () {},
         ),
         tester: tester,
       );
@@ -52,7 +53,7 @@ void main() {
 
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 50%',
-        (tester) async {
+    (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
@@ -72,6 +73,7 @@ void main() {
           onCompleteTask: (_, __) => {},
           onRemoveTask: (_) => {},
           onReorder: (_, __) => {},
+          onSort: () {},
           checklistId: 1,
           checklistName: 'Pets',
           tasksScreenTextValues: const TasksScreenTextValues(
@@ -99,7 +101,7 @@ void main() {
 
   testWidgets(
     'TasksScreen - Snapshot - Some tasks with progress 100%',
-        (tester) async {
+    (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
@@ -117,6 +119,7 @@ void main() {
           onCompleteTask: (_, __) => {},
           onRemoveTask: (_) => {},
           onReorder: (_, __) => {},
+          onSort: () {},
           checklistId: 1,
           checklistName: 'pets',
           tasksScreenTextValues: const TasksScreenTextValues(
