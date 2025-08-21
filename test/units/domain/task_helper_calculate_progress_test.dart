@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/calculate_task_progress_use_case.dart';
+import 'package:todoapp/domain/tasks_helper.dart';
 
 void main() {
   test(
-    'CalculateTaskProgressUseCase -> test empty task list',
-    () {
+    'calculateProgress -> test empty task list',
+        () {
       // Arrange
-      final useCase = CalculateTaskProgressUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.calculateProgress(
         tasks: [],
       );
 
@@ -20,13 +20,13 @@ void main() {
   );
 
   test(
-    'CalculateTaskProgressUseCase -> test a positive progress',
-    () {
+    'calculateProgress -> test a positive progress',
+        () {
       // Arrange
-      final useCase = CalculateTaskProgressUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -55,13 +55,13 @@ void main() {
   );
 
   test(
-    'CalculateTaskProgressUseCase -> test a bad progress',
+    'calculateProgress -> test a bad progress',
         () {
       // Arrange
-      final useCase = CalculateTaskProgressUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -90,13 +90,13 @@ void main() {
   );
 
   test(
-    'CalculateTaskProgressUseCase -> test a great progress',
+    'calculateProgress -> test a great progress',
         () {
       // Arrange
-      final useCase = CalculateTaskProgressUseCase();
+      final useCase = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = useCase.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -125,13 +125,13 @@ void main() {
   );
 
   test(
-    'CalculateTaskProgressUseCase -> test a horrible progress',
+    'calculateProgress -> test a horrible progress',
         () {
       // Arrange
-      final useCase = CalculateTaskProgressUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.calculateProgress(
         tasks: [
           const Task(
             id: null,

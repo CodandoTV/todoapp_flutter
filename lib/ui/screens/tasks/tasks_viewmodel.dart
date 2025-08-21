@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/todo_repository.dart';
-import 'package:todoapp/domain/calculate_task_progress_use_case.dart';
-import 'package:todoapp/domain/format_tasklist_use_case.dart';
-import 'package:todoapp/domain/should_show_share_use_case.dart';
+import 'package:todoapp/domain/tasks_helper.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
@@ -11,17 +9,15 @@ import '../../../data/model/task.dart';
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
   late ShareMessageHandler _shareMessageHandler;
-  late FormatTaskListUseCase _formatTaskListUseCase;
-  late CalculateTaskProgressUseCase _calculateTaskProgressUseCase;
-  late ShouldShowShareUseCase _shouldShowShareUseCase;
+
+  TasksHelper tasksHelper;
+
   late int? _checklistId;
 
   TasksViewModel({
     required TodoRepository repository,
     required ShareMessageHandler shareMessageHandler,
-    required FormatTaskListUseCase formatTaskListUseCase,
-    required CalculateTaskProgressUseCase calculateTaskProgressUseCase,
-    required ShouldShowShareUseCase shouldShowShareUseCase,
+    required this.tasksHelper,
     int? checklistId,
   }) : super(
           const TasksScreenState(
@@ -34,9 +30,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     _repository = repository;
 
     _shareMessageHandler = shareMessageHandler;
-    _formatTaskListUseCase = formatTaskListUseCase;
-    _calculateTaskProgressUseCase = calculateTaskProgressUseCase;
-    _shouldShowShareUseCase = shouldShowShareUseCase;
 
     _checklistId = checklistId;
   }
@@ -55,14 +48,14 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       state.copyWith(
         isLoading: false,
         tasks: tasks,
-        showShareIcon: _shouldShowShareUseCase.execute(tasks),
-        progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
+        showShareIcon: tasksHelper.shouldShowShareButton(tasks),
+        progress: tasksHelper.calculateProgress(tasks: tasks),
       ),
     );
   }
 
   shareTasks({required String checklistName}) async {
-    final checklist = _formatTaskListUseCase.execute(
+    final checklist = tasksHelper.formatTaskList(
       tasks: state.tasks,
     );
 
@@ -87,8 +80,8 @@ class TasksViewModel extends Cubit<TasksScreenState> {
         tasks[index] = tasks[index].copyWith(isCompleted: value);
         emit(
           state.copyWith(
-            progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
-            showShareIcon: _shouldShowShareUseCase.execute(tasks),
+            progress: tasksHelper.calculateProgress(tasks: tasks),
+            showShareIcon: tasksHelper.shouldShowShareButton(tasks),
             isLoading: false,
             tasks: tasks,
           ),
@@ -107,8 +100,8 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       tasks.remove(task);
       emit(
         state.copyWith(
-            progress: _calculateTaskProgressUseCase.execute(tasks: tasks),
-            showShareIcon: _shouldShowShareUseCase.execute(tasks),
+            progress: tasksHelper.calculateProgress(tasks: tasks),
+            showShareIcon: tasksHelper.shouldShowShareButton(tasks),
             isLoading: false,
             tasks: tasks),
       );
@@ -130,7 +123,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     emit(
       state.copyWith(
         isLoading: false,
-        showShareIcon: _shouldShowShareUseCase.execute(tasks),
+        showShareIcon: tasksHelper.shouldShowShareButton(tasks),
         tasks: tasks,
       ),
     );
@@ -139,22 +132,16 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   }
 
   onSort() {
-    List<Task> tasksToBeSorted = List.from(state.tasks);
-    tasksToBeSorted.sort((a, b) => _sort(a, b));
+    List<Task> tasksToBeSorted = tasksHelper.sortByCompletedStatus(
+      state.tasks,
+    );
+
     emit(
-      state.copyWith(tasks: tasksToBeSorted),
+      state.copyWith(
+        tasks: tasksToBeSorted,
+      ),
     );
 
     _repository.updateAllTasks(tasksToBeSorted);
-  }
-
-  int _sort(Task a, Task b) {
-    if (a.isCompleted == false && b.isCompleted) {
-      return -1;
-    } else if (a.isCompleted && b.isCompleted == false) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 }

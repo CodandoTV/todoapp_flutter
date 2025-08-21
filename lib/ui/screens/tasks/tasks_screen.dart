@@ -29,12 +29,10 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final getIt = GetItStartupHandlerWrapper.getIt;
     final viewModel = TasksViewModel(
-      formatTaskListUseCase: getIt.get(),
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
-      calculateTaskProgressUseCase: getIt.get(),
-      shouldShowShareUseCase: getIt.get(),
+      tasksHelper: getIt.get(),
     );
     viewModel.updateTasks();
 
@@ -62,7 +60,9 @@ class TasksScreen extends StatelessWidget {
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
           onReorder: viewModel.reorder,
-          onSort: viewModel.onSort,
+          onSort: () => {
+            viewModel.onSort()
+          },
           onShare: () => {
             viewModel.shareTasks(checklistName: checklist.title),
           },

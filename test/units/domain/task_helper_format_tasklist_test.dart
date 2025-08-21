@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/format_tasklist_use_case.dart';
+import 'package:todoapp/domain/tasks_helper.dart';
 
 void main() {
   test(
-    'FormatTasklistUseCase -> test empty task list',
+    'formatTaskList -> test empty task list',
     () {
       // Arrange
-      final useCase = FormatTaskListUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.formatTaskList(
         tasks: [],
       );
 
@@ -20,13 +20,13 @@ void main() {
   );
 
   test(
-    'FormatTasklistUseCase -> test only not completed',
+    'formatTaskList -> test only not completed',
     () {
       // Arrange
-      final useCase = FormatTaskListUseCase();
+      final taskHelper = TasksHelperImpl();
 
       // Act
-      final result = useCase.execute(
+      final result = taskHelper.formatTaskList(
         tasks: [
           const Task(
             id: null,
