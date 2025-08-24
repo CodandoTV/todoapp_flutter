@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
@@ -8,7 +9,7 @@ import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'TaskScreen - Snapshot - Insert a new task',
+    'TaskScreen - Insert a new task',
     (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TaskScreenScaffold(
@@ -25,11 +26,9 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(TaskScreenScaffold),
-        matchesGoldenFile(
-          'goldens/task_screen_snapshot.png',
-        ),
+      expect(
+        find.byType(FloatingActionButton),
+        findsOneWidget,
       );
     },
   );

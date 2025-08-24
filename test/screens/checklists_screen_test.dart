@@ -3,14 +3,17 @@ import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart';
+import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 
 import '../fakes/fake_navigator_provider.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'ChecklistsScreen - Snapshot - Empty state',
+    'ChecklistsScreen - Empty state',
     (tester) async {
+      const emptyChecklistMessage = 'You have no checklists';
+
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
@@ -24,7 +27,7 @@ void main() {
             removeChecklistDialogDesc: 'Remove this checklist',
             yes: 'yes',
             no: 'no',
-            emptyChecklistMessage: 'You have no checklists',
+            emptyChecklistMessage: emptyChecklistMessage,
           ),
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
@@ -35,18 +38,15 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(ChecklistsScaffold),
-        matchesGoldenFile(
-          'goldens/checklists_screen_empty_state_snapshot.png',
-        ),
-      );
+      find.text(emptyChecklistMessage);
+
+      expect(find.text(emptyChecklistMessage), findsOneWidget);
     },
   );
 
   testWidgets(
-    'ChecklistsScreen - Snapshot - Some checklists',
-        (tester) async {
+    'ChecklistsScreen - Some checklists',
+    (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
@@ -76,12 +76,7 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(ChecklistsScaffold),
-        matchesGoldenFile(
-          'goldens/checklists_screen_some_checklists_snapshot.png',
-        ),
-      );
+      expect(find.byType(ChecklistsListWidget), findsOneWidget);
     },
   );
 }

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
-import 'package:todoapp/ui/widgets/asset_images_widget.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
@@ -80,7 +79,7 @@ class TaskScreenScaffold extends StatelessWidget {
             navigatorProvider.onPop(context, true);
           }
         },
-        child: const AssetImageWidget(iconType: IconType.save),
+        child: const Icon(Icons.save),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),

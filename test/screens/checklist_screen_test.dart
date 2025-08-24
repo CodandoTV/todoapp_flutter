@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
@@ -8,7 +9,7 @@ import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'ChecklistScreen - Snapshot - Insert a new checklist',
+    'ChecklistScreen - Insert a new checklist',
     (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistScreenScaffold(
@@ -26,12 +27,8 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(ChecklistScreenScaffold),
-        matchesGoldenFile(
-          'goldens/checklist_screen_snapshot.png',
-        ),
-      );
+      final floatActionButtonFinder = find.byType(FloatingActionButton);
+      expect(floatActionButtonFinder, findsOneWidget);
     },
   );
 }

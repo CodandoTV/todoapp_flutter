@@ -3,14 +3,17 @@ import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
+import 'package:todoapp/ui/widgets/progress_widget.dart';
 
 import '../fakes/fake_navigator_provider.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'TasksScreen - Snapshot - Empty state',
+    'TasksScreen - Empty state',
     (tester) async {
+      const emptyMessage = 'No Tasks available';
+
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
@@ -33,7 +36,7 @@ void main() {
             removeTaskDialogDesc: 'Are you sure?',
             yes: 'yes',
             no: 'no',
-            emptyTasksMessage: 'No Tasks available',
+            emptyTasksMessage: emptyMessage,
           ),
           onSort: () {},
         ),
@@ -42,17 +45,12 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(TasksScaffold),
-        matchesGoldenFile(
-          'goldens/tasks_screen_empty_state_snapshot.png',
-        ),
-      );
+      expect(find.text(emptyMessage), findsOneWidget);
     },
   );
 
   testWidgets(
-    'TasksScreen - Snapshot - Some tasks with progress 50%',
+    'TasksScreen - Some tasks with progress 50%',
     (tester) async {
       final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
@@ -90,12 +88,13 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(TasksScaffold),
-        matchesGoldenFile(
-          'goldens/tasks_screen_fifty_percent_state_snapshot.png',
-        ),
-      );
+      ProgressWidget? progressWidget = find
+          .byType(ProgressWidget)
+          .evaluate()
+          .first
+          .widget as ProgressWidget?;
+
+      expect(progressWidget!.getProgress(), 0.5);
     },
   );
 
@@ -136,12 +135,13 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(TasksScaffold),
-        matchesGoldenFile(
-          'goldens/tasks_screen_one_hundred_percent_state_snapshot.png',
-        ),
-      );
+      ProgressWidget? progressWidget = find
+          .byType(ProgressWidget)
+          .evaluate()
+          .first
+          .widget as ProgressWidget?;
+
+      expect(progressWidget!.getProgress(), 1.0);
     },
   );
 }

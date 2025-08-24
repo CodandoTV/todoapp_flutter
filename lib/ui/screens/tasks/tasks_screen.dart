@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
-import 'package:todoapp/ui/widgets/asset_images_widget.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
@@ -60,9 +59,7 @@ class TasksScreen extends StatelessWidget {
           onRemoveTask: viewModel.onRemoveTask,
           updateTasks: viewModel.updateTasks,
           onReorder: viewModel.reorder,
-          onSort: () => {
-            viewModel.onSort()
-          },
+          onSort: () => {viewModel.onSort()},
           onShare: () => {
             viewModel.shareTasks(checklistName: checklist.title),
           },
@@ -103,7 +100,7 @@ class TasksScaffold extends StatelessWidget {
   _buildFloatingActionButton(Function() onPressed) {
     return FloatingActionButton(
       onPressed: onPressed,
-      child: const AssetImageWidget(iconType: IconType.plus),
+      child: const Icon(Icons.plus_one),
     );
   }
 
@@ -202,10 +199,7 @@ class TasksScaffold extends StatelessWidget {
       menuActions.add(
         IconButton(
           onPressed: onShare,
-          icon: const AssetImageWidget(
-            iconType: IconType.share,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.share),
         ),
       );
     }
@@ -213,10 +207,7 @@ class TasksScaffold extends StatelessWidget {
     menuActions.add(
       IconButton(
         onPressed: onSort,
-        icon: const AssetImageWidget(
-          iconType: IconType.sort,
-          color: Colors.black,
-        ),
+        icon: const Icon(Icons.sort)
       ),
     );
 

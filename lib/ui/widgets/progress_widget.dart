@@ -10,6 +10,10 @@ class ProgressWidget extends StatelessWidget {
     _progress = progress.clamp(0.0, 1.0);
   }
 
+  double getProgress() {
+    return _progress;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
