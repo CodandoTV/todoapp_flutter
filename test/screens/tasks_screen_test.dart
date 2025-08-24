@@ -88,7 +88,7 @@ void main() {
   );
 
   testWidgets(
-    'TasksScreen - Progress bar should be blue if it is 100% completed',
+    'TasksScreen - Progress bar should be green if it is 100% completed',
     (tester) async {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
