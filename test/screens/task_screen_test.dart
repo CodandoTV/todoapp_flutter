@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
-import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
@@ -15,10 +15,7 @@ void main() {
         child: TaskScreenScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           onAddNewTask: (_) => {},
-          taskScreenTextValues: TaskScreenTextValues(
-            taskErrorMessage: 'Task name is required',
-            taskLabel: 'Task',
-          ),
+          taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
         tester: tester,

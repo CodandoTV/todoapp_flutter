@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 import 'package:todoapp/ui/widgets/progress_widget.dart';
 
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
@@ -31,12 +31,7 @@ void main() {
           onReorder: (_, __) => {},
           checklistId: 1,
           checklistName: 'Pets',
-          tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'Task added.',
-            removeTaskDialogTitle: 'Remove task',
-            removeTaskDialogDesc: 'Are you sure?',
-            yes: 'yes',
-            no: 'no',
+          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues.copyWith(
             emptyTasksMessage: emptyMessage,
           ),
           onSort: () {},
@@ -75,14 +70,7 @@ void main() {
           onSort: () {},
           checklistId: 1,
           checklistName: 'Pets',
-          tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'Task Added',
-            removeTaskDialogTitle: 'Remove Task',
-            removeTaskDialogDesc: 'Are you sure?',
-            yes: 'yes',
-            no: 'no',
-            emptyTasksMessage: 'No tasks available',
-          ),
+          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );
@@ -122,14 +110,7 @@ void main() {
           onSort: () {},
           checklistId: 1,
           checklistName: 'pets',
-          tasksScreenTextValues: const TasksScreenTextValues(
-            taskAdded: 'Task added.',
-            removeTaskDialogTitle: 'Remove task',
-            removeTaskDialogDesc: 'Are you sure?',
-            yes: 'yes',
-            no: 'no',
-            emptyTasksMessage: 'No tasks here',
-          ),
+          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );

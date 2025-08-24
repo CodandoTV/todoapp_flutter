@@ -6,6 +6,7 @@ import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
@@ -20,15 +21,7 @@ void main() {
             checklists: [],
             isLoading: false,
           ),
-          checklistsScreenTextValues: const ChecklistsScreenTextValues(
-            screenTitle: 'checklists',
-            checklistAdded: 'A new checklist has been added',
-            removeChecklistDialogTitle: 'Are you sure you want to remove it?',
-            removeChecklistDialogDesc: 'Remove this checklist',
-            yes: 'yes',
-            no: 'no',
-            emptyChecklistMessage: emptyChecklistMessage,
-          ),
+          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},
@@ -58,15 +51,7 @@ void main() {
             ],
             isLoading: false,
           ),
-          checklistsScreenTextValues: const ChecklistsScreenTextValues(
-            screenTitle: 'checklists',
-            checklistAdded: 'A new checklist has been added',
-            removeChecklistDialogTitle: 'Are you sure you want to remove it?',
-            removeChecklistDialogDesc: 'Remove this checklist',
-            yes: 'yes',
-            no: 'no',
-            emptyChecklistMessage: 'You have no checklists',
-          ),
+          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},
