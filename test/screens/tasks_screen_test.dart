@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/widgets/progress_widget.dart';
 
+import '../fakes/fake_callbacks.dart';
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_states.dart';
 import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
@@ -18,23 +18,13 @@ void main() {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
-          uiState: const TasksScreenState(
-            tasks: [],
-            isLoading: false,
-            progress: 0,
-            showShareIcon: false,
-          ),
-          updateTasks: () => {},
-          onShare: () => {},
-          onCompleteTask: (_, __) => {},
-          onRemoveTask: (_) => {},
-          onReorder: (_, __) => {},
+          uiState: FakeStates.fakeTasksEmptyState,
           checklistId: 1,
           checklistName: 'Pets',
           tasksScreenTextValues: FakeTextValues.tasksScreenTextValues.copyWith(
             emptyTasksMessage: emptyMessage,
           ),
-          onSort: () {},
+          callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
         ),
         tester: tester,
       );
@@ -51,23 +41,8 @@ void main() {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
-          uiState: const TasksScreenState(
-            tasks: [
-              Task(id: 1, title: 'task1', isCompleted: false),
-              Task(id: 2, title: 'task2', isCompleted: true),
-              Task(id: 3, title: 'task3', isCompleted: false),
-              Task(id: 4, title: 'task4', isCompleted: true),
-            ],
-            isLoading: false,
-            progress: 0.5,
-            showShareIcon: true,
-          ),
-          updateTasks: () => {},
-          onShare: () => {},
-          onCompleteTask: (_, __) => {},
-          onRemoveTask: (_) => {},
-          onReorder: (_, __) => {},
-          onSort: () {},
+          uiState: FakeStates.fakeTasks50PercentState,
+          callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'Pets',
           tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
@@ -93,21 +68,8 @@ void main() {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
-          uiState: const TasksScreenState(
-            tasks: [
-              Task(id: 2, title: 'task2', isCompleted: true),
-              Task(id: 4, title: 'task4', isCompleted: true),
-            ],
-            isLoading: false,
-            progress: 1,
-            showShareIcon: false,
-          ),
-          updateTasks: () => {},
-          onShare: () => {},
-          onCompleteTask: (_, __) => {},
-          onRemoveTask: (_) => {},
-          onReorder: (_, __) => {},
-          onSort: () {},
+          uiState: FakeStates.fakeTasks100PercentState,
+          callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'pets',
           tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
@@ -124,6 +86,48 @@ void main() {
           .widget as ProgressWidget?;
 
       expect(progressWidget!.baseColor(), Colors.green);
+    },
+  );
+
+  testWidgets(
+    'TasksScreen - Share option should not appear if it is 100% completed',
+    (tester) async {
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TasksScaffold(
+          navigatorProvider: FakeNavigatorProvider(),
+          uiState: FakeStates.fakeTasks100PercentState,
+          callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
+          checklistId: 1,
+          checklistName: 'pets',
+          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
+        ),
+        tester: tester,
+      );
+
+      await tester.pumpWidget(widget);
+
+      expect(find.byKey(const ValueKey(shareOptionKey)), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'TasksScreen - Share option should appear if it is 50% completed',
+    (tester) async {
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TasksScaffold(
+          navigatorProvider: FakeNavigatorProvider(),
+          uiState: FakeStates.fakeTasks50PercentState,
+          callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
+          checklistId: 1,
+          checklistName: 'pets',
+          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
+        ),
+        tester: tester,
+      );
+
+      await tester.pumpWidget(widget);
+
+      expect(find.byKey(const ValueKey(shareOptionKey)), findsOneWidget);
     },
   );
 }
