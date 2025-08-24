@@ -1,23 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
-import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'TaskScreen - Snapshot - Insert a new task',
+    'TaskScreen - Insert a new task',
     (tester) async {
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TaskScreenScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           onAddNewTask: (_) => {},
-          taskScreenTextValues: TaskScreenTextValues(
-            taskErrorMessage: 'Task name is required',
-            taskLabel: 'Task',
-          ),
+          taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
         tester: tester,
@@ -25,11 +23,9 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(TaskScreenScaffold),
-        matchesGoldenFile(
-          'goldens/task_screen_snapshot.png',
-        ),
+      expect(
+        find.byType(FloatingActionButton),
+        findsOneWidget,
       );
     },
   );

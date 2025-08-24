@@ -10,7 +10,6 @@ import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
 import '../../../util/di/dependency_startup_handler.dart';
-import '../../widgets/asset_images_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
 import 'checklists_screen_state.dart';
 
@@ -71,7 +70,7 @@ class ChecklistsScaffold extends StatelessWidget {
   _buildFloatingActionButton(Function() onPressed) {
     return FloatingActionButton(
       onPressed: onPressed,
-      child: const AssetImageWidget(iconType: IconType.plus),
+      child: const Icon(Icons.plus_one),
     );
   }
 

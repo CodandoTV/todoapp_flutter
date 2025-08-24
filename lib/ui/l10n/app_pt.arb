@@ -17,5 +17,6 @@
   "checklists": "Checklists",
   "checklist": "Checklist",
   "checklist_name": "Nome do Checklist",
-  "remove": "Deletar"
+  "remove": "Deletar",
+  "sort_message": "Está ordenado"
 }

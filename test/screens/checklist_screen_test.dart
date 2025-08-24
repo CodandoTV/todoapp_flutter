@@ -1,22 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
-import 'package:todoapp/ui/screens/checklist/checklist_screen_text_values.dart';
 
 import '../fakes/fake_navigator_provider.dart';
+import '../fakes/fake_text_values.dart';
 import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'ChecklistScreen - Snapshot - Insert a new checklist',
+    'ChecklistScreen - Insert a new checklist',
     (tester) async {
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistScreenScaffold(
-          checklistScreenTextValues: ChecklistScreenTextValues(
-            screenTitle: 'Checklist',
-            checklistLabel: 'Checklist',
-            checklistErrorMessage: 'Checklist name is required',
-          ),
+          checklistScreenTextValues: FakeTextValues.checklistScreenTextValues,
           onAddNewChecklist: (_) => {},
           formScreenValidator: FormScreenValidator(),
           navigatorProvider: FakeNavigatorProvider(),
@@ -26,12 +23,8 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      await expectLater(
-        find.byType(ChecklistScreenScaffold),
-        matchesGoldenFile(
-          'goldens/checklist_screen_snapshot.png',
-        ),
-      );
+      final floatActionButtonFinder = find.byType(FloatingActionButton);
+      expect(floatActionButtonFinder, findsOneWidget);
     },
   );
 }

@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
-import 'package:todoapp/ui/widgets/asset_images_widget.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
@@ -15,6 +15,8 @@ import '../../../data/model/task.dart';
 import '../../../util/di/dependency_startup_handler.dart';
 import '../../widgets/confirmation_alert_dialog_widget.dart';
 import '../../widgets/custom_app_bar_widget.dart';
+
+const shareOptionKey = 'shareOption';
 
 @RoutePage()
 class TasksScreen extends StatelessWidget {
@@ -45,6 +47,7 @@ class TasksScreen extends StatelessWidget {
       yes: AppLocalizations.of(context)!.yes,
       no: AppLocalizations.of(context)!.no,
       emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
+      sortMessage: AppLocalizations.of(context)!.sort_message,
     );
 
     return BlocProvider(
@@ -56,16 +59,16 @@ class TasksScreen extends StatelessWidget {
           checklistId: checklist.id,
           checklistName: checklist.title,
           tasksScreenTextValues: tasksScreenTextValues,
-          onCompleteTask: viewModel.onCompleteTask,
-          onRemoveTask: viewModel.onRemoveTask,
-          updateTasks: viewModel.updateTasks,
-          onReorder: viewModel.reorder,
-          onSort: () => {
-            viewModel.onSort()
-          },
-          onShare: () => {
-            viewModel.shareTasks(checklistName: checklist.title),
-          },
+          callbacks: TasksScreenCallbacks(
+            onCompleteTask: viewModel.onCompleteTask,
+            onRemoveTask: viewModel.onRemoveTask,
+            updateTasks: viewModel.updateTasks,
+            onReorder: viewModel.reorder,
+            onSort: () => {viewModel.onSort()},
+            onShare: () => {
+              viewModel.shareTasks(checklistName: checklist.title),
+            },
+          ),
         ),
       ),
     );
@@ -77,12 +80,7 @@ class TasksScaffold extends StatelessWidget {
   final int? checklistId;
   final String checklistName;
   final TasksScreenTextValues tasksScreenTextValues;
-  final Function updateTasks;
-  final Function(Task, bool) onCompleteTask;
-  final Function(Task) onRemoveTask;
-  final Function(int oldIndex, int newIndex) onReorder;
-  final Function() onShare;
-  final Function() onSort;
+  final TasksScreenCallbacks callbacks;
   final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
@@ -91,19 +89,14 @@ class TasksScaffold extends StatelessWidget {
     required this.checklistId,
     required this.checklistName,
     required this.tasksScreenTextValues,
-    required this.updateTasks,
-    required this.onCompleteTask,
-    required this.onRemoveTask,
-    required this.onReorder,
-    required this.onShare,
-    required this.onSort,
     required this.navigatorProvider,
+    required this.callbacks,
   });
 
   _buildFloatingActionButton(Function() onPressed) {
     return FloatingActionButton(
       onPressed: onPressed,
-      child: const AssetImageWidget(iconType: IconType.plus),
+      child: const Icon(Icons.plus_one),
     );
   }
 
@@ -115,9 +108,10 @@ class TasksScaffold extends StatelessWidget {
         title: checklistName,
         actions: _buildTopBarActions(
           context: context,
+          sortedMessage: tasksScreenTextValues.sortMessage,
+          onShare: callbacks.onShare,
           showShareButton: uiState.showShareIcon,
-          onShare: onShare,
-          onSort: onSort,
+          onSort: callbacks.onSort,
         ),
       ),
       floatingActionButton: _buildFloatingActionButton(
@@ -129,7 +123,7 @@ class TasksScaffold extends StatelessWidget {
             ),
           );
           if (result == true) {
-            await updateTasks();
+            await callbacks.updateTasks();
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -152,10 +146,10 @@ class TasksScaffold extends StatelessWidget {
             child: TasksListWidget(
               tasks: uiState.tasks,
               emptyTasksMessage: tasksScreenTextValues.emptyTasksMessage,
-              onReorder: onReorder,
+              onReorder: callbacks.onReorder,
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
-              onCompleteTask: onCompleteTask,
+              onCompleteTask: callbacks.onCompleteTask,
             ),
           ),
           Padding(
@@ -184,7 +178,7 @@ class TasksScaffold extends StatelessWidget {
         },
         onPrimaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
-          onRemoveTask(task),
+          callbacks.onRemoveTask(task),
         },
       ),
     );
@@ -192,6 +186,7 @@ class TasksScaffold extends StatelessWidget {
 
   List<Widget> _buildTopBarActions({
     required bool showShareButton,
+    required String sortedMessage,
     required VoidCallback onShare,
     required VoidCallback onSort,
     required BuildContext context,
@@ -202,21 +197,25 @@ class TasksScaffold extends StatelessWidget {
       menuActions.add(
         IconButton(
           onPressed: onShare,
-          icon: const AssetImageWidget(
-            iconType: IconType.share,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.share),
+          key: const ValueKey(shareOptionKey),
         ),
       );
     }
 
     menuActions.add(
       IconButton(
-        onPressed: onSort,
-        icon: const AssetImageWidget(
-          iconType: IconType.sort,
-          color: Colors.black,
-        ),
+        onPressed: () => {
+          onSort(),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                sortedMessage,
+              ),
+            ),
+          ),
+        },
+        icon: const Icon(Icons.sort),
       ),
     );
 
