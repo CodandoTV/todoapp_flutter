@@ -10,6 +10,7 @@ class FakeTextValues {
     removeTaskDialogDesc: 'Are you sure?',
     yes: 'yes',
     no: 'no',
+    sortMessage: 'It is sorted',
     emptyTasksMessage: 'No tasks available',
   );
 
