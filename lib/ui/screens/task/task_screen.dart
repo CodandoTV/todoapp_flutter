@@ -7,8 +7,8 @@ import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/widgets/task_form_widget.dart';
 
-import '../../../util/di/dependency_startup_handler.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:todoapp/util/di/dependency_startup_handler.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 @RoutePage()
 class TaskScreen extends StatelessWidget {

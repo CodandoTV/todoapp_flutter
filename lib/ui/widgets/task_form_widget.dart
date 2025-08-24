@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/form_validator.dart';
+import 'package:todoapp/ui/components/form_validator.dart';
 
 class TaskFormWidget extends StatelessWidget {
   final Key formKey;

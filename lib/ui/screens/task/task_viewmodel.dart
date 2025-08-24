@@ -1,5 +1,5 @@
-import '../../../data/model/task.dart';
-import '../../../data/todo_repository.dart';
+import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/todo_repository.dart';
 
 class TaskViewModel {
   late TodoRepository _repository;
