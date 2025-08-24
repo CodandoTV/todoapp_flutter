@@ -10,11 +10,11 @@ import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'ChecklistsScreen - Empty state',
+    'ChecklistsScreen - Empty message should appear if we have no checklists',
     (tester) async {
       const emptyChecklistMessage = 'You have no checklists';
 
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
             checklists: [],
@@ -45,9 +45,9 @@ void main() {
   );
 
   testWidgets(
-    'ChecklistsScreen - Some checklists',
+    'ChecklistsScreen - Checklist widget should appear if we have checklists',
     (tester) async {
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
             checklists: [

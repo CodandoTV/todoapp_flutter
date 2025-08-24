@@ -4,14 +4,17 @@ const double containerHeight = 9.0;
 
 class ProgressWidget extends StatelessWidget {
   late final double _progress;
+  late final Color _color;
 
   /// progress should be at max 1
   ProgressWidget({super.key, required double progress}) {
     _progress = progress.clamp(0.0, 1.0);
-  }
 
-  double getProgress() {
-    return _progress;
+    if (progress == 1) {
+      _color = Colors.green;
+    } else {
+      _color = Colors.blueAccent;
+    }
   }
 
   @override
@@ -29,6 +32,7 @@ class ProgressWidget extends StatelessWidget {
           builder: (context, constraints) => _buildProgressBar(
             progress: _progress,
             maxWidth: constraints.maxWidth,
+            color: _color,
           ),
         ),
       ],
@@ -38,21 +42,21 @@ class ProgressWidget extends StatelessWidget {
   Widget _buildProgressBar({
     required double progress,
     required double maxWidth,
+    required Color color,
   }) {
     final double endWidth = maxWidth * progress;
-    Color decorationColor = Colors.blueAccent;
-
-    if (progress == 1) {
-      decorationColor = Colors.green;
-    }
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
       width: endWidth,
       height: containerHeight,
       decoration: BoxDecoration(
-        color: decorationColor,
+        color: color,
       ),
     );
+  }
+
+  Color baseColor() {
+    return _color;
   }
 }

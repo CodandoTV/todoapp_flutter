@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
@@ -10,11 +11,11 @@ import '../utils/widgets_util.dart';
 
 void main() {
   testWidgets(
-    'TasksScreen - Empty state',
+    'TasksScreen - Empty state message should appear if there is no task',
     (tester) async {
       const emptyMessage = 'No Tasks available';
 
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -50,9 +51,9 @@ void main() {
   );
 
   testWidgets(
-    'TasksScreen - Some tasks with progress 50%',
+    'TasksScreen - Progress bar should be blue if it is not 100% completed',
     (tester) async {
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -94,14 +95,14 @@ void main() {
           .first
           .widget as ProgressWidget?;
 
-      expect(progressWidget!.getProgress(), 0.5);
+      expect(progressWidget!.baseColor(), Colors.blueAccent);
     },
   );
 
   testWidgets(
-    'TasksScreen - Snapshot - Some tasks with progress 100%',
+    'TasksScreen - Progress bar should be blue if it is 100% completed',
     (tester) async {
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
           navigatorProvider: FakeNavigatorProvider(),
           uiState: const TasksScreenState(
@@ -141,7 +142,7 @@ void main() {
           .first
           .widget as ProgressWidget?;
 
-      expect(progressWidget!.getProgress(), 1.0);
+      expect(progressWidget!.baseColor(), Colors.green);
     },
   );
 }

@@ -5,7 +5,7 @@ class WidgetsUtil {
   static buildMaterialAppWidgetTest({
     required Widget child,
     required WidgetTester tester,
-  }) async {
+  }) {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     const baseColor = Color.fromARGB(255, 239, 232, 215);
