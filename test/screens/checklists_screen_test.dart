@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
-import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart';
 import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
 
 import '../fakes/fake_navigator_provider.dart';
