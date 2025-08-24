@@ -47,6 +47,7 @@ class TasksScreen extends StatelessWidget {
       yes: AppLocalizations.of(context)!.yes,
       no: AppLocalizations.of(context)!.no,
       emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
+      sortMessage: AppLocalizations.of(context)!.sort_message,
     );
 
     return BlocProvider(
@@ -107,8 +108,9 @@ class TasksScaffold extends StatelessWidget {
         title: checklistName,
         actions: _buildTopBarActions(
           context: context,
-          showShareButton: uiState.showShareIcon,
+          sortedMessage: tasksScreenTextValues.sortMessage,
           onShare: callbacks.onShare,
+          showShareButton: uiState.showShareIcon,
           onSort: callbacks.onSort,
         ),
       ),
@@ -184,6 +186,7 @@ class TasksScaffold extends StatelessWidget {
 
   List<Widget> _buildTopBarActions({
     required bool showShareButton,
+    required String sortedMessage,
     required VoidCallback onShare,
     required VoidCallback onSort,
     required BuildContext context,
@@ -201,7 +204,19 @@ class TasksScaffold extends StatelessWidget {
     }
 
     menuActions.add(
-      IconButton(onPressed: onSort, icon: const Icon(Icons.sort)),
+      IconButton(
+        onPressed: () => {
+          onSort(),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                sortedMessage,
+              ),
+            ),
+          ),
+        },
+        icon: const Icon(Icons.sort),
+      ),
     );
 
     return menuActions;

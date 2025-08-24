@@ -1,4 +1,3 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'tasks_screen_text_values.freezed.dart';
@@ -17,6 +16,8 @@ class TasksScreenTextValues with _$TasksScreenTextValues {
   final String emptyTasksMessage;
   @override
   final String taskAdded;
+  @override
+  final String sortMessage;
 
   const TasksScreenTextValues({
     required this.taskAdded,
@@ -25,5 +26,6 @@ class TasksScreenTextValues with _$TasksScreenTextValues {
     required this.yes,
     required this.no,
     required this.emptyTasksMessage,
+    required this.sortMessage,
   });
 }
