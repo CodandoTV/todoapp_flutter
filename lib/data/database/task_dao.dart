@@ -54,6 +54,7 @@ class TaskDAO {
       titleKey: task.title,
       isCompletedKey: task.isCompleted ? 1 : 0,
       checklistKey: checklistId,
+      positionKey: -1,
     };
   }
 
