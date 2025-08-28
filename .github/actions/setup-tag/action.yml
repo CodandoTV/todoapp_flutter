@@ -13,4 +13,4 @@ runs:
         VERSION=${TAG#v}
         echo "Setting version to $VERSION"
         # Update pubspec.yaml
-        sed -i "s/^version:.*/version: $VERSION+$BUILD_NUMBER/" pubspec.yaml
+        sed -i "s/^version:.*/version: $VERSION+1/" pubspec.yaml
