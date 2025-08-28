@@ -4,7 +4,7 @@ import 'package:todoapp/domain/tasks_helper.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
-import '../../../data/model/task.dart';
+import 'package:todoapp/data/model/task.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;

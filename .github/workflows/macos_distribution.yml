@@ -1,0 +1,56 @@
+name: Distribute MacOS App
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-notes:
+        description: 'Release notes'
+        required: false
+        default: 'Manual release'
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build macOS release
+        run: flutter build macos --release
+
+      - name: Package app
+        run: |
+          mkdir -p release
+          # Copy the built .app bundle
+          cp -R build/macos/Build/Products/Release/*.app release/
+
+      - name: Upload macOS binary as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-macos-app
+          path: release/
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build-macos
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-macos-app
+          path: release/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

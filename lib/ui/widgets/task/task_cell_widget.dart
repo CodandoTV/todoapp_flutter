@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/widgets/task/task_title_widget.dart';
 
-import '../../../data/model/task.dart';
+import 'package:todoapp/data/model/task.dart';
 
 class TaskCellWidget extends StatelessWidget {
   static const checkboxKey = 'TaskCellWidget_Checkbox';

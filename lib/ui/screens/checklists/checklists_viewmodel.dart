@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
-import 'checklists_screen_state.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 
 @injectable
 class ChecklistsViewModel extends Cubit<ChecklistsScreenState> {

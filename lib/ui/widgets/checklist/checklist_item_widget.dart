@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/model/checklist.dart';
+import 'package:todoapp/data/model/checklist.dart';
 
 class ChecklistItemWidget extends StatelessWidget {
   final Checklist checklist;

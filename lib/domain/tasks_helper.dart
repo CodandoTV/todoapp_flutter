@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import '../data/model/task.dart';
+import 'package:todoapp/data/model/task.dart';
 
 abstract class TasksHelper {
   double calculateProgress({required List<Task> tasks});

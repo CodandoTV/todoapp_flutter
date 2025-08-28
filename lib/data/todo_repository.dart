@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/database/checklist_dao.dart';
 import 'package:todoapp/data/database/task_dao.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'model/task.dart';
+import 'package:todoapp/data/model/task.dart';
 
 abstract class TodoRepository {
   Future<List<Task>> getTasks(int? checklistId);

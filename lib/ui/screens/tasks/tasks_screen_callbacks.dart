@@ -1,4 +1,4 @@
-import '../../../data/model/task.dart';
+import 'package:todoapp/data/model/task.dart';
 
 class TasksScreenCallbacks {
   final Function updateTasks;
