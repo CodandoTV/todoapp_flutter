@@ -1,0 +1,16 @@
+name: 'Setup Tag'
+description: 'Reusable action to setup tag'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up tag
+      shell: bash
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}        # e.g., v1.2.3
+        echo "Using tag $TAG"
+        # Remove leading 'v' if present
+        VERSION=${TAG#v}
+        echo "Setting version to $VERSION"
+        # Update pubspec.yaml
+        sed -i "s/^version:.*/version: $VERSION+$BUILD_NUMBER/" pubspec.yaml
