@@ -1,0 +1,56 @@
+name: Release Flutter App
+
+on:
+  push:
+    tags:
+      - '*'  # Trigger on any new tag
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIALS_FILE }}
+          groups: codandotv-creators
+          file: build/app/outputs/apk/release/app-release.apk
+          releaseNotes: ${{ github.event.inputs.tag }}
+
+  build-macos:
+    runs-on: macos-latest
+    needs: build-android
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Build macOS release
+        run: flutter build macos --release
+
+      - name: Package macOS app
+        run: |
+          mkdir -p release
+          cp -R build/macos/Build/Products/Release/*.app release/
+
+      - name: Create GitHub Release and upload macOS app
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
