@@ -53,7 +53,7 @@ jobs:
           mkdir -p release
           APP_PATH="build/macos/Build/Products/Release/todoapp.app"
           cp -R "$APP_PATH" release/
-          zip -r release/todoapp.app.zip "release/todoapp.app""
+          zip -r release/todoapp.app.zip release/todoapp.app
 
       - name: Create GitHub Release and upload macOS app
         uses: softprops/action-gh-release@v2
