@@ -51,12 +51,14 @@ jobs:
       - name: Package macOS app
         run: |
           mkdir -p release
-          cp -R build/macos/Build/Products/Release/todoapp.app release/
+          APP_PATH="build/macos/Build/Products/Release/todoapp.app"
+          cp -R "$APP_PATH" release/
+          zip -r release/todoapp.app.zip "release/todoapp.app""
 
       - name: Create GitHub Release and upload macOS app
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          files: release/todoapp.app
+          files: release/todoapp.app.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
