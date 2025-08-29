@@ -5,4 +5,5 @@ runs:
   using: "composite"
   steps:
     - name: Set up tag
+      shell: bash
       run: dart run scripts/setup_tag.dart
