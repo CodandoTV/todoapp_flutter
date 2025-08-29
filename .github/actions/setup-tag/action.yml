@@ -9,12 +9,6 @@ runs:
       run: |
         TAG=${GITHUB_REF#refs/tags/}        # e.g., v1.2.3
         echo "Using tag $TAG"
-        # Remove leading 'v' if present
         VERSION=${TAG#v}
         echo "Setting version to $VERSION"
-        # Determine OS
-        if [[ "$RUNNER_OS" == "macOS" ]]; then
-          sed -i '' "s/^version:.*/version: $VERSION+1/" pubspec.yaml
-        else
-          sed -i "s/^version:.*/version: $VERSION+1/" pubspec.yaml
-        fi
+        sed -i '' "s/^version:.*/version: $VERSION+1/" pubspec.yaml
