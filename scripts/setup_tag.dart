@@ -14,11 +14,11 @@ void main() {
   print('pubspec.yaml updated successfully.');
 }
 
-_formatTag(String githubRef) {
+String _formatTag(String githubRef) {
   return githubRef.replaceFirst('refs/tags/', '').replaceAll('v', '');
 }
 
-_replaceTagInPubspec(String version) {
+void _replaceTagInPubspec(String version) {
   final pubspecFile = File('pubspec.yaml');
 
   if (!pubspecFile.existsSync()) {

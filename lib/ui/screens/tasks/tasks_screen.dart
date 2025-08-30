@@ -2,19 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
-import 'package:todoapp/util/navigation_provider.dart';
+import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
-import 'package:todoapp/ui/widgets/progress_widget.dart';
-import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.dart';
 import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
 import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/widgets/progress_widget.dart';
+import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
+import 'package:todoapp/util/di/dependency_startup_handler.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 
 const shareOptionKey = 'shareOption';
 
@@ -93,7 +93,7 @@ class TasksScaffold extends StatelessWidget {
     required this.callbacks,
   });
 
-  _buildFloatingActionButton(Function() onPressed) {
+  Widget _buildFloatingActionButton(Function() onPressed) {
     return FloatingActionButton(
       onPressed: onPressed,
       child: const Icon(Icons.plus_one),
@@ -165,7 +165,7 @@ class TasksScaffold extends StatelessWidget {
     );
   }
 
-  _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+  void _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
