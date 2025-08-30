@@ -63,7 +63,7 @@ void main() {
     'TaskCellWidget is not completed',
     (tester) async {
       // Arrange
-      final widget = await WidgetsUtil.buildMaterialAppWidgetTest(
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         tester: tester,
         child: TaskCellWidget(
           task: const Task(

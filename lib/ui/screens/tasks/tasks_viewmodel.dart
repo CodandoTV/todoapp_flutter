@@ -1,10 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/domain/tasks_helper.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
-
-import 'package:todoapp/data/model/task.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
@@ -54,7 +53,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     );
   }
 
-  shareTasks({required String checklistName}) async {
+  Future<void> shareTasks({required String checklistName}) async {
     final checklist = tasksHelper.formatTaskList(
       tasks: state.tasks,
     );
@@ -108,7 +107,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     }
   }
 
-  reorder(int oldIndex, int newIndex) async {
+  Future<void> reorder(int oldIndex, int newIndex) async {
     List<Task> tasks = List.from(state.tasks);
     var task = tasks.removeAt(oldIndex);
 
@@ -131,7 +130,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     _repository.updateAllTasks(tasks);
   }
 
-  onSort() {
+  void onSort() {
     List<Task> tasksToBeSorted = tasksHelper.sortByCompletedStatus(
       state.tasks,
     );

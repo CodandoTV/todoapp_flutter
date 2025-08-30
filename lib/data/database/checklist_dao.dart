@@ -33,7 +33,7 @@ class ChecklistDAO {
         .toList();
   }
 
-  _checklistToValues(Checklist checklist) {
+  Map<String, dynamic> _checklistToValues(Checklist checklist) {
     return {
       idKey: checklist.id,
       titleKey: checklist.title,
@@ -53,12 +53,21 @@ class ChecklistDAO {
       whereArgs: [checklist.id],
     );
 
-    return result == 1 ? true : false;
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> add(Checklist checklist) async {
     final result =
         await _database.insert(tableName, _checklistToValues(checklist));
-    return result == 1 ? true : false;
+
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

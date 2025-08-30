@@ -21,7 +21,8 @@ class TaskDAO {
       '${TaskDAO.positionKey} INTEGER DEFAULT 0, '
       '${TaskDAO.checklistKey} INTEGER, '
       'FOREIGN KEY (${TaskDAO.checklistKey}) '
-      'REFERENCES ${ChecklistDAO.tableName}(${ChecklistDAO.idKey}) ON DELETE CASCADE'
+      'REFERENCES ${ChecklistDAO.tableName}(${ChecklistDAO.idKey}) '
+      'ON DELETE CASCADE'
       ')';
 
   late Database _database;
@@ -48,7 +49,7 @@ class TaskDAO {
         .toList();
   }
 
-  _taskToValues(Task task, int? checklistId) {
+  Map<String, dynamic> _taskToValues(Task task, int? checklistId) {
     return {
       idKey: task.id,
       titleKey: task.title,
@@ -61,20 +62,40 @@ class TaskDAO {
   Future<bool> update(Task task, bool isCompletedNewValue) async {
     final values = {isCompletedKey: isCompletedNewValue ? 1 : 0};
 
-    final result =
-        await _database.update(tableName, values, where: '$idKey = ${task.id}');
-    return result == 1 ? true : false;
+    final result = await _database.update(
+      tableName,
+      values,
+      where: '$idKey = ${task.id}',
+    );
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> delete(List<Task> tasks) async {
-    final result = await _database.delete(tableName,
-        where: '$idKey IN (${tasks.map((e) => e.id).join(',')})');
-    return result == 1 ? true : false;
+    final result = await _database.delete(
+      tableName,
+      where: '$idKey IN (${tasks.map((e) => e.id).join(',')})',
+    );
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> add(Task task, int? checklistId) async {
-    final result = await _database.insert(tableName, _taskToValues(task, checklistId));
-    return result == 1 ? true : false;
+    final result = await _database.insert(
+      tableName,
+      _taskToValues(task, checklistId),
+    );
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> updateAll(List<Task> tasks) async {

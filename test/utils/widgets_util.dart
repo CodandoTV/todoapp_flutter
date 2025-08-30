@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class WidgetsUtil {
-  static buildMaterialAppWidgetTest({
+  static Widget buildMaterialAppWidgetTest({
     required Widget child,
     required WidgetTester tester,
   }) {

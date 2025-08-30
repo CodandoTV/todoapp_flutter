@@ -7,7 +7,7 @@ class StartupViewmodel extends Cubit<bool> {
     _loadDependencies();
   }
 
-  _loadDependencies() async {
+  Future<void> _loadDependencies() async {
     await GetItStartupHandlerWrapper.init();
     await Future.delayed(const Duration(milliseconds: 500));
     emit(false);

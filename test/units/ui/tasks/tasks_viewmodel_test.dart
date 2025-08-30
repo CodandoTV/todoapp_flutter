@@ -191,7 +191,7 @@ void main() {
       await viewModel.updateTasks();
 
       // Act
-      await viewModel.onSort();
+      viewModel.onSort();
 
       // Assert
       expect(
