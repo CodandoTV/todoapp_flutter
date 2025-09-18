@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
@@ -12,17 +13,20 @@ import 'package:todoapp/util/navigation_provider.dart';
 @RoutePage()
 class TaskScreen extends StatelessWidget {
   final int? checklistId;
+  final Task? task;
 
   const TaskScreen({
     super.key,
     required this.checklistId,
+    this.task,
   });
 
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(
       GetItStartupHandlerWrapper.getIt.get(),
-      checklistId,
+      checklistId: checklistId,
+      task: task,
     );
     final NavigatorProvider navigatorProvider =
         GetItStartupHandlerWrapper.getIt.get();
@@ -33,8 +37,9 @@ class TaskScreen extends StatelessWidget {
     );
 
     return TaskScreenScaffold(
+      task?.title,
       taskScreenTextValues: taskScreenTextValues,
-      onAddNewTask: (title) => viewModel.addTask(
+      onAddNewTask: (title) => viewModel.addTaskOrUpdate(
         title: title,
       ),
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
@@ -51,13 +56,16 @@ class TaskScreenScaffold extends StatelessWidget {
   final NavigatorProvider navigatorProvider;
   final TaskScreenTextValues taskScreenTextValues;
 
-  TaskScreenScaffold({
+  TaskScreenScaffold(
+    String? taskTitle, {
     super.key,
     required this.taskScreenTextValues,
     required this.onAddNewTask,
     required this.formScreenValidator,
     required this.navigatorProvider,
-  });
+  }) {
+    _taskEditingController.text = taskTitle ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {

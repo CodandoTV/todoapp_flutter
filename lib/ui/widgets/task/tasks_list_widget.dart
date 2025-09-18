@@ -8,6 +8,7 @@ class TasksListWidget extends StatelessWidget {
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
   final Function(int oldIndex, int newIndex) onReorder;
+  final Function(Task) onTap;
 
   const TasksListWidget({
     super.key,
@@ -16,6 +17,7 @@ class TasksListWidget extends StatelessWidget {
     required this.onRemoveTask,
     required this.onCompleteTask,
     required this.onReorder,
+    required this.onTap,
   });
 
   @override
@@ -39,15 +41,21 @@ class TasksListWidget extends StatelessWidget {
           top: 12,
           bottom: 120,
         ),
-        itemBuilder: (context, index) => TaskCellWidget(
-          key: ValueKey(tasks[index].id),
-          task: tasks[index],
-          onRemoveTask: onRemoveTask,
-          onCheckChanged: (value) =>
-              onCompleteTask(tasks[index], value ?? false),
+        itemBuilder: (context, index) => _buildTaskCellWidget(
+          tasks[index],
         ),
         itemCount: tasks.length,
       );
     }
+  }
+
+  TaskCellWidget _buildTaskCellWidget(Task task) {
+    return TaskCellWidget(
+      key: ValueKey(task.id),
+      task: task,
+      onRemoveTask: onRemoveTask,
+      onCheckChanged: (value) => onCompleteTask(task, value ?? false),
+      onTap: () => onTap(task),
+    );
   }
 }

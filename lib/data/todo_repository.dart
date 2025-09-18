@@ -20,6 +20,12 @@ abstract class TodoRepository {
   Future<bool> deleteChecklist(Checklist checklist);
 
   Future<List<Checklist>> getChecklists();
+
+  Future<bool> updateTaskName({
+    required int checklistId,
+    required int taskId,
+    required String taskTitle,
+  });
 }
 
 @Injectable(as: TodoRepository)
@@ -70,5 +76,18 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<List<Checklist>> getChecklists() {
     return _checklistDAO.getAll();
+  }
+
+  @override
+  Future<bool> updateTaskName({
+    required int checklistId,
+    required int taskId,
+    required String taskTitle,
+  }) {
+    return _todoDAO.updateTaskName(
+      checklistId: checklistId,
+      taskId: taskId,
+      taskTitle: taskTitle,
+    );
   }
 }
