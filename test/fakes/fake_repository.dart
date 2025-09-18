@@ -69,7 +69,16 @@ class FakeRepository implements TodoRepository {
       {required int checklistId,
       required int taskId,
       required String taskTitle}) {
-    // TODO: implement updateTaskName
-    throw UnimplementedError();
+    final indexWhere = _tasks.indexWhere(
+      (element) => element.id == taskId,
+    );
+    if (indexWhere != -1) {
+      _tasks[indexWhere] = _tasks[indexWhere].copyWith(
+        title: taskTitle,
+      );
+      return Future.value(true);
+    } else {
+      return Future.value(false);
+    }
   }
 }
