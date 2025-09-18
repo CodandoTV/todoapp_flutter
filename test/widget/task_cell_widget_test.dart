@@ -19,6 +19,7 @@ void main() {
             title: taskName,
             isCompleted: false,
           ),
+          onTap: () => {},
           onCheckChanged: (_) => {},
           onRemoveTask: (_) => {},
         ),
@@ -43,6 +44,7 @@ void main() {
             title: 'Anything',
             isCompleted: true,
           ),
+          onTap: () => {},
           onCheckChanged: (_) => {},
           onRemoveTask: (_) => {},
         ),
@@ -73,6 +75,7 @@ void main() {
           ),
           onCheckChanged: (_) => {},
           onRemoveTask: (_) => {},
+          onTap: () => {},
         ),
       );
 

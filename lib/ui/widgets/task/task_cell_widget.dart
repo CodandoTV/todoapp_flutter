@@ -8,12 +8,14 @@ class TaskCellWidget extends StatelessWidget {
   final Task task;
   final Function(bool?) onCheckChanged;
   final Function(Task) onRemoveTask;
+  final Function() onTap;
 
   const TaskCellWidget({
     super.key,
     required this.task,
     required this.onCheckChanged,
     required this.onRemoveTask,
+    required this.onTap,
   });
 
   @override
@@ -34,6 +36,7 @@ class TaskCellWidget extends StatelessWidget {
           taskTitle: task.title,
           isComplete: task.isCompleted,
         ),
+        onTap: onTap,
         trailing: Checkbox(
           key: const Key(checkboxKey),
           value: task.isCompleted,

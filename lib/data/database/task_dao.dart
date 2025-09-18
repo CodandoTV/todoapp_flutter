@@ -105,4 +105,22 @@ class TaskDAO {
           where: '$idKey = ${tasks[i].id}');
     }
   }
+
+  Future<bool> updateTaskName({
+    required int checklistId,
+    required int taskId,
+    required String taskTitle,
+  }) async {
+    final values = {titleKey: taskTitle};
+    final result = await _database.update(
+      tableName,
+      values,
+      where: '$idKey = $taskId',
+    );
+    if (result == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

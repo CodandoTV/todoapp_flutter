@@ -116,24 +116,10 @@ class TasksScaffold extends StatelessWidget {
       ),
       floatingActionButton: _buildFloatingActionButton(
         () async {
-          bool? result = await navigatorProvider.push(
+          await _navigateToTaskScreen(
             context,
-            TaskRoute(
-              checklistId: checklistId,
-            ),
+            checklistId: checklistId,
           );
-          if (result == true) {
-            await callbacks.updateTasks();
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    tasksScreenTextValues.taskAdded,
-                  ),
-                ),
-              );
-            }
-          }
         },
       ),
       body: Stack(
@@ -150,6 +136,13 @@ class TasksScaffold extends StatelessWidget {
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
               onCompleteTask: callbacks.onCompleteTask,
+              onTap: (task) => {
+                _navigateToTaskScreen(
+                  context,
+                  checklistId: checklistId,
+                  task: task,
+                )
+              },
             ),
           ),
           Padding(
@@ -220,5 +213,31 @@ class TasksScaffold extends StatelessWidget {
     );
 
     return menuActions;
+  }
+
+  Future<void> _navigateToTaskScreen(
+    BuildContext context, {
+    required int? checklistId,
+    Task? task,
+  }) async {
+    bool? result = await navigatorProvider.push(
+      context,
+      TaskRoute(
+        checklistId: checklistId,
+        task: task,
+      ),
+    );
+    if (result == true) {
+      await callbacks.updateTasks();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              tasksScreenTextValues.taskAdded,
+            ),
+          ),
+        );
+      }
+    }
   }
 }

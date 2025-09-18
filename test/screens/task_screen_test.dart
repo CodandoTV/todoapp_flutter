@@ -29,4 +29,29 @@ void main() {
       );
     },
   );
+
+  testWidgets(
+    'TaskScreen - Show taskTitle if the user is updating an existing task',
+    (tester) async {
+      const existingTaskTitle = 'Buy dog food';
+
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: TaskScreenScaffold(
+          taskTitle: existingTaskTitle,
+          navigatorProvider: FakeNavigatorProvider(),
+          onAddNewTask: (_) => {},
+          taskScreenTextValues: FakeTextValues.taskScreenTextValues,
+          formScreenValidator: FormScreenValidator(),
+        ),
+        tester: tester,
+      );
+
+      await tester.pumpWidget(widget);
+
+      expect(
+        find.textContaining(existingTaskTitle),
+        findsOneWidget,
+      );
+    },
+  );
 }

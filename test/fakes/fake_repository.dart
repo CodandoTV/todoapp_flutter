@@ -63,4 +63,22 @@ class FakeRepository implements TodoRepository {
   Future<bool> deleteChecklist(Checklist checklist) {
     return Future.value(true);
   }
+
+  @override
+  Future<bool> updateTaskName(
+      {required int checklistId,
+      required int taskId,
+      required String taskTitle}) {
+    final indexWhere = _tasks.indexWhere(
+      (element) => element.id == taskId,
+    );
+    if (indexWhere != -1) {
+      _tasks[indexWhere] = _tasks[indexWhere].copyWith(
+        title: taskTitle,
+      );
+      return Future.value(true);
+    } else {
+      return Future.value(false);
+    }
+  }
 }
