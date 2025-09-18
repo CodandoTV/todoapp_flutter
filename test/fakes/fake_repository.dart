@@ -63,4 +63,13 @@ class FakeRepository implements TodoRepository {
   Future<bool> deleteChecklist(Checklist checklist) {
     return Future.value(true);
   }
+
+  @override
+  Future<bool> updateTaskName(
+      {required int checklistId,
+      required int taskId,
+      required String taskTitle}) {
+    // TODO: implement updateTaskName
+    throw UnimplementedError();
+  }
 }

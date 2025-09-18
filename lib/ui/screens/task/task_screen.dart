@@ -37,7 +37,7 @@ class TaskScreen extends StatelessWidget {
     );
 
     return TaskScreenScaffold(
-      task?.title,
+      taskTitle: task?.title,
       taskScreenTextValues: taskScreenTextValues,
       onAddNewTask: (title) => viewModel.addTaskOrUpdate(
         title: title,
@@ -56,9 +56,9 @@ class TaskScreenScaffold extends StatelessWidget {
   final NavigatorProvider navigatorProvider;
   final TaskScreenTextValues taskScreenTextValues;
 
-  TaskScreenScaffold(
-    String? taskTitle, {
+  TaskScreenScaffold({
     super.key,
+    String? taskTitle,
     required this.taskScreenTextValues,
     required this.onAddNewTask,
     required this.formScreenValidator,
