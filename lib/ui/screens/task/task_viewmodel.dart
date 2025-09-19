@@ -20,11 +20,12 @@ class TaskViewModel {
     return taskName.isNotEmpty;
   }
 
-  Future<void> addTaskOrUpdate({
+  Future<bool> addTaskOrUpdate({
     required String title,
   }) async {
+    var result = false;
     if (_task == null) {
-      await _repository.addTask(
+      result = await _repository.addTask(
         Task(
           id: null,
           title: title,
@@ -34,12 +35,16 @@ class TaskViewModel {
       );
     } else {
       if (_checklistId != null && _task?.id != null) {
-        await _repository.updateTaskName(
+        result = await _repository.updateTaskName(
           checklistId: _checklistId!,
           taskId: _task!.id!,
           taskTitle: title,
         );
+      } else {
+        result = false;
       }
     }
+
+    return result;
   }
 }

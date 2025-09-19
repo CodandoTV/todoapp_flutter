@@ -39,7 +39,7 @@ class TasksScreen extends StatelessWidget {
     viewModel.updateTasks();
 
     final tasksScreenTextValues = TasksScreenTextValues(
-      taskAdded: AppLocalizations.of(context)!.task_added,
+      tasksRefresh: AppLocalizations.of(context)!.tasks_refresh,
       removeTaskDialogTitle:
           AppLocalizations.of(context)!.remove_task_dialog_title,
       removeTaskDialogDesc:
@@ -233,7 +233,7 @@ class TasksScaffold extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              tasksScreenTextValues.taskAdded,
+              tasksScreenTextValues.tasksRefresh,
             ),
           ),
         );

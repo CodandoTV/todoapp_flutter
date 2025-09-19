@@ -14,7 +14,9 @@ void main() {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TaskScreenScaffold(
           navigatorProvider: FakeNavigatorProvider(),
-          onAddNewTask: (_) => {},
+          addTaskOrUpdate: (p0) {
+            return Future.value(false);
+          },
           taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
@@ -39,7 +41,9 @@ void main() {
         child: TaskScreenScaffold(
           taskTitle: existingTaskTitle,
           navigatorProvider: FakeNavigatorProvider(),
-          onAddNewTask: (_) => {},
+          addTaskOrUpdate: (p0) {
+            return Future.value(false);
+          },
           taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),

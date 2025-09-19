@@ -6,7 +6,7 @@
   "empty_checklists": "Nenhum checklist disponível",
   "task_name_required": "Nome de tarefa é obrigatório",
   "checklist_name_required": "Nome de checklist é obrigatório",
-  "task_added": "Tarefa adicionada.",
+  "tasks_refresh": "Lista atualizada.",
   "checklist_added": "Checklist adicionado.",
   "remove_task_dialog_title": "Remover tarefa",
   "remove_task_dialog_desc": "Você tem certeza que deseja remover essa tarefa?",

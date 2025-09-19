@@ -15,12 +15,12 @@ class TasksScreenTextValues with _$TasksScreenTextValues {
   @override
   final String emptyTasksMessage;
   @override
-  final String taskAdded;
+  final String tasksRefresh;
   @override
   final String sortMessage;
 
   const TasksScreenTextValues({
-    required this.taskAdded,
+    required this.tasksRefresh,
     required this.removeTaskDialogTitle,
     required this.removeTaskDialogDesc,
     required this.yes,

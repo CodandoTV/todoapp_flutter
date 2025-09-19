@@ -91,7 +91,7 @@ class TaskDAO {
       tableName,
       _taskToValues(task, checklistId),
     );
-    if (result == 1) {
+    if (result != 0) {
       return true;
     } else {
       return false;

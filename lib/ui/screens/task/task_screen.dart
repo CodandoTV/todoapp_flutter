@@ -39,7 +39,7 @@ class TaskScreen extends StatelessWidget {
     return TaskScreenScaffold(
       taskTitle: task?.title,
       taskScreenTextValues: taskScreenTextValues,
-      onAddNewTask: (title) => viewModel.addTaskOrUpdate(
+      addTaskOrUpdate: (title) => viewModel.addTaskOrUpdate(
         title: title,
       ),
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
@@ -50,7 +50,7 @@ class TaskScreen extends StatelessWidget {
 
 class TaskScreenScaffold extends StatelessWidget {
   final TextEditingController _taskEditingController = TextEditingController();
-  final Function(String) onAddNewTask;
+  final Future<bool> Function(String) addTaskOrUpdate;
   final FormScreenValidator formScreenValidator;
   final _formKey = GlobalKey<FormState>();
   final NavigatorProvider navigatorProvider;
@@ -60,7 +60,7 @@ class TaskScreenScaffold extends StatelessWidget {
     super.key,
     String? taskTitle,
     required this.taskScreenTextValues,
-    required this.onAddNewTask,
+    required this.addTaskOrUpdate,
     required this.formScreenValidator,
     required this.navigatorProvider,
   }) {
@@ -79,11 +79,11 @@ class TaskScreenScaffold extends StatelessWidget {
             return;
           }
 
-          await onAddNewTask(
+          final result = await addTaskOrUpdate(
             _taskEditingController.text,
           );
           if (context.mounted) {
-            navigatorProvider.onPop(context, true);
+            navigatorProvider.onPop(context, result);
           }
         },
         child: const Icon(Icons.save),

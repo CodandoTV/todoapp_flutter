@@ -40,42 +40,42 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<List<Task>> getTasks(int? checklistId) async {
-    return _todoDAO.getAll(checklistId);
+    return await _todoDAO.getAll(checklistId);
   }
 
   @override
   Future<bool> updateTask(Task task, bool isCompletedNewValue) async {
-    return _todoDAO.update(task, isCompletedNewValue);
+    return await _todoDAO.update(task, isCompletedNewValue);
   }
 
   @override
   Future<bool> addTask(Task task, int? checklistId) async {
-    return _todoDAO.add(task, checklistId);
+    return await _todoDAO.add(task, checklistId);
   }
 
   @override
   Future<bool> deleteTasks(List<Task> tasks) async {
-    return _todoDAO.delete(tasks);
+    return await _todoDAO.delete(tasks);
   }
 
   @override
-  Future<void> updateAllTasks(List<Task> tasks) {
-    return _todoDAO.updateAll(tasks);
+  Future<void> updateAllTasks(List<Task> tasks) async {
+    return await _todoDAO.updateAll(tasks);
   }
 
   @override
-  Future<bool> addChecklist(Checklist checklist) {
-    return _checklistDAO.add(checklist);
+  Future<bool> addChecklist(Checklist checklist) async {
+    return await _checklistDAO.add(checklist);
   }
 
   @override
-  Future<bool> deleteChecklist(Checklist checklist) {
-    return _checklistDAO.delete(checklist);
+  Future<bool> deleteChecklist(Checklist checklist) async {
+    return await _checklistDAO.delete(checklist);
   }
 
   @override
-  Future<List<Checklist>> getChecklists() {
-    return _checklistDAO.getAll();
+  Future<List<Checklist>> getChecklists() async {
+    return await _checklistDAO.getAll();
   }
 
   @override
@@ -83,8 +83,8 @@ class TodoRepositoryImpl implements TodoRepository {
     required int checklistId,
     required int taskId,
     required String taskTitle,
-  }) {
-    return _todoDAO.updateTaskName(
+  }) async {
+    return await _todoDAO.updateTaskName(
       checklistId: checklistId,
       taskId: taskId,
       taskTitle: taskTitle,
