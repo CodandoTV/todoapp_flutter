@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
@@ -34,6 +35,10 @@ void main() {
       expect(
         result.length,
         1,
+      );
+      expect(
+        Icons.plus_one,
+        viewModel.getFloatingActionButtonIcon(),
       );
     },
   );
@@ -73,6 +78,10 @@ void main() {
       expect(
         result.first.title,
         'Updated title',
+      );
+      expect(
+        Icons.save,
+        viewModel.getFloatingActionButtonIcon(),
       );
     },
   );

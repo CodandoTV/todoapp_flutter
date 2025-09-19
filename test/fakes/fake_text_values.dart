@@ -5,7 +5,7 @@ import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 
 class FakeTextValues {
   static const tasksScreenTextValues = TasksScreenTextValues(
-    taskAdded: 'Task Added',
+    tasksRefresh: 'Task list refreshed',
     removeTaskDialogTitle: 'Remove Task',
     removeTaskDialogDesc: 'Are you sure?',
     yes: 'yes',
