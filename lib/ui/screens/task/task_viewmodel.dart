@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/todo_repository.dart';
 
@@ -18,6 +19,14 @@ class TaskViewModel {
 
   bool validateTaskName(String taskName) {
     return taskName.isNotEmpty;
+  }
+
+  IconData getFloatingActionButtonIcon() {
+    if (_task == null) {
+      return Icons.plus_one;
+    } else {
+      return Icons.save;
+    }
   }
 
   Future<bool> addTaskOrUpdate({

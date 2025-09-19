@@ -17,6 +17,7 @@ void main() {
           addTaskOrUpdate: (p0) {
             return Future.value(false);
           },
+          floatingActionIcon: Icons.plus_one,
           taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
@@ -44,6 +45,7 @@ void main() {
           addTaskOrUpdate: (p0) {
             return Future.value(false);
           },
+          floatingActionIcon: Icons.save,
           taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),

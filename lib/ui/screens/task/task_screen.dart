@@ -42,6 +42,7 @@ class TaskScreen extends StatelessWidget {
       addTaskOrUpdate: (title) => viewModel.addTaskOrUpdate(
         title: title,
       ),
+      floatingActionIcon: viewModel.getFloatingActionButtonIcon(),
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
       navigatorProvider: navigatorProvider,
     );
@@ -55,10 +56,12 @@ class TaskScreenScaffold extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final NavigatorProvider navigatorProvider;
   final TaskScreenTextValues taskScreenTextValues;
+  final IconData floatingActionIcon;
 
   TaskScreenScaffold({
     super.key,
     String? taskTitle,
+    required this.floatingActionIcon,
     required this.taskScreenTextValues,
     required this.addTaskOrUpdate,
     required this.formScreenValidator,
@@ -86,7 +89,7 @@ class TaskScreenScaffold extends StatelessWidget {
             navigatorProvider.onPop(context, result);
           }
         },
-        child: const Icon(Icons.save),
+        child: Icon(floatingActionIcon),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
