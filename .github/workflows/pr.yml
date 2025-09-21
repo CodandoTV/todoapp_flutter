@@ -18,7 +18,7 @@ jobs:
 
       - name: Generate Resources
         run: flutter gen-l10n
-        
+
       - name: Run tests
         run: flutter test
 
