@@ -19,9 +19,16 @@ jobs:
       - name: Generate Resources
         run: flutter gen-l10n
         
-      - name: Run tests
-        run: flutter test
+      - name: Run tests with coverage
+        run: flutter test --coverage
 
+      - name: Check component coverage
+        uses: zgosalvez/github-actions-report-lcov@v4
+        with:
+          coverage-files: coverage/lcov.info
+          minimum-coverage-files: '{"lib/domain/**": 85, "lib/ui/**": 60}'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Analyze
         run: dart analyze
 
