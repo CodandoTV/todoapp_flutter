@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  danger:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,6 +18,10 @@ jobs:
 
       - name: Install Danger-js
         run: npm install -g danger
+
+      - name: Install dependencies
+        run: flutter pub get
+        shell: bash
 
       - name: Activate command
         run: flutter pub global activate
