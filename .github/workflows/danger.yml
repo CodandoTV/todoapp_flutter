@@ -13,16 +13,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: ./.github/actions/setup-flutter
+      - name: Setup node
+        uses: actions/setup-node@v1
+
+      - name: Setup dart
+        uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
       - name: Install Danger-js
         run: npm install -g danger
-
-      - name: Install dependencies
-        run: flutter pub get
-        shell: bash
-        
+    
+      - name: Activate command
+        run: dart pub global activate
+    
       - name: Run danger ci
         run: danger_dart ci
         env:
