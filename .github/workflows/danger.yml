@@ -1,0 +1,28 @@
+name: Danger
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Install Danger-js
+        run: npm install -g danger
+
+      - name: Activate command
+        run: dart pub global activate
+        
+      - name: Run danger ci
+        run: danger_dart ci
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
