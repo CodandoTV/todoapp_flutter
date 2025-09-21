@@ -18,6 +18,11 @@ jobs:
 
       - name: Generate Resources
         run: flutter gen-l10n
+
+      - name: Run danger ci
+        run: danger_dart ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Run tests
         run: flutter test
