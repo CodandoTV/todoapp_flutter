@@ -13,9 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v1
-
       - name: Setup dart
         uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
@@ -23,7 +20,7 @@ jobs:
         run: npm install -g danger
     
       - name: Activate command
-        run: dart pub global activate
+        run: dart pub global activate danger_dart
     
       - name: Run danger ci
         run: danger_dart ci
