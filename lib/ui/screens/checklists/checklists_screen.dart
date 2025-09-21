@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
+import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
-import 'package:todoapp/ui/widgets/checklist/checklists_list_widget.dart';
-import 'package:todoapp/ui/widgets/confirmation_alert_dialog_widget.dart';
-import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/util/di/dependency_startup_handler.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 

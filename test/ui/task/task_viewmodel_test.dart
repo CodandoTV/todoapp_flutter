@@ -4,7 +4,7 @@ import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 
-import '../../../fakes/fake_repository.dart';
+import '../../test_utils/fakes/fake_repository.dart';
 
 void main() {
   test(
