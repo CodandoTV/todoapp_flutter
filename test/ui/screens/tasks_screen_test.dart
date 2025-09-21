@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
-import 'package:todoapp/ui/widgets/progress_widget.dart';
 
-import '../fakes/fake_callbacks.dart';
-import '../fakes/fake_navigator_provider.dart';
-import '../fakes/fake_states.dart';
-import '../fakes/fake_text_values.dart';
-import '../utils/widgets_util.dart';
+import '../../test_utils/fakes/fake_callbacks.dart';
+import '../../test_utils/fakes/fake_navigator_provider.dart';
+import '../../test_utils/fakes/fake_states.dart';
+import '../../test_utils/fakes/fake_text_values.dart';
+import '../../test_utils/widgets_util.dart';
 
 void main() {
   testWidgets(

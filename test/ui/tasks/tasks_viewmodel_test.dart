@@ -4,8 +4,8 @@ import 'package:todoapp/domain/tasks_helper.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
-import '../../../fakes/fake_repository.dart';
-import '../../../fakes/fake_share_message_handler.dart';
+import '../../test_utils/fakes/fake_repository.dart';
+import '../../test_utils/fakes/fake_share_message_handler.dart';
 
 void main() {
   test(

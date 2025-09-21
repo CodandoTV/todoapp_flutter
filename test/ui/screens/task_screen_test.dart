@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
 
-import '../fakes/fake_navigator_provider.dart';
-import '../fakes/fake_text_values.dart';
-import '../utils/widgets_util.dart';
+import '../../test_utils/fakes/fake_navigator_provider.dart';
+import '../../test_utils/fakes/fake_text_values.dart';
+import '../../test_utils/widgets_util.dart';
 
 void main() {
   testWidgets(
