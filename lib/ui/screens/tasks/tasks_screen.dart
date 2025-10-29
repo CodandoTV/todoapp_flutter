@@ -13,7 +13,7 @@ import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 
 const shareOptionKey = 'shareOption';

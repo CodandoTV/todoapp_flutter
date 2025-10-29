@@ -7,7 +7,7 @@ import 'package:todoapp/ui/components/widgets/task_form_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
 
 @RoutePage()

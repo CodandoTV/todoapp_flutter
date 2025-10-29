@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 
 class StartupViewmodel extends Cubit<bool> {
 
