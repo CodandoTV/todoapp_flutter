@@ -48,6 +48,8 @@ dependencies:
   path: ^1.9.1
   share_plus: ^11.0.0
   auto_route: ^10.1.0+1
+  eagle_eye: ^0.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

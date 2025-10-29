@@ -1,0 +1,14 @@
+[
+  {
+    "filePattern": "*util.dart",
+    "noDependsEnabled": true
+  },
+  {
+    "filePattern": "*viewmodel.dart",
+    "justWithPatterns": ["*repository.dart"]
+  },
+  {
+    "filePattern": "*repository.dart",
+    "doNotWithPatterns": ["*screen.dart"]
+  }
+]
