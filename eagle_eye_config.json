@@ -1,0 +1,18 @@
+[
+  {
+    "filePattern": "*/data/model/*",
+    "noDependsEnabled": true
+  },
+  {
+    "filePattern": "*viewmodel.dart",
+    "doNotWithPatterns": ["*_screen.dart"]
+  },
+  {
+    "filePattern": "*/util/*_provider.dart",
+    "noDependsEnabled": true
+  },
+  {
+    "filePattern": "*/util/*_handler.dart",
+    "noDependsEnabled": true
+  }
+]

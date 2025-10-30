@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.config.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.config.dart';
 
 GetIt _getIt = GetIt.instance;
 

@@ -171,3 +171,4 @@ app.*.symbols
 /lib/ui/todo_app_router_config.gr.dart
 /lib/ui/l10n/app_localizations_pt.dart
 /lib/util/di/dependency_startup_handler.config.dart
+lib/util/di/dependency_startup_launcher.config.dart
