@@ -234,13 +234,13 @@ packages:
     source: hosted
     version: "3.1.0"
   eagle_eye:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: eagle_eye
-      sha256: "08ce1950b414825aab0ccb2c1bb4708036f608974463f422fd2e29c1b6b43e51"
+      sha256: a92012031b4c41b4e19ba2fdba438c9a43c7a056c38ee33825fb9c43cd352ee2
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "1.0.0"
   equatable:
     dependency: "direct main"
     description:
