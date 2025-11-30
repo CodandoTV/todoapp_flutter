@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/tasks_helper.dart';
+import 'package:todoapp/domain/progress_counter_use_case.dart';
 
 void main() {
   test(
     'calculateProgress -> test empty task list',
-        () {
+    () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final progressCounterUseCase = ProgressCounterUseCaseImpl();
 
       // Act
-      final result = taskHelper.calculateProgress(
+      final result = progressCounterUseCase.calculateProgress(
         tasks: [],
       );
 
@@ -21,12 +21,12 @@ void main() {
 
   test(
     'calculateProgress -> test a positive progress',
-        () {
+    () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final progressCounterUseCase = ProgressCounterUseCaseImpl();
 
       // Act
-      final result = taskHelper.calculateProgress(
+      final result = progressCounterUseCase.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -56,12 +56,12 @@ void main() {
 
   test(
     'calculateProgress -> test a bad progress',
-        () {
+    () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final progressCounterUseCase = ProgressCounterUseCaseImpl();
 
       // Act
-      final result = taskHelper.calculateProgress(
+      final result = progressCounterUseCase.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -91,12 +91,12 @@ void main() {
 
   test(
     'calculateProgress -> test a great progress',
-        () {
+    () {
       // Arrange
-      final useCase = TasksHelperImpl();
+      final progressCounterUseCase = ProgressCounterUseCaseImpl();
 
       // Act
-      final result = useCase.calculateProgress(
+      final result = progressCounterUseCase.calculateProgress(
         tasks: [
           const Task(
             id: null,
@@ -126,12 +126,12 @@ void main() {
 
   test(
     'calculateProgress -> test a horrible progress',
-        () {
+    () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final progressCounterUseCase = ProgressCounterUseCaseImpl();
 
       // Act
-      final result = taskHelper.calculateProgress(
+      final result = progressCounterUseCase.calculateProgress(
         tasks: [
           const Task(
             id: null,

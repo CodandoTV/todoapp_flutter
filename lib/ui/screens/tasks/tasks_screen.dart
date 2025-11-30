@@ -34,7 +34,11 @@ class TasksScreen extends StatelessWidget {
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
       checklistId: checklist.id,
-      tasksHelper: getIt.get(),
+      shouldShowShareButtonUseCase: getIt.get(),
+      formatTaskListMessageUseCase: getIt.get(),
+      tasksSorterUseCase: getIt.get(),
+      tasksComparatorUseCase: getIt.get(),
+      progressCounterUseCase: getIt.get(),
     );
     viewModel.updateTasks();
 

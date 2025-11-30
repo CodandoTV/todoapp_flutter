@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/tasks_helper.dart';
+import 'package:todoapp/domain/should_show_share_button_use_case.dart';
 
 void main() {
   test(
     'shouldShowShareButton -> test empty task list',
     () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final shouldShowShareButtonUseCase = ShouldShowShareButtonUseCaseImpl();
 
       // Act
-      final result = taskHelper.shouldShowShareButton([]);
+      final result = shouldShowShareButtonUseCase.shouldShowShareButton([]);
 
       // Assert
       expect(result, false);
@@ -21,10 +21,10 @@ void main() {
     'shouldShowShareButton -> there is a task not completed',
     () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final shouldShowShareButtonUseCase = ShouldShowShareButtonUseCaseImpl();
 
       // Act
-      final result = taskHelper.shouldShowShareButton(
+      final result = shouldShowShareButtonUseCase.shouldShowShareButton(
         [
           const Task(
             id: null,
@@ -56,10 +56,10 @@ void main() {
     'shouldShowShareButton -> there is none not completed task',
     () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final shouldShowShareButtonUseCase = ShouldShowShareButtonUseCaseImpl();
 
       // Act
-      final result = taskHelper.shouldShowShareButton(
+      final result = shouldShowShareButtonUseCase.shouldShowShareButton(
         [
           const Task(
             id: null,

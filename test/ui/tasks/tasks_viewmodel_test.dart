@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/tasks_helper.dart';
+import 'package:todoapp/domain/format_task_list_message_use_case.dart';
+import 'package:todoapp/domain/progress_counter_use_case.dart';
+import 'package:todoapp/domain/should_show_share_button_use_case.dart';
+import 'package:todoapp/domain/tasks_comparator_use_case.dart';
+import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 
@@ -8,23 +12,26 @@ import '../../test_utils/fakes/fake_repository.dart';
 import '../../test_utils/fakes/fake_share_message_handler.dart';
 
 void main() {
+  late TasksViewModel viewModel;
+  late FakeRepository fakeRepository;
+
+  setUp(() {
+    fakeRepository = FakeRepository(tasks: [], checklists: []);
+    viewModel = TasksViewModel(
+      repository: fakeRepository,
+      progressCounterUseCase: ProgressCounterUseCaseImpl(),
+      checklistId: null,
+      tasksSorterUseCase: TasksSorterUseCaseImpl(),
+      shareMessageHandler: FakeShareMessageHandler(),
+      tasksComparatorUseCase: TasksComparatorUseCaseImpl(),
+      formatTaskListMessageUseCase: FormatTaskListMessageUseCaseImpl(),
+      shouldShowShareButtonUseCase: ShouldShowShareButtonUseCaseImpl(),
+    );
+  });
+
   test(
     'TasksViewModel -> test initial state',
     () {
-      // Arrange
-      final repository = FakeRepository(
-        tasks: [],
-        checklists: [],
-      );
-
-      // Act
-      final viewModel = TasksViewModel(
-        repository: repository,
-        checklistId: null,
-        shareMessageHandler: FakeShareMessageHandler(),
-        tasksHelper: TasksHelperImpl(),
-      );
-
       // Assert
       expect(
         viewModel.state,
@@ -47,16 +54,8 @@ void main() {
         title: 'Task 1',
         isCompleted: false,
       );
-      final repository = FakeRepository(
-        tasks: [task1],
-        checklists: [],
-      );
-      final viewModel = TasksViewModel(
-        repository: repository,
-        checklistId: null,
-        shareMessageHandler: FakeShareMessageHandler(),
-        tasksHelper: TasksHelperImpl(),
-      );
+      List<Task> tasks = [task1];
+      await fakeRepository.updateAllTasks(tasks);
 
       // Act
       await viewModel.updateTasks();
@@ -85,17 +84,8 @@ void main() {
         isCompleted: false,
       );
       // Arrange
-      final repository = FakeRepository(
-        tasks: [task1],
-        checklists: [],
-      );
-      final viewModel = TasksViewModel(
-        repository: repository,
-        checklistId: null,
-        tasksHelper: TasksHelperImpl(),
-        shareMessageHandler: FakeShareMessageHandler(),
-      );
-
+      List<Task> tasks = [task1];
+      await fakeRepository.updateAllTasks(tasks);
       await viewModel.updateTasks();
 
       // Act
@@ -133,17 +123,8 @@ void main() {
         isCompleted: false,
       );
       // Arrange
-      final repository = FakeRepository(
-        tasks: [task1],
-        checklists: [],
-      );
-      final viewModel = TasksViewModel(
-        repository: repository,
-        checklistId: null,
-        shareMessageHandler: FakeShareMessageHandler(),
-        tasksHelper: TasksHelperImpl(),
-      );
-
+      List<Task> tasks = [task1];
+      await fakeRepository.updateAllTasks(tasks);
       await viewModel.updateTasks();
 
       // Act
@@ -177,17 +158,8 @@ void main() {
       );
 
       // Arrange
-      final repository = FakeRepository(
-        tasks: [task1, task2],
-        checklists: [],
-      );
-      final viewModel = TasksViewModel(
-        repository: repository,
-        checklistId: null,
-        shareMessageHandler: FakeShareMessageHandler(),
-        tasksHelper: TasksHelperImpl(),
-      );
-
+      List<Task> tasks = [task1, task2];
+      await fakeRepository.updateAllTasks(tasks);
       await viewModel.updateTasks();
 
       // Act
