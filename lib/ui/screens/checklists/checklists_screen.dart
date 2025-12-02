@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_full_widget.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
@@ -24,9 +23,6 @@ class ChecklistsScreen extends StatelessWidget {
     final viewModel = ChecklistsViewModel(
       GetItStartupHandlerWrapper.getIt.get(),
     );
-    final NavigatorProvider navigatorProvider =
-        GetItStartupHandlerWrapper.getIt.get();
-
     viewModel.updateChecklists();
 
     final checklistScreenTextValues = ChecklistsScreenTextValues(
