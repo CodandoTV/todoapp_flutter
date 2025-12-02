@@ -86,7 +86,7 @@ class _ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             flex: 6,
             child: TasksListWidget(
               tasks: tasks == null ? [] : tasks!,
-              emptyTasksMessage: 'emptyTasksMessage',
+              emptyTasksMessage: widget.emptyChecklistMessage,
               onCompleteTask: _tasksViewModel.onCompleteTask,
               onRemoveTask: _tasksViewModel.onRemoveTask,
               onReorder: _tasksViewModel.reorder,

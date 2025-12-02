@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
@@ -12,6 +13,8 @@ void main() {
   testWidgets(
     'ChecklistsScreen - Empty message should appear if we have no checklists',
     (tester) async {
+      tester.view.physicalSize = const Size(500, 800);
+
       const emptyChecklistMessage = 'You have no checklists';
 
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
@@ -39,6 +42,8 @@ void main() {
   testWidgets(
     'ChecklistsScreen - Checklist widget should appear if we have checklists',
     (tester) async {
+      tester.view.physicalSize = const Size(500, 800);
+
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
