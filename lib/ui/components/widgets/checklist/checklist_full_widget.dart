@@ -74,6 +74,7 @@ class _ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
           child: ListView.builder(
             padding: const EdgeInsets.only(top: 12, bottom: 120),
             itemBuilder: (context, index) => ChecklistItemWidget(
+              isSelected: widget.checklists[index].id == selected?.id,
               onRemoveChecklist: widget.onRemoveChecklist,
               onSelectChecklist: (checklist) => onSelectCheckList(checklist),
               checklist: widget.checklists[index],
