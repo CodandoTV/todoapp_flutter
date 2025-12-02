@@ -8,8 +8,8 @@ import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 
-import '../../test_utils/fakes/fake_repository.dart';
-import '../../test_utils/fakes/fake_share_message_handler.dart';
+import '../../../../../test_utils/fakes/fake_repository.dart';
+import '../../../../../test_utils/fakes/fake_share_message_handler.dart';
 
 void main() {
   late TasksViewModel viewModel;
@@ -20,7 +20,6 @@ void main() {
     viewModel = TasksViewModel(
       repository: fakeRepository,
       progressCounterUseCase: ProgressCounterUseCaseImpl(),
-      checklistId: null,
       tasksSorterUseCase: TasksSorterUseCaseImpl(),
       shareMessageHandler: FakeShareMessageHandler(),
       tasksComparatorUseCase: TasksComparatorUseCaseImpl(),
@@ -58,7 +57,7 @@ void main() {
       await fakeRepository.updateAllTasks(tasks);
 
       // Act
-      await viewModel.updateTasks();
+      await viewModel.updateTasks(null);
 
       // Assert
       expect(
@@ -86,7 +85,7 @@ void main() {
       // Arrange
       List<Task> tasks = [task1];
       await fakeRepository.updateAllTasks(tasks);
-      await viewModel.updateTasks();
+      await viewModel.updateTasks(null);
 
       // Act
       await viewModel.onCompleteTask(
@@ -125,7 +124,7 @@ void main() {
       // Arrange
       List<Task> tasks = [task1];
       await fakeRepository.updateAllTasks(tasks);
-      await viewModel.updateTasks();
+      await viewModel.updateTasks(null);
 
       // Act
       await viewModel.onRemoveTask(task1);
@@ -160,7 +159,7 @@ void main() {
       // Arrange
       List<Task> tasks = [task1, task2];
       await fakeRepository.updateAllTasks(tasks);
-      await viewModel.updateTasks();
+      await viewModel.updateTasks(null);
 
       // Act
       viewModel.onSort();
