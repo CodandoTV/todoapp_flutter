@@ -6,12 +6,12 @@ import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/components/widgets/progress_widget.dart';
-import 'package:todoapp/ui/components/widgets/task/tasks_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
@@ -33,14 +33,13 @@ class TasksScreen extends StatelessWidget {
     final viewModel = TasksViewModel(
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
-      checklistId: checklist.id,
       shouldShowShareButtonUseCase: getIt.get(),
       formatTaskListMessageUseCase: getIt.get(),
       tasksSorterUseCase: getIt.get(),
       tasksComparatorUseCase: getIt.get(),
       progressCounterUseCase: getIt.get(),
     );
-    viewModel.updateTasks();
+    viewModel.updateTasks(checklist.id);
 
     final tasksScreenTextValues = TasksScreenTextValues(
       tasksRefresh: AppLocalizations.of(context)!.tasks_refresh,

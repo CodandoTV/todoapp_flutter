@@ -7,7 +7,7 @@ import 'package:todoapp/domain/progress_counter_use_case.dart';
 import 'package:todoapp/domain/should_show_share_button_use_case.dart';
 import 'package:todoapp/domain/tasks_comparator_use_case.dart';
 import 'package:todoapp/domain/tasks_sorter_use_case.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
@@ -20,8 +20,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   ProgressCounterUseCase progressCounterUseCase;
   FormatTaskListMessageUseCase formatTaskListMessageUseCase;
 
-  late int? _checklistId;
-
   TasksViewModel({
     required TodoRepository repository,
     required ShareMessageHandler shareMessageHandler,
@@ -30,7 +28,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     required this.tasksComparatorUseCase,
     required this.progressCounterUseCase,
     required this.formatTaskListMessageUseCase,
-    int? checklistId,
   }) : super(
           const TasksScreenState(
             tasks: [],
@@ -40,10 +37,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
           ),
         ) {
     _repository = repository;
-
     _shareMessageHandler = shareMessageHandler;
-
-    _checklistId = checklistId;
   }
 
   void _onLoad() {
@@ -52,10 +46,10 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     );
   }
 
-  Future<void> updateTasks() async {
+  Future<void> updateTasks(int? checklistId) async {
     _onLoad();
 
-    var tasks = await _repository.getTasks(_checklistId);
+    var tasks = await _repository.getTasks(checklistId);
     emit(
       state.copyWith(
         isLoading: false,

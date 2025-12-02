@@ -1,5 +1,5 @@
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 
 class FakeStates {
   static const fakeTasksEmptyState = TasksScreenState(
