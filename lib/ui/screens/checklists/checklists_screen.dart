@@ -159,8 +159,8 @@ class ChecklistsScaffold extends StatelessWidget {
         newTaskIcon: Icons.add_task,
         newTaskLabel: 'New task',
         onNewTaskPressed: () async {
-          final currentChecklistFullWidgetState = _checklistFullKey.currentState;
-          currentChecklistFullWidgetState?.addNewTaskToExistingChecklist(
+          final currentChecklistFullState = _checklistFullKey.currentState;
+          currentChecklistFullState?.addNewTaskToExistingChecklist(
             context
           );
         },
