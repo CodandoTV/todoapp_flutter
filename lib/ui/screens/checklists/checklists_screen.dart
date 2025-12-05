@@ -77,6 +77,7 @@ class ChecklistsScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBigSize = MediaQuery.sizeOf(context).width > 600;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
@@ -105,13 +106,19 @@ class ChecklistsScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),
-        child: _buildCheckListWidget(context),
+        child: _buildCheckListWidget(
+          context: context,
+          isBigSize: isBigSize,
+        ),
       ),
     );
   }
 
-  Widget _buildCheckListWidget(BuildContext context) {
-    if (MediaQuery.sizeOf(context).width > 600) {
+  Widget _buildCheckListWidget({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    if (isBigSize) {
       return ChecklistsListFullWidget(
         checklists: uiState.checklists,
         emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
