@@ -1,23 +1,33 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/todo_repository.dart';
-import 'package:todoapp/domain/tasks_helper.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
+import 'package:todoapp/domain/format_task_list_message_use_case.dart';
+import 'package:todoapp/domain/progress_counter_use_case.dart';
+import 'package:todoapp/domain/should_show_share_button_use_case.dart';
+import 'package:todoapp/domain/tasks_comparator_use_case.dart';
+import 'package:todoapp/domain/tasks_sorter_use_case.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
   late ShareMessageHandler _shareMessageHandler;
 
-  TasksHelper tasksHelper;
-
-  late int? _checklistId;
+  ShouldShowShareButtonUseCase shouldShowShareButtonUseCase;
+  TasksSorterUseCase tasksSorterUseCase;
+  TasksComparatorUseCase tasksComparatorUseCase;
+  ProgressCounterUseCase progressCounterUseCase;
+  FormatTaskListMessageUseCase formatTaskListMessageUseCase;
 
   TasksViewModel({
     required TodoRepository repository,
     required ShareMessageHandler shareMessageHandler,
-    required this.tasksHelper,
-    int? checklistId,
+    required this.shouldShowShareButtonUseCase,
+    required this.tasksSorterUseCase,
+    required this.tasksComparatorUseCase,
+    required this.progressCounterUseCase,
+    required this.formatTaskListMessageUseCase,
   }) : super(
           const TasksScreenState(
             tasks: [],
@@ -27,10 +37,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
           ),
         ) {
     _repository = repository;
-
     _shareMessageHandler = shareMessageHandler;
-
-    _checklistId = checklistId;
   }
 
   void _onLoad() {
@@ -39,22 +46,24 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     );
   }
 
-  Future<void> updateTasks() async {
+  Future<void> updateTasks(int? checklistId) async {
     _onLoad();
 
-    var tasks = await _repository.getTasks(_checklistId);
+    var tasks = await _repository.getTasks(checklistId);
     emit(
       state.copyWith(
         isLoading: false,
         tasks: tasks,
-        showShareIcon: tasksHelper.shouldShowShareButton(tasks),
-        progress: tasksHelper.calculateProgress(tasks: tasks),
+        showShareIcon: shouldShowShareButtonUseCase.shouldShowShareButton(
+          tasks
+        ),
+        progress: progressCounterUseCase.calculateProgress(tasks: tasks),
       ),
     );
   }
 
   Future<void> shareTasks({required String checklistName}) async {
-    final checklist = tasksHelper.formatTaskList(
+    final checklist = formatTaskListMessageUseCase.formatTaskList(
       tasks: state.tasks,
     );
 
@@ -79,8 +88,10 @@ class TasksViewModel extends Cubit<TasksScreenState> {
         tasks[index] = tasks[index].copyWith(isCompleted: value);
         emit(
           state.copyWith(
-            progress: tasksHelper.calculateProgress(tasks: tasks),
-            showShareIcon: tasksHelper.shouldShowShareButton(tasks),
+            progress: progressCounterUseCase.calculateProgress(tasks: tasks),
+            showShareIcon: shouldShowShareButtonUseCase.shouldShowShareButton(
+              tasks
+            ),
             isLoading: false,
             tasks: tasks,
           ),
@@ -99,8 +110,10 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       tasks.remove(task);
       emit(
         state.copyWith(
-            progress: tasksHelper.calculateProgress(tasks: tasks),
-            showShareIcon: tasksHelper.shouldShowShareButton(tasks),
+            progress: progressCounterUseCase.calculateProgress(tasks: tasks),
+            showShareIcon: shouldShowShareButtonUseCase.shouldShowShareButton(
+              tasks
+            ),
             isLoading: false,
             tasks: tasks),
       );
@@ -122,7 +135,9 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     emit(
       state.copyWith(
         isLoading: false,
-        showShareIcon: tasksHelper.shouldShowShareButton(tasks),
+        showShareIcon: shouldShowShareButtonUseCase.shouldShowShareButton(
+          tasks
+        ),
         tasks: tasks,
       ),
     );
@@ -131,9 +146,16 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   }
 
   void onSort() {
-    List<Task> tasksToBeSorted = tasksHelper.sortByCompletedStatus(
+    List<Task> tasksToBeSorted = tasksSorterUseCase.sortByCompletedStatus(
       state.tasks,
     );
+
+    bool wasSortedPerformed = tasksComparatorUseCase.areThemEqual(
+      oldList: state.tasks,
+      newList: tasksToBeSorted,
+    );
+
+    debugPrint('Was Sorted performed $wasSortedPerformed');
 
     emit(
       state.copyWith(

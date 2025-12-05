@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklist_full_widget.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklist_navigation_rail_menu.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
@@ -76,48 +78,116 @@ class ChecklistsScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBigSize = MediaQuery.sizeOf(context).width > 600;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBarWidget(
-        title: checklistsScreenTextValues.screenTitle,
-      ),
-      floatingActionButton: _buildFloatingActionButton(
-        () async {
-          bool? result = await navigatorProvider.push(
-            context,
-            const ChecklistRoute(),
-          );
-
-          if (result == true) {
-            updateChecklists();
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context)!.checklist_added,
-                  ),
-                ),
-              );
-            }
-          }
-        },
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: ChecklistsListWidget(
-          checklists: uiState.checklists,
-          emptyChecklistMessage:
-              checklistsScreenTextValues.emptyChecklistMessage,
-          onRemoveChecklist: (checklist) {
-            _showConfirmationDialogToRemoveChecklist(context, checklist);
-          },
-          onSelectChecklist: (checklist) => navigatorProvider.push(
-            context,
-            TasksRoute(checklist: checklist),
-          ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: CustomAppBarWidget(
+          title: checklistsScreenTextValues.screenTitle,
         ),
-      ),
+        floatingActionButton: _buildFloatingActionButton(
+          () async {
+            await _addNewChecklistEvent(context);
+          },
+        ),
+        body: Row(
+          children: [
+            _buildNavigationRails(context: context, isBigSize: isBigSize),
+            _buildVerticalSeparator(context: context, isBigSize: isBigSize),
+            Expanded(
+              child: _buildCheckListWidget(
+                context: context,
+                isBigSize: isBigSize,
+              ),
+            ),
+          ],
+        ));
+  }
+
+  Future<void> _addNewChecklistEvent(BuildContext context) async {
+    bool? result = await navigatorProvider.push(
+      context,
+      const ChecklistRoute(),
     );
+
+    if (result == true) {
+      updateChecklists();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.checklist_added,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Widget _buildCheckListWidget({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    Widget checkListWidget;
+    if (isBigSize) {
+      checkListWidget = ChecklistsListFullWidget(
+        checklists: uiState.checklists,
+        emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
+        onRemoveChecklist: (checklist) {
+          _showConfirmationDialogToRemoveChecklist(context, checklist);
+        },
+        navigatorProvider: navigatorProvider,
+      );
+    } else {
+      checkListWidget = ChecklistsListWidget(
+        checklists: uiState.checklists,
+        emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
+        onRemoveChecklist: (checklist) {
+          _showConfirmationDialogToRemoveChecklist(context, checklist);
+        },
+        onSelectChecklist: (checklist) => navigatorProvider.push(
+          context,
+          TasksRoute(checklist: checklist),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 12, right: 12),
+      child: checkListWidget,
+    );
+  }
+
+  Widget _buildNavigationRails({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    if (isBigSize) {
+      return ChecklistNavigationRailMenu(
+        newChecklistIcon: Icons.plus_one,
+        newChecklistLabel: 'New Checklist',
+        newTaskIcon: Icons.add_task,
+        newTaskLabel: 'New task',
+        onNewTaskPressed: () {},
+        onNewChecklistPressed: () async {
+          await _addNewChecklistEvent(context);
+        },
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildVerticalSeparator({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    if (isBigSize) {
+      return const VerticalDivider(
+        thickness: 0.2,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   void _showConfirmationDialogToRemoveChecklist(

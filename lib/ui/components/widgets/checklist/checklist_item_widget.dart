@@ -6,9 +6,11 @@ class ChecklistItemWidget extends StatelessWidget {
   final Checklist checklist;
   final Function(Checklist) onRemoveChecklist;
   final Function(Checklist) onSelectChecklist;
+  final bool? isSelected;
 
   const ChecklistItemWidget({
     super.key,
+    this.isSelected,
     required this.checklist,
     required this.onRemoveChecklist,
     required this.onSelectChecklist,
@@ -35,6 +37,12 @@ class ChecklistItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.surfaceBright;
+
+    if (isSelected == true) {
+      backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+    }
+
     return Card(
       elevation: 2,
       shape: const RoundedRectangleBorder(
@@ -42,7 +50,7 @@ class ChecklistItemWidget extends StatelessWidget {
           Radius.circular(12),
         ),
       ),
-      color: Theme.of(context).colorScheme.surfaceBright,
+      color: backgroundColor,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () => onSelectChecklist(checklist),
