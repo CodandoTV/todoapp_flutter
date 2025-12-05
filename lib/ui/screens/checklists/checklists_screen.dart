@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_full_widget.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklist_navigation_rail_menu.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
@@ -157,19 +158,13 @@ class ChecklistsScaffold extends StatelessWidget {
     required bool isBigSize,
   }) {
     if (isBigSize) {
-      return const NavigationRail(
-        destinations: [
-          NavigationRailDestination(
-            icon: Icon(Icons.plus_one),
-            label: Text('Add checklist'),
-          ),
-          NavigationRailDestination(
-            icon: Icon(Icons.add_task),
-            label: Text('Add task'),
-          ),
-        ],
-        labelType: NavigationRailLabelType.all,
-        selectedIndex: null,
+      return ChecklistNavigationRailMenu(
+        newChecklistIcon: Icons.plus_one,
+        newChecklistLabel: 'New Checklist',
+        newTaskIcon: Icons.add_task,
+        newTaskLabel: 'New task',
+        onNewTaskPressed: () {},
+        onNewChecklistPressed: () {},
       );
     } else {
       return const SizedBox.shrink();
@@ -180,7 +175,7 @@ class ChecklistsScaffold extends StatelessWidget {
     required BuildContext context,
     required bool isBigSize,
   }) {
-    if(isBigSize) {
+    if (isBigSize) {
       return const VerticalDivider(
         thickness: 0.2,
       );
