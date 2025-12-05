@@ -24,10 +24,10 @@ class ChecklistsListFullWidget extends StatefulWidget {
 
   @override
   State<ChecklistsListFullWidget> createState() =>
-      _ChecklistsListFullWidgetState();
+      ChecklistsListFullWidgetState();
 }
 
-class _ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
+class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   Checklist? selected;
   List<Task>? tasks;
   late TasksViewModel _tasksViewModel;
@@ -64,6 +64,12 @@ class _ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         });
       });
     });
+  }
+
+  Future<void> addNewTaskToExistingChecklist(BuildContext context) async {
+    if (selected?.id != null) {
+      await _navigateToTaskScreen(context, checklistId: selected!.id);
+    }
   }
 
   Widget _buildTaskList(BuildContext context) {

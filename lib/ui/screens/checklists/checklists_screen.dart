@@ -59,8 +59,10 @@ class ChecklistsScaffold extends StatelessWidget {
   final Function updateChecklists;
   final NavigatorProvider navigatorProvider;
   final ChecklistsScreenTextValues checklistsScreenTextValues;
+  final GlobalKey<ChecklistsListFullWidgetState> _checklistFullKey =
+      GlobalKey<ChecklistsListFullWidgetState>();
 
-  const ChecklistsScaffold({
+  ChecklistsScaffold({
     super.key,
     required this.uiState,
     required this.checklistsScreenTextValues,
@@ -69,11 +71,18 @@ class ChecklistsScaffold extends StatelessWidget {
     required this.navigatorProvider,
   });
 
-  Widget _buildFloatingActionButton(Function() onPressed) {
-    return FloatingActionButton(
-      onPressed: onPressed,
-      child: const Icon(Icons.plus_one),
-    );
+  Widget _buildFloatingActionButton({
+    required bool isBigSize,
+    required Function() onPressed,
+  }) {
+    if (isBigSize) {
+      return const SizedBox.shrink();
+    } else {
+      return FloatingActionButton(
+        onPressed: onPressed,
+        child: const Icon(Icons.plus_one),
+      );
+    }
   }
 
   @override
@@ -85,7 +94,8 @@ class ChecklistsScaffold extends StatelessWidget {
           title: checklistsScreenTextValues.screenTitle,
         ),
         floatingActionButton: _buildFloatingActionButton(
-          () async {
+          isBigSize: isBigSize,
+          onPressed: () async {
             await _addNewChecklistEvent(context);
           },
         ),
@@ -103,26 +113,6 @@ class ChecklistsScaffold extends StatelessWidget {
         ));
   }
 
-  Future<void> _addNewChecklistEvent(BuildContext context) async {
-    bool? result = await navigatorProvider.push(
-      context,
-      const ChecklistRoute(),
-    );
-
-    if (result == true) {
-      updateChecklists();
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.checklist_added,
-            ),
-          ),
-        );
-      }
-    }
-  }
-
   Widget _buildCheckListWidget({
     required BuildContext context,
     required bool isBigSize,
@@ -131,6 +121,7 @@ class ChecklistsScaffold extends StatelessWidget {
     if (isBigSize) {
       checkListWidget = ChecklistsListFullWidget(
         checklists: uiState.checklists,
+        key: _checklistFullKey,
         emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
         onRemoveChecklist: (checklist) {
           _showConfirmationDialogToRemoveChecklist(context, checklist);
@@ -167,7 +158,12 @@ class ChecklistsScaffold extends StatelessWidget {
         newChecklistLabel: 'New Checklist',
         newTaskIcon: Icons.add_task,
         newTaskLabel: 'New task',
-        onNewTaskPressed: () {},
+        onNewTaskPressed: () async {
+          final currentChecklistFullWidgetState = _checklistFullKey.currentState;
+          currentChecklistFullWidgetState?.addNewTaskToExistingChecklist(
+            context
+          );
+        },
         onNewChecklistPressed: () async {
           await _addNewChecklistEvent(context);
         },
@@ -210,5 +206,25 @@ class ChecklistsScaffold extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _addNewChecklistEvent(BuildContext context) async {
+    bool? result = await navigatorProvider.push(
+      context,
+      const ChecklistRoute(),
+    );
+
+    if (result == true) {
+      updateChecklists();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.checklist_added,
+            ),
+          ),
+        );
+      }
+    }
   }
 }
