@@ -104,12 +104,9 @@ class ChecklistsScaffold extends StatelessWidget {
           }
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: _buildCheckListWidget(
-          context: context,
-          isBigSize: isBigSize,
-        ),
+      body: _buildCheckListWidget(
+        context: context,
+        isBigSize: isBigSize,
       ),
     );
   }
@@ -118,8 +115,9 @@ class ChecklistsScaffold extends StatelessWidget {
     required BuildContext context,
     required bool isBigSize,
   }) {
+    Widget checkListWidget;
     if (isBigSize) {
-      return ChecklistsListFullWidget(
+      checkListWidget = ChecklistsListFullWidget(
         checklists: uiState.checklists,
         emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
         onRemoveChecklist: (checklist) {
@@ -128,7 +126,7 @@ class ChecklistsScaffold extends StatelessWidget {
         navigatorProvider: navigatorProvider,
       );
     } else {
-      return ChecklistsListWidget(
+      checkListWidget = ChecklistsListWidget(
         checklists: uiState.checklists,
         emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
         onRemoveChecklist: (checklist) {
@@ -140,6 +138,11 @@ class ChecklistsScaffold extends StatelessWidget {
         ),
       );
     }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 12, right: 12),
+      child: checkListWidget,
+    );
   }
 
   void _showConfirmationDialogToRemoveChecklist(
