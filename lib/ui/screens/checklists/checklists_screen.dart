@@ -79,36 +79,43 @@ class ChecklistsScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final isBigSize = MediaQuery.sizeOf(context).width > 600;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBarWidget(
-        title: checklistsScreenTextValues.screenTitle,
-      ),
-      floatingActionButton: _buildFloatingActionButton(
-        () async {
-          bool? result = await navigatorProvider.push(
-            context,
-            const ChecklistRoute(),
-          );
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: CustomAppBarWidget(
+          title: checklistsScreenTextValues.screenTitle,
+        ),
+        floatingActionButton: _buildFloatingActionButton(
+          () async {
+            bool? result = await navigatorProvider.push(
+              context,
+              const ChecklistRoute(),
+            );
 
-          if (result == true) {
-            updateChecklists();
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context)!.checklist_added,
+            if (result == true) {
+              updateChecklists();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.checklist_added,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             }
-          }
-        },
-      ),
-      body: _buildCheckListWidget(
-        context: context,
-        isBigSize: isBigSize,
-      ),
-    );
+          },
+        ),
+        body: Row(
+          children: [
+            _buildNavigationRails(context: context, isBigSize: isBigSize),
+            _buildVerticalSeparator(context: context, isBigSize: isBigSize),
+            Expanded(
+              child: _buildCheckListWidget(
+                context: context,
+                isBigSize: isBigSize,
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget _buildCheckListWidget({
@@ -143,6 +150,43 @@ class ChecklistsScaffold extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 12),
       child: checkListWidget,
     );
+  }
+
+  Widget _buildNavigationRails({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    if (isBigSize) {
+      return const NavigationRail(
+        destinations: [
+          NavigationRailDestination(
+            icon: Icon(Icons.plus_one),
+            label: Text('Add checklist'),
+          ),
+          NavigationRailDestination(
+            icon: Icon(Icons.add_task),
+            label: Text('Add task'),
+          ),
+        ],
+        labelType: NavigationRailLabelType.all,
+        selectedIndex: null,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildVerticalSeparator({
+    required BuildContext context,
+    required bool isBigSize,
+  }) {
+    if(isBigSize) {
+      return const VerticalDivider(
+        thickness: 0.2,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   void _showConfirmationDialogToRemoveChecklist(
