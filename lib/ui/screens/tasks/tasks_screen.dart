@@ -11,7 +11,6 @@ import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
@@ -41,18 +40,6 @@ class TasksScreen extends StatelessWidget {
     );
     viewModel.updateTasks(checklist.id);
 
-    final tasksScreenTextValues = TasksScreenTextValues(
-      tasksRefresh: AppLocalizations.of(context)!.tasks_refresh,
-      removeTaskDialogTitle:
-          AppLocalizations.of(context)!.remove_task_dialog_title,
-      removeTaskDialogDesc:
-          AppLocalizations.of(context)!.remove_task_dialog_desc,
-      yes: AppLocalizations.of(context)!.yes,
-      no: AppLocalizations.of(context)!.no,
-      emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
-      sortMessage: AppLocalizations.of(context)!.sort_message,
-    );
-
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<TasksViewModel, TasksScreenState>(
@@ -61,7 +48,6 @@ class TasksScreen extends StatelessWidget {
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
-          tasksScreenTextValues: tasksScreenTextValues,
           callbacks: TasksScreenCallbacks(
             onCompleteTask: viewModel.onCompleteTask,
             onRemoveTask: viewModel.onRemoveTask,
@@ -82,7 +68,6 @@ class TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
   final String checklistName;
-  final TasksScreenTextValues tasksScreenTextValues;
   final TasksScreenCallbacks callbacks;
   final NavigatorProvider navigatorProvider;
 
@@ -91,7 +76,6 @@ class TasksScaffold extends StatelessWidget {
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
-    required this.tasksScreenTextValues,
     required this.navigatorProvider,
     required this.callbacks,
   });
@@ -105,13 +89,15 @@ class TasksScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
         title: checklistName,
         actions: _buildTopBarActions(
           context: context,
-          sortedMessage: tasksScreenTextValues.sortMessage,
+          sortedMessage: localizations.sort_message,
           onShare: callbacks.onShare,
           showShareButton: uiState.showShareIcon,
           onSort: callbacks.onSort,
@@ -134,7 +120,7 @@ class TasksScaffold extends StatelessWidget {
             ),
             child: TasksListWidget(
               tasks: uiState.tasks,
-              emptyTasksMessage: tasksScreenTextValues.emptyTasksMessage,
+              emptyTasksMessage: localizations.empty_tasks,
               onReorder: callbacks.onReorder,
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
@@ -162,13 +148,15 @@ class TasksScaffold extends StatelessWidget {
   }
 
   void _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+    final localizations = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: tasksScreenTextValues.removeTaskDialogTitle,
-        description: tasksScreenTextValues.removeTaskDialogDesc,
-        secondaryButtonText: tasksScreenTextValues.no,
-        primaryButtonText: tasksScreenTextValues.yes,
+        title: localizations.remove_task_dialog_title,
+        description: localizations.remove_task_dialog_desc,
+        secondaryButtonText: localizations.no,
+        primaryButtonText: localizations.yes,
         onSecondaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
         },
@@ -223,6 +211,8 @@ class TasksScaffold extends StatelessWidget {
     required int? checklistId,
     Task? task,
   }) async {
+    final localizations = AppLocalizations.of(context)!;
+
     bool? result = await navigatorProvider.push(
       context,
       TaskRoute(
@@ -236,7 +226,7 @@ class TasksScaffold extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              tasksScreenTextValues.tasksRefresh,
+              localizations.tasks_refresh,
             ),
           ),
         );
