@@ -231,7 +231,7 @@ class TasksScaffold extends StatelessWidget {
       ),
     );
     if (result == true) {
-      await callbacks.updateTasks();
+      await callbacks.updateTasks(checklistId);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

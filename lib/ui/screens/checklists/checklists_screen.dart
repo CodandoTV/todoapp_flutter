@@ -124,7 +124,6 @@ class ChecklistsScaffold extends StatelessWidget {
       checkListWidget = ChecklistsListFullWidget(
         checklists: uiState.checklists,
         key: _checklistFullKey,
-        emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
         onRemoveChecklist: (checklist) {
           _showConfirmationDialogToRemoveChecklist(context, checklist);
         },

@@ -1,7 +1,7 @@
 import 'package:todoapp/data/model/task.dart';
 
 class TasksScreenCallbacks {
-  final Function updateTasks;
+  final Function(int?) updateTasks;
   final Function(Task, bool) onCompleteTask;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;

@@ -4,6 +4,7 @@ import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_item_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
@@ -12,12 +13,10 @@ class ChecklistsListFullWidget extends StatefulWidget {
   final List<Checklist> checklists;
   final Function(Checklist) onRemoveChecklist;
   final NavigatorProvider navigatorProvider;
-  final String emptyChecklistMessage;
 
   const ChecklistsListFullWidget({
     super.key,
     required this.checklists,
-    required this.emptyChecklistMessage,
     required this.onRemoveChecklist,
     required this.navigatorProvider,
   });
@@ -68,11 +67,15 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
 
   Future<void> addNewTaskToExistingChecklist(BuildContext context) async {
     if (selected?.id != null) {
-      await _navigateToTaskScreen(context, checklistId: selected!.id);
+      await _navigateToTaskScreen(
+          context,
+          checklistId: selected!.id,
+      );
     }
   }
 
   Widget _buildTaskList(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Row(
       children: [
         Expanded(
@@ -92,12 +95,15 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             flex: 6,
             child: TasksListWidget(
               tasks: tasks == null ? [] : tasks!,
-              emptyTasksMessage: widget.emptyChecklistMessage,
+              emptyTasksMessage: localizations.empty_tasks,
               onCompleteTask: _tasksViewModel.onCompleteTask,
               onRemoveTask: _tasksViewModel.onRemoveTask,
               onReorder: _tasksViewModel.reorder,
-              onTap: (task) => _navigateToTaskScreen(context,
-                  checklistId: selected?.id, task: task),
+              onTap: (task) => _navigateToTaskScreen(
+                  context,
+                  checklistId: selected?.id,
+                  task: task,
+              ),
             )),
       ],
     );
@@ -108,6 +114,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
     required int? checklistId,
     Task? task,
   }) async {
+    final localizations = AppLocalizations.of(context)!;
+
     bool? result = await widget.navigatorProvider.push(
       context,
       TaskRoute(
@@ -119,9 +127,9 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
       await _tasksViewModel.updateTasks(selected?.id);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'refresh',
+              localizations.tasks_refresh,
             ),
           ),
         );
