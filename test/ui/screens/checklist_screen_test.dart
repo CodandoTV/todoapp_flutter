@@ -4,7 +4,6 @@ import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_screen.dart';
 
 import '../../test_utils/fakes/fake_navigator_provider.dart';
-import '../../test_utils/fakes/fake_text_values.dart';
 import '../../test_utils/widgets_util.dart';
 
 void main() {
@@ -13,7 +12,6 @@ void main() {
     (tester) async {
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistScreenScaffold(
-          checklistScreenTextValues: FakeTextValues.checklistScreenTextValues,
           onAddNewChecklist: (_) => {},
           formScreenValidator: FormScreenValidator(),
           navigatorProvider: FakeNavigatorProvider(),

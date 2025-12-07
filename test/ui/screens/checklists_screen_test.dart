@@ -6,7 +6,6 @@ import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 
 import '../../test_utils/fakes/fake_navigator_provider.dart';
-import '../../test_utils/fakes/fake_text_values.dart';
 import '../../test_utils/widgets_util.dart';
 
 void main() {
@@ -15,7 +14,7 @@ void main() {
     (tester) async {
       tester.view.physicalSize = const Size(500, 800);
 
-      const emptyChecklistMessage = 'You have no checklists';
+      const emptyChecklistMessage = 'No checklists available';
 
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
@@ -23,7 +22,6 @@ void main() {
             checklists: [],
             isLoading: false,
           ),
-          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},
@@ -55,7 +53,6 @@ void main() {
             ],
             isLoading: false,
           ),
-          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},
