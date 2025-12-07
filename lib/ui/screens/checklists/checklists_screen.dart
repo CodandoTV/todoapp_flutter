@@ -9,7 +9,6 @@ import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.d
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
-import 'package:todoapp/ui/screens/checklists/checklists_screen_text_values.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_viewmodel.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
@@ -26,24 +25,11 @@ class ChecklistsScreen extends StatelessWidget {
     );
     viewModel.updateChecklists();
 
-    final checklistScreenTextValues = ChecklistsScreenTextValues(
-      screenTitle: AppLocalizations.of(context)!.checklists,
-      checklistAdded: AppLocalizations.of(context)!.checklist_added,
-      removeChecklistDialogTitle:
-          AppLocalizations.of(context)!.remove_checklist_dialog_title,
-      removeChecklistDialogDesc:
-          AppLocalizations.of(context)!.remove_checklist_dialog_desc,
-      yes: AppLocalizations.of(context)!.yes,
-      no: AppLocalizations.of(context)!.no,
-      emptyChecklistMessage: AppLocalizations.of(context)!.empty_checklists,
-    );
-
     return BlocProvider(
       create: (_) => viewModel,
       child: BlocBuilder<ChecklistsViewModel, ChecklistsScreenState>(
         builder: (context, uiState) => ChecklistsScaffold(
           uiState: uiState,
-          checklistsScreenTextValues: checklistScreenTextValues,
           updateChecklists: viewModel.updateChecklists,
           onRemoveChecklist: viewModel.onRemoveChecklist,
           navigatorProvider: GetItStartupHandlerWrapper.getIt.get(),
@@ -58,7 +44,6 @@ class ChecklistsScaffold extends StatelessWidget {
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
   final NavigatorProvider navigatorProvider;
-  final ChecklistsScreenTextValues checklistsScreenTextValues;
   /// Use key to access a specific internal behavior of TaskViewModel
   /// to update the task list through ChecklistFullWidget.
   final GlobalKey<ChecklistsListFullWidgetState> _checklistFullKey =
@@ -67,7 +52,6 @@ class ChecklistsScaffold extends StatelessWidget {
   ChecklistsScaffold({
     super.key,
     required this.uiState,
-    required this.checklistsScreenTextValues,
     required this.updateChecklists,
     required this.onRemoveChecklist,
     required this.navigatorProvider,
@@ -90,10 +74,12 @@ class ChecklistsScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isBigSize = MediaQuery.sizeOf(context).width > 600;
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: CustomAppBarWidget(
-          title: checklistsScreenTextValues.screenTitle,
+          title: localizations.checklists,
         ),
         floatingActionButton: _buildFloatingActionButton(
           isBigSize: isBigSize,
@@ -119,6 +105,8 @@ class ChecklistsScaffold extends StatelessWidget {
     required BuildContext context,
     required bool isBigSize,
   }) {
+    final localizations = AppLocalizations.of(context)!;
+
     Widget checkListWidget;
     if (isBigSize) {
       checkListWidget = ChecklistsListFullWidget(
@@ -132,7 +120,7 @@ class ChecklistsScaffold extends StatelessWidget {
     } else {
       checkListWidget = ChecklistsListWidget(
         checklists: uiState.checklists,
-        emptyChecklistMessage: checklistsScreenTextValues.emptyChecklistMessage,
+        emptyChecklistMessage: localizations.empty_checklists,
         onRemoveChecklist: (checklist) {
           _showConfirmationDialogToRemoveChecklist(context, checklist);
         },
@@ -193,13 +181,15 @@ class ChecklistsScaffold extends StatelessWidget {
     BuildContext context,
     Checklist checklist,
   ) {
+    final localizations = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: checklistsScreenTextValues.removeChecklistDialogTitle,
-        description: checklistsScreenTextValues.removeChecklistDialogDesc,
-        secondaryButtonText: checklistsScreenTextValues.no,
-        primaryButtonText: checklistsScreenTextValues.yes,
+        title: localizations.remove_checklist_dialog_title,
+        description: localizations.remove_checklist_dialog_desc,
+        secondaryButtonText: localizations.no,
+        primaryButtonText: localizations.yes,
         onSecondaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
         },
