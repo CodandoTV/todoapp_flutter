@@ -5,7 +5,6 @@ import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/components/widgets/task_form_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
-import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
 import 'package:todoapp/util/navigation_provider.dart';
@@ -31,14 +30,8 @@ class TaskScreen extends StatelessWidget {
     final NavigatorProvider navigatorProvider =
         GetItStartupHandlerWrapper.getIt.get();
 
-    final taskScreenTextValues = TaskScreenTextValues(
-      taskErrorMessage: AppLocalizations.of(context)!.task_name_required,
-      taskLabel: AppLocalizations.of(context)!.task,
-    );
-
     return TaskScreenScaffold(
       taskTitle: task?.title,
-      taskScreenTextValues: taskScreenTextValues,
       addTaskOrUpdate: (title) => viewModel.addTaskOrUpdate(
         title: title,
       ),
@@ -55,14 +48,12 @@ class TaskScreenScaffold extends StatelessWidget {
   final FormScreenValidator formScreenValidator;
   final _formKey = GlobalKey<FormState>();
   final NavigatorProvider navigatorProvider;
-  final TaskScreenTextValues taskScreenTextValues;
   final IconData floatingActionIcon;
 
   TaskScreenScaffold({
     super.key,
     String? taskTitle,
     required this.floatingActionIcon,
-    required this.taskScreenTextValues,
     required this.addTaskOrUpdate,
     required this.formScreenValidator,
     required this.navigatorProvider,
@@ -72,9 +63,11 @@ class TaskScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: const CustomAppBarWidget(
-        title: 'Task',
+      appBar: CustomAppBarWidget(
+        title: localizations.task,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -95,8 +88,8 @@ class TaskScreenScaffold extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: TaskFormWidget(
           formKey: _formKey,
-          taskLabel: taskScreenTextValues.taskLabel,
-          taskErrorMessage: taskScreenTextValues.taskErrorMessage,
+          taskLabel: localizations.task,
+          taskErrorMessage: localizations.task_name_required,
           taskEditingController: _taskEditingController,
           formScreenValidator: formScreenValidator,
         ),
