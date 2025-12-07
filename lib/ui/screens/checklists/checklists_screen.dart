@@ -59,6 +59,8 @@ class ChecklistsScaffold extends StatelessWidget {
   final Function updateChecklists;
   final NavigatorProvider navigatorProvider;
   final ChecklistsScreenTextValues checklistsScreenTextValues;
+  /// Use key to access a specific internal behavior of TaskViewModel
+  /// to update the task list through ChecklistFullWidget.
   final GlobalKey<ChecklistsListFullWidgetState> _checklistFullKey =
       GlobalKey<ChecklistsListFullWidgetState>();
 
@@ -159,6 +161,8 @@ class ChecklistsScaffold extends StatelessWidget {
         newTaskIcon: Icons.add_task,
         newTaskLabel: 'New task',
         onNewTaskPressed: () async {
+          /// Use key to access a specific internal behavior of TaskViewModel
+          /// to update the task list through ChecklistFullWidget.
           final currentChecklistFullState = _checklistFullKey.currentState;
           currentChecklistFullState?.addNewTaskToExistingChecklist(
             context
