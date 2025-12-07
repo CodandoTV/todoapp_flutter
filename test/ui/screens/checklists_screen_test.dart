@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
@@ -5,14 +6,15 @@ import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 
 import '../../test_utils/fakes/fake_navigator_provider.dart';
-import '../../test_utils/fakes/fake_text_values.dart';
 import '../../test_utils/widgets_util.dart';
 
 void main() {
   testWidgets(
     'ChecklistsScreen - Empty message should appear if we have no checklists',
     (tester) async {
-      const emptyChecklistMessage = 'You have no checklists';
+      tester.view.physicalSize = const Size(500, 800);
+
+      const emptyChecklistMessage = 'No checklists available';
 
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
@@ -20,7 +22,6 @@ void main() {
             checklists: [],
             isLoading: false,
           ),
-          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},
@@ -39,6 +40,8 @@ void main() {
   testWidgets(
     'ChecklistsScreen - Checklist widget should appear if we have checklists',
     (tester) async {
+      tester.view.physicalSize = const Size(500, 800);
+
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: ChecklistsScaffold(
           uiState: const ChecklistsScreenState(
@@ -50,7 +53,6 @@ void main() {
             ],
             isLoading: false,
           ),
-          checklistsScreenTextValues: FakeTextValues.checklistsScreenTextValues,
           onRemoveChecklist: (_) => {},
           navigatorProvider: FakeNavigatorProvider(),
           updateChecklists: () => {},

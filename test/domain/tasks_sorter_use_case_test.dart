@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/tasks_helper.dart';
+import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 
 void main() {
   test(
     'sortByCompletedStatus -> test empty task list',
     () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
+      final tasksSorterUseCase = TasksSorterUseCaseImpl();
 
       // Act
-      final result = taskHelper.sortByCompletedStatus([]);
+      final result = tasksSorterUseCase.sortByCompletedStatus([]);
 
       // Assert
       expect(result, []);
@@ -21,8 +21,8 @@ void main() {
     'sortByCompletedStatus -> there is a task not completed',
     () {
       // Arrange
-      final taskHelper = TasksHelperImpl();
-      const taskB =  Task(
+      final tasksSorterUseCase = TasksSorterUseCaseImpl();
+      const taskB = Task(
         id: null,
         title: 'Task B - Completed',
         isCompleted: true,
@@ -39,7 +39,7 @@ void main() {
       );
 
       // Act
-      final result = taskHelper.sortByCompletedStatus(
+      final result = tasksSorterUseCase.sortByCompletedStatus(
         [
           taskB,
           taskA,

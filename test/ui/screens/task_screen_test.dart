@@ -4,7 +4,6 @@ import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/screens/task/task_screen.dart';
 
 import '../../test_utils/fakes/fake_navigator_provider.dart';
-import '../../test_utils/fakes/fake_text_values.dart';
 import '../../test_utils/widgets_util.dart';
 
 void main() {
@@ -18,7 +17,6 @@ void main() {
             return Future.value(false);
           },
           floatingActionIcon: Icons.plus_one,
-          taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
         tester: tester,
@@ -46,7 +44,6 @@ void main() {
             return Future.value(false);
           },
           floatingActionIcon: Icons.save,
-          taskScreenTextValues: FakeTextValues.taskScreenTextValues,
           formScreenValidator: FormScreenValidator(),
         ),
         tester: tester,

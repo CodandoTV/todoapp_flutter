@@ -6,14 +6,13 @@ import 'package:todoapp/ui/screens/tasks/tasks_screen.dart';
 import '../../test_utils/fakes/fake_callbacks.dart';
 import '../../test_utils/fakes/fake_navigator_provider.dart';
 import '../../test_utils/fakes/fake_states.dart';
-import '../../test_utils/fakes/fake_text_values.dart';
 import '../../test_utils/widgets_util.dart';
 
 void main() {
   testWidgets(
     'TasksScreen - Empty state message should appear if there is no task',
     (tester) async {
-      const emptyMessage = 'No Tasks available';
+      const emptyMessage = 'No tasks available';
 
       final widget = WidgetsUtil.buildMaterialAppWidgetTest(
         child: TasksScaffold(
@@ -21,9 +20,6 @@ void main() {
           uiState: FakeStates.fakeTasksEmptyState,
           checklistId: 1,
           checklistName: 'Pets',
-          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues.copyWith(
-            emptyTasksMessage: emptyMessage,
-          ),
           callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
         ),
         tester: tester,
@@ -45,7 +41,6 @@ void main() {
           callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'Pets',
-          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );
@@ -72,7 +67,6 @@ void main() {
           callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'pets',
-          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );
@@ -99,7 +93,6 @@ void main() {
           callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'pets',
-          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );
@@ -120,7 +113,6 @@ void main() {
           callbacks: FakeCallbacks.emptyTasksScreenCallbacks,
           checklistId: 1,
           checklistName: 'pets',
-          tasksScreenTextValues: FakeTextValues.tasksScreenTextValues,
         ),
         tester: tester,
       );
