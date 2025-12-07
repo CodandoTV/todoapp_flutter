@@ -27,7 +27,6 @@ jobs:
         run: flutter pub global activate danger_dart
     
       - name: Run danger ci
-        working-directory: ./todoapp_flutter
         run: danger_dart ci
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
