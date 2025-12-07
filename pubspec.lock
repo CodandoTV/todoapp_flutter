@@ -225,14 +225,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
-  danger_core:
-    dependency: "direct dev"
-    description:
-      name: danger_core
-      sha256: f949e126fcd0dcbd41ce973d733f2cb18426ee3870c0ec16ad331a2d9ce698c1
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   dart_style:
     dependency: transitive
     description:
