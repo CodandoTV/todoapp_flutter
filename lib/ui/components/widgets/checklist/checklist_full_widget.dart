@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_item_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
@@ -68,8 +69,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   Future<void> addNewTaskToExistingChecklist(BuildContext context) async {
     if (selected?.id != null) {
       await _navigateToTaskScreen(
-          context,
-          checklistId: selected!.id,
+        context,
+        checklistId: selected!.id,
       );
     }
   }
@@ -97,12 +98,15 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
               tasks: tasks == null ? [] : tasks!,
               emptyTasksMessage: localizations.empty_tasks,
               onCompleteTask: _tasksViewModel.onCompleteTask,
-              onRemoveTask: _tasksViewModel.onRemoveTask,
+              onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
+                context,
+                task,
+              ),
               onReorder: _tasksViewModel.reorder,
               onTap: (task) => _navigateToTaskScreen(
-                  context,
-                  checklistId: selected?.id,
-                  task: task,
+                context,
+                checklistId: selected?.id,
+                task: task,
               ),
             )),
       ],
@@ -135,5 +139,21 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         );
       }
     }
+  }
+
+  void _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => RemoveTaskDialogBuilder.build(
+        context: context,
+        onSecondaryButtonPressed: () => {
+          widget.navigatorProvider.onPop(context, null),
+        },
+        onPrimaryButtonPressed: () => {
+          widget.navigatorProvider.onPop(context, null),
+          _tasksViewModel.onRemoveTask(task),
+        },
+      ),
+    );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
+import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
@@ -148,15 +148,10 @@ class TasksScaffold extends StatelessWidget {
   }
 
   void _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
-    final localizations = AppLocalizations.of(context)!;
-
     showDialog(
       context: context,
-      builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: localizations.remove_task_dialog_title,
-        description: localizations.remove_task_dialog_desc,
-        secondaryButtonText: localizations.no,
-        primaryButtonText: localizations.yes,
+      builder: (BuildContext context) => RemoveTaskDialogBuilder.build(
+        context: context,
         onSecondaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
         },
