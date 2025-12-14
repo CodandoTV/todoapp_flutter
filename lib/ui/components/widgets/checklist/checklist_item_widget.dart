@@ -54,15 +54,7 @@ class ChecklistItemWidget extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () => onSelectChecklist(checklist),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
-            top: 16,
-            bottom: 16,
-          ),
-          child: _internalContent(context, checklist),
-        ),
+        child: _internalContent(context, checklist),
       ),
     );
   }

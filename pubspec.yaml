@@ -48,6 +48,7 @@ dependencies:
   path: ^1.9.1
   share_plus: 12.0.1
   auto_route: ^10.1.0+1
+  flutter_expandable_fab: ^2.5.2
 
 dev_dependencies:
   flutter_test:

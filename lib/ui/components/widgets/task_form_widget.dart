@@ -27,6 +27,7 @@ class TaskFormWidget extends StatelessWidget {
         children: [
           TextFormField(
             autofocus: true,
+            maxLines: 3,
             controller: taskEditingController,
             decoration: InputDecoration(
               labelText: taskLabel,
