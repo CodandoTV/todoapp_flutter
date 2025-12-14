@@ -18,7 +18,5 @@
   "checklist": "Checklist",
   "checklist_name": "Nome do Checklist",
   "remove": "Deletar",
-  "sort_message": "Está ordenado",
-  "add_task": "Adicionar tarefa",
-  "add_checklist": "Adicionar checklist"
+  "sort_message": "Está ordenado"
 }
