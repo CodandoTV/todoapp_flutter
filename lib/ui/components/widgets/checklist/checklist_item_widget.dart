@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/widgets/card_wrapper.dart';
 
 class ChecklistItemWidget extends StatelessWidget {
   final Checklist checklist;
@@ -43,19 +44,10 @@ class ChecklistItemWidget extends StatelessWidget {
       backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
     }
 
-    return Card(
-      elevation: 2,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(12),
-        ),
-      ),
-      color: backgroundColor,
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        onTap: () => onSelectChecklist(checklist),
-        child: _internalContent(context, checklist),
-      ),
+    return CardWrapper(
+      onTap: () => onSelectChecklist(checklist),
+      backgroundColor: backgroundColor,
+      child: _internalContent(context, checklist),
     );
   }
 }
