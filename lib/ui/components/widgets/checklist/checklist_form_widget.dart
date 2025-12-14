@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
+import 'package:todoapp/ui/components/widgets/form/form_field_widget.dart';
 
 class ChecklistFormWidget extends StatelessWidget {
   final Key formKey;
@@ -24,21 +25,15 @@ class ChecklistFormWidget extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
-          TextFormField(
-            autofocus: true,
-            controller: checklistEditingController,
-            decoration: InputDecoration(
+          FormFieldWidget(
               labelText: checklistLabel,
-              labelStyle: Theme.of(context).textTheme.titleMedium,
-              border: const OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (formScreenValidator.validateValue(value) == false) {
-                return checklistErrorMessage;
-              }
-              return null;
-            },
-          ),
+              controller: checklistEditingController,
+              validator: (value) {
+                if (formScreenValidator.validateValue(value) == false) {
+                  return checklistErrorMessage;
+                }
+                return null;
+              }),
         ],
       ),
     );

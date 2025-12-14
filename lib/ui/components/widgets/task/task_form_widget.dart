@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:todoapp/ui/components/form_validator.dart';
+import 'package:todoapp/ui/components/widgets/form/form_field_widget.dart';
 
 class TaskFormWidget extends StatelessWidget {
   final Key formKey;
@@ -25,15 +26,9 @@ class TaskFormWidget extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
-          TextFormField(
-            autofocus: true,
-            maxLines: 3,
+          FormFieldWidget(
+            labelText: taskLabel,
             controller: taskEditingController,
-            decoration: InputDecoration(
-              labelText: taskLabel,
-              labelStyle: Theme.of(context).textTheme.titleMedium,
-              border: const OutlineInputBorder(),
-            ),
             validator: (value) {
               if (formScreenValidator.validateValue(value) == false) {
                 return taskErrorMessage;

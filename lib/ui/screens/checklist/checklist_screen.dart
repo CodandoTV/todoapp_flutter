@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
-import 'package:todoapp/ui/components/widgets/checklist_form_widget.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklist_form_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';

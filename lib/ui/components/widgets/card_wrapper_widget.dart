@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CardWrapper extends StatelessWidget {
+class CardWrapperWidget extends StatelessWidget {
   final Color backgroundColor;
   final Function()? onTap;
   final Widget child;
 
-  const CardWrapper(
+  const CardWrapperWidget(
       {super.key,
       required this.child,
       required this.onTap,
