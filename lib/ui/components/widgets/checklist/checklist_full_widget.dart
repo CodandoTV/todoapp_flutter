@@ -75,6 +75,17 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
     }
   }
 
+  void onSortTasks() {
+    _tasksViewModel.onSort();
+  }
+
+  Future<void> onShareTasks() async {
+    final checklistName = selected?.title;
+    if (checklistName != null) {
+      await _tasksViewModel.shareTasks(checklistName: checklistName);
+    }
+  }
+
   Widget _buildTaskList(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Row(

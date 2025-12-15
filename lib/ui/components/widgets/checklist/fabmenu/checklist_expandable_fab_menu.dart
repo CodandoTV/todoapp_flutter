@@ -6,11 +6,15 @@ import 'package:todoapp/ui/l10n/app_localizations.dart';
 class ChecklistExpandableFabMenu extends StatefulWidget {
   final Function() onNewChecklistPressed;
   final Function() onNewTaskPressed;
+  final Function() onSharePressed;
+  final Function() onSortPressed;
 
   const ChecklistExpandableFabMenu({
     super.key,
     required this.onNewChecklistPressed,
     required this.onNewTaskPressed,
+    required this.onSharePressed,
+    required this.onSortPressed,
   });
 
   @override
@@ -51,6 +55,24 @@ class _ChecklistExpandableFabMenuState
           label: localizations.checklist,
           icon: Icons.plus_one,
         ),
+        ChecklistFabMenuItem(
+          heroTag: 'share',
+          onPressed: () => {
+            _key.currentState?.close(),
+            widget.onSharePressed(),
+          },
+          label: localizations.share,
+          icon: Icons.share,
+        ),
+        ChecklistFabMenuItem(
+          heroTag: 'sort',
+          onPressed: () => {
+            _key.currentState?.close(),
+            widget.onSortPressed(),
+          },
+          label: localizations.sort,
+          icon: Icons.sort,
+        )
       ],
     );
   }

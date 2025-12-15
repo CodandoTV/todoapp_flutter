@@ -68,6 +68,12 @@ class ChecklistsScaffold extends StatelessWidget {
         onNewChecklistPressed: () async {
           await _addNewChecklistEvent(context);
         },
+        onSharePressed: () async {
+          await _checklistFullKey.currentState?.onShareTasks();
+        },
+        onSortPressed: () => {
+          _checklistFullKey.currentState?.onSortTasks()
+        },
         onNewTaskPressed: () async {
           /// Use key to access a specific internal behavior of
           /// TaskViewModel to update the task list through
