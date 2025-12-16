@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
-import 'package:todoapp/ui/components/widgets/task_form_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/task_form_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';

@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_full_widget.dart';
-import 'package:todoapp/ui/components/widgets/checklist/checklist_navigation_rail_menu.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/checklist/fabmenu/checklist_expandable_fab_menu.dart';
 import 'package:todoapp/ui/components/widgets/confirmation_alert_dialog_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
@@ -44,6 +45,7 @@ class ChecklistsScaffold extends StatelessWidget {
   final Function(Checklist) onRemoveChecklist;
   final Function updateChecklists;
   final NavigatorProvider navigatorProvider;
+
   /// Use key to access a specific internal behavior of TaskViewModel
   /// to update the task list through ChecklistFullWidget.
   final GlobalKey<ChecklistsListFullWidgetState> _checklistFullKey =
@@ -59,13 +61,32 @@ class ChecklistsScaffold extends StatelessWidget {
 
   Widget _buildFloatingActionButton({
     required bool isBigSize,
-    required Function() onPressed,
+    required BuildContext context,
   }) {
     if (isBigSize) {
-      return const SizedBox.shrink();
+      return ChecklistExpandableFabMenu(
+        onNewChecklistPressed: () async {
+          await _addNewChecklistEvent(context);
+        },
+        onSharePressed: () async {
+          await _checklistFullKey.currentState?.onShareTasks();
+        },
+        onSortPressed: () => {
+          _checklistFullKey.currentState?.onSortTasks()
+        },
+        onNewTaskPressed: () async {
+          /// Use key to access a specific internal behavior of
+          /// TaskViewModel to update the task list through
+          /// ChecklistFullWidget.
+          final currentChecklistFullState = _checklistFullKey.currentState;
+          currentChecklistFullState?.addNewTaskToExistingChecklist(context);
+        },
+      );
     } else {
       return FloatingActionButton(
-        onPressed: onPressed,
+        onPressed: () async {
+          await _addNewChecklistEvent(context);
+        },
         child: const Icon(Icons.plus_one),
       );
     }
@@ -77,28 +98,20 @@ class ChecklistsScaffold extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: CustomAppBarWidget(
-          title: localizations.checklists,
-        ),
-        floatingActionButton: _buildFloatingActionButton(
-          isBigSize: isBigSize,
-          onPressed: () async {
-            await _addNewChecklistEvent(context);
-          },
-        ),
-        body: Row(
-          children: [
-            _buildNavigationRails(context: context, isBigSize: isBigSize),
-            _buildVerticalSeparator(context: context, isBigSize: isBigSize),
-            Expanded(
-              child: _buildCheckListWidget(
-                context: context,
-                isBigSize: isBigSize,
-              ),
-            ),
-          ],
-        ));
+      floatingActionButtonLocation: isBigSize ? ExpandableFab.location : null,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: CustomAppBarWidget(
+        title: localizations.checklists,
+      ),
+      floatingActionButton: _buildFloatingActionButton(
+        isBigSize: isBigSize,
+        context: context,
+      ),
+      body: _buildCheckListWidget(
+        context: context,
+        isBigSize: isBigSize,
+      ),
+    );
   }
 
   Widget _buildCheckListWidget({
@@ -135,46 +148,6 @@ class ChecklistsScaffold extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 12),
       child: checkListWidget,
     );
-  }
-
-  Widget _buildNavigationRails({
-    required BuildContext context,
-    required bool isBigSize,
-  }) {
-    if (isBigSize) {
-      return ChecklistNavigationRailMenu(
-        newChecklistIcon: Icons.plus_one,
-        newChecklistLabel: 'New Checklist',
-        newTaskIcon: Icons.add_task,
-        newTaskLabel: 'New task',
-        onNewTaskPressed: () async {
-          /// Use key to access a specific internal behavior of TaskViewModel
-          /// to update the task list through ChecklistFullWidget.
-          final currentChecklistFullState = _checklistFullKey.currentState;
-          currentChecklistFullState?.addNewTaskToExistingChecklist(
-            context
-          );
-        },
-        onNewChecklistPressed: () async {
-          await _addNewChecklistEvent(context);
-        },
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
-  }
-
-  Widget _buildVerticalSeparator({
-    required BuildContext context,
-    required bool isBigSize,
-  }) {
-    if (isBigSize) {
-      return const VerticalDivider(
-        thickness: 0.2,
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
   }
 
   void _showConfirmationDialogToRemoveChecklist(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/ui/components/widgets/card_wrapper_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/task_title_widget.dart';
 
 class TaskCellWidget extends StatelessWidget {
@@ -20,13 +21,9 @@ class TaskCellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cardShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-    );
-
-    return Card(
-      elevation: 4,
-      shape: cardShape,
+    return CardWrapperWidget(
+      onTap: null,
+      backgroundColor: Theme.of(context).colorScheme.surfaceBright,
       child: ListTile(
         leading: IconButton(
           onPressed: () => {onRemoveTask(task)},
