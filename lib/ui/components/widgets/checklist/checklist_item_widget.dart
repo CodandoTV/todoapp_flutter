@@ -38,15 +38,9 @@ class ChecklistItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = Theme.of(context).colorScheme.surfaceBright;
-
-    if (isSelected == true) {
-      backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
-    }
-
     return CardWrapperWidget(
+      isSelected: isSelected,
       onTap: () => onSelectChecklist(checklist),
-      backgroundColor: backgroundColor,
       child: _internalContent(context, checklist),
     );
   }

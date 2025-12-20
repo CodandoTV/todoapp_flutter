@@ -42,29 +42,43 @@ class TaskScreen extends StatelessWidget {
   }
 }
 
-class TaskScreenScaffold extends StatelessWidget {
-  final TextEditingController _taskEditingController = TextEditingController();
+class TaskScreenScaffold extends StatefulWidget {
   final Future<bool> Function(String) addTaskOrUpdate;
   final FormScreenValidator formScreenValidator;
-  final _formKey = GlobalKey<FormState>();
   final NavigatorProvider navigatorProvider;
   final IconData floatingActionIcon;
+  final String? taskTitle;
 
-  TaskScreenScaffold({
+  const TaskScreenScaffold({
     super.key,
-    String? taskTitle,
+    this.taskTitle,
     required this.floatingActionIcon,
     required this.addTaskOrUpdate,
     required this.formScreenValidator,
     required this.navigatorProvider,
-  }) {
-    _taskEditingController.text = taskTitle ?? '';
+  });
+
+  @override
+  State<TaskScreenScaffold> createState() => _TaskScreenScaffoldState();
+}
+
+class _TaskScreenScaffoldState extends State<TaskScreenScaffold> {
+  late TextEditingController _taskEditingController;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _taskEditingController = TextEditingController(
+        text: widget.taskTitle ?? ''
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: localizations.task,
@@ -75,14 +89,14 @@ class TaskScreenScaffold extends StatelessWidget {
             return;
           }
 
-          final result = await addTaskOrUpdate(
+          final result = await widget.addTaskOrUpdate(
             _taskEditingController.text,
           );
           if (context.mounted) {
-            navigatorProvider.onPop(context, result);
+            widget.navigatorProvider.onPop(context, result);
           }
         },
-        child: Icon(floatingActionIcon),
+        child: Icon(widget.floatingActionIcon),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -91,9 +105,16 @@ class TaskScreenScaffold extends StatelessWidget {
           taskLabel: localizations.task,
           taskErrorMessage: localizations.task_name_required,
           taskEditingController: _taskEditingController,
-          formScreenValidator: formScreenValidator,
+          formScreenValidator: widget.formScreenValidator,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _taskEditingController.dispose();
+
+    super.dispose();
   }
 }

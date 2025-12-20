@@ -23,7 +23,6 @@ class TaskCellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardWrapperWidget(
       onTap: null,
-      backgroundColor: Theme.of(context).colorScheme.surfaceBright,
       child: ListTile(
         leading: IconButton(
           onPressed: () => {onRemoveTask(task)},

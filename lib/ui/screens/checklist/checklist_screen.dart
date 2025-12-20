@@ -30,20 +30,28 @@ class ChecklistScreen extends StatelessWidget {
   }
 }
 
-class ChecklistScreenScaffold extends StatelessWidget {
-  final TextEditingController _checklistEditingController =
-      TextEditingController();
+class ChecklistScreenScaffold extends StatefulWidget {
   final Function(String) onAddNewChecklist;
-  final _formKey = GlobalKey<FormState>();
   final FormScreenValidator formScreenValidator;
   final NavigatorProvider navigatorProvider;
 
-  ChecklistScreenScaffold({
+  const ChecklistScreenScaffold({
     super.key,
     required this.onAddNewChecklist,
     required this.formScreenValidator,
     required this.navigatorProvider,
   });
+
+  @override
+  State<ChecklistScreenScaffold> createState() =>
+      _ChecklistScreenScaffoldState();
+}
+
+class _ChecklistScreenScaffoldState extends State<ChecklistScreenScaffold> {
+  final TextEditingController _checklistEditingController =
+      TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +67,11 @@ class ChecklistScreenScaffold extends StatelessWidget {
             return;
           }
 
-          await onAddNewChecklist(
+          await widget.onAddNewChecklist(
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            navigatorProvider.onPop(context, true);
+            widget.navigatorProvider.onPop(context, true);
           }
         },
         child: const Icon(Icons.save),
@@ -74,10 +82,17 @@ class ChecklistScreenScaffold extends StatelessWidget {
           formKey: _formKey,
           checklistLabel: localizations.checklist_name,
           checklistErrorMessage: localizations.checklist_name_required,
-          formScreenValidator: formScreenValidator,
+          formScreenValidator: widget.formScreenValidator,
           checklistEditingController: _checklistEditingController,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _checklistEditingController.dispose();
+
+    super.dispose();
   }
 }
