@@ -22,6 +22,8 @@ class TaskCellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardWrapperWidget(
+      elevation: CardWrapperWidget.commonElevation,
+      shapeBorder: CardWrapperWidget.commonShapeBorder,
       onTap: null,
       backgroundColor: Theme.of(context).colorScheme.surfaceBright,
       child: ListTile(

@@ -4,20 +4,28 @@ class CardWrapperWidget extends StatelessWidget {
   final Color backgroundColor;
   final Function()? onTap;
   final Widget child;
+  final ShapeBorder? shapeBorder;
+  final double? elevation;
 
-  const CardWrapperWidget(
-      {super.key,
-      required this.child,
-      required this.onTap,
-      required this.backgroundColor});
+  static const commonShapeBorder = RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+  );
+  static const commonElevation = 2.0;
+
+  const CardWrapperWidget({
+    super.key,
+    required this.child,
+    required this.onTap,
+    required this.backgroundColor,
+    this.elevation,
+    this.shapeBorder,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
+      elevation: elevation,
+      shape: shapeBorder,
       color: backgroundColor,
       clipBehavior: Clip.hardEdge,
       child: InkWell(

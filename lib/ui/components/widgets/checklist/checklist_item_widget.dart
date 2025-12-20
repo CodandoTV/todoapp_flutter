@@ -39,14 +39,26 @@ class ChecklistItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color backgroundColor = Theme.of(context).colorScheme.surfaceBright;
+    ShapeBorder shapeBorder = CardWrapperWidget.commonShapeBorder;
+    double? elevation = CardWrapperWidget.commonElevation;
 
     if (isSelected == true) {
       backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+      shapeBorder = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          bottomLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      );
+      elevation = null;
     }
 
     return CardWrapperWidget(
       onTap: () => onSelectChecklist(checklist),
       backgroundColor: backgroundColor,
+      elevation: elevation,
+      shapeBorder: shapeBorder,
       child: _internalContent(context, checklist),
     );
   }
