@@ -6,12 +6,13 @@ class ChecklistFabMenuItem extends StatelessWidget {
   final IconData icon;
   final Function() onPressed;
 
-  const ChecklistFabMenuItem(
-      {super.key,
-      required this.label,
-      required this.onPressed,
-      required this.icon,
-      required this.heroTag});
+  const ChecklistFabMenuItem({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.icon,
+    required this.heroTag,
+  });
 
   @override
   Widget build(BuildContext context) {

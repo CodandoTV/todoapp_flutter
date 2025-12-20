@@ -8,8 +8,10 @@ abstract class TasksComparatorUseCase {
 @Injectable(as: TasksComparatorUseCase)
 class TasksComparatorUseCaseImpl extends TasksComparatorUseCase {
   @override
-  bool areThemEqual(
-      {required List<Task> oldList, required List<Task> newList}) {
+  bool areThemEqual({
+    required List<Task> oldList,
+    required List<Task> newList,
+  }) {
     if (oldList.length == newList.length) {
       if (oldList.isEmpty && newList.isEmpty) {
         return true;

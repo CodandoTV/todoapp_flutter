@@ -23,5 +23,4 @@ class TasksSorterUseCaseImpl implements TasksSorterUseCase {
       return 0;
     }
   }
-
 }
