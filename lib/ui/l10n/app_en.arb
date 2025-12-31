@@ -6,7 +6,7 @@
   "empty_checklists": "No checklists available",
   "task_name_required": "Task name is required",
   "checklist_name_required": "Checklist name is required",
-  "task_added": "Task was added.",
+  "tasks_refresh": "Tasks list is updated.",
   "checklist_added": "Checklist was added.",
   "remove_task_dialog_title": "Remove task",
   "remove_task_dialog_desc": "Are you sure you want to remove this task?",
@@ -17,5 +17,8 @@
   "checklists": "Checklists",
   "checklist": "Checklist",
   "checklist_name": "Checklist name",
-  "remove": "Remove"
+  "remove": "Remove",
+  "sort_message": "It is sorted",
+  "share": "Share",
+  "sort": "Sort"
 }

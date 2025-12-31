@@ -2,18 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_text_values.dart';
-import 'package:todoapp/util/navigation_provider.dart';
+import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
+import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/components/widgets/progress_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_screen_state.dart';
-import 'package:todoapp/ui/screens/tasks/tasks_viewmodel.dart';
+import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
-import 'package:todoapp/ui/widgets/progress_widget.dart';
-import 'package:todoapp/ui/widgets/task/tasks_list_widget.dart';
-import '../../../data/model/task.dart';
-import '../../../util/di/dependency_startup_handler.dart';
-import '../../widgets/confirmation_alert_dialog_widget.dart';
-import '../../widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
+import 'package:todoapp/util/navigation_provider.dart';
+
+const shareOptionKey = 'shareOption';
 
 @RoutePage()
 class TasksScreen extends StatelessWidget {
@@ -28,25 +30,15 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final getIt = GetItStartupHandlerWrapper.getIt;
     final viewModel = TasksViewModel(
-      formatTaskListUseCase: getIt.get(),
       repository: getIt.get(),
       shareMessageHandler: getIt.get(),
-      checklistId: checklist.id,
-      calculateTaskProgressUseCase: getIt.get(),
-      shouldShowShareUseCase: getIt.get(),
+      shouldShowShareButtonUseCase: getIt.get(),
+      formatTaskListMessageUseCase: getIt.get(),
+      tasksSorterUseCase: getIt.get(),
+      tasksComparatorUseCase: getIt.get(),
+      progressCounterUseCase: getIt.get(),
     );
-    viewModel.updateTasks();
-
-    final tasksScreenTextValues = TasksScreenTextValues(
-      taskAdded: AppLocalizations.of(context)!.task_added,
-      removeTaskDialogTitle:
-          AppLocalizations.of(context)!.remove_task_dialog_title,
-      removeTaskDialogDesc:
-          AppLocalizations.of(context)!.remove_task_dialog_desc,
-      yes: AppLocalizations.of(context)!.yes,
-      no: AppLocalizations.of(context)!.no,
-      emptyTasksMessage: AppLocalizations.of(context)!.empty_tasks,
-    );
+    viewModel.updateTasks(checklist.id);
 
     return BlocProvider(
       create: (_) => viewModel,
@@ -56,14 +48,16 @@ class TasksScreen extends StatelessWidget {
           uiState: uiState,
           checklistId: checklist.id,
           checklistName: checklist.title,
-          tasksScreenTextValues: tasksScreenTextValues,
-          onCompleteTask: viewModel.onCompleteTask,
-          onRemoveTask: viewModel.onRemoveTask,
-          updateTasks: viewModel.updateTasks,
-          onReorder: viewModel.reorder,
-          onShare: () => {
-            viewModel.shareTasks(checklistName: checklist.title),
-          },
+          callbacks: TasksScreenCallbacks(
+            onCompleteTask: viewModel.onCompleteTask,
+            onRemoveTask: viewModel.onRemoveTask,
+            updateTasks: viewModel.updateTasks,
+            onReorder: viewModel.reorder,
+            onSort: () => {viewModel.onSort()},
+            onShare: () => {
+              viewModel.shareTasks(checklistName: checklist.title),
+            },
+          ),
         ),
       ),
     );
@@ -74,12 +68,7 @@ class TasksScaffold extends StatelessWidget {
   final TasksScreenState uiState;
   final int? checklistId;
   final String checklistName;
-  final TasksScreenTextValues tasksScreenTextValues;
-  final Function updateTasks;
-  final Function(Task, bool) onCompleteTask;
-  final Function(Task) onRemoveTask;
-  final Function(int oldIndex, int newIndex) onReorder;
-  final Function() onShare;
+  final TasksScreenCallbacks callbacks;
   final NavigatorProvider navigatorProvider;
 
   const TasksScaffold({
@@ -87,50 +76,40 @@ class TasksScaffold extends StatelessWidget {
     required this.uiState,
     required this.checklistId,
     required this.checklistName,
-    required this.tasksScreenTextValues,
-    required this.updateTasks,
-    required this.onCompleteTask,
-    required this.onRemoveTask,
-    required this.onReorder,
-    required this.onShare,
     required this.navigatorProvider,
+    required this.callbacks,
   });
+
+  Widget _buildFloatingActionButton(Function() onPressed) {
+    return FloatingActionButton(
+      onPressed: onPressed,
+      child: const Icon(Icons.plus_one),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBarWidget(
         title: checklistName,
         actions: _buildTopBarActions(
+          context: context,
+          sortedMessage: localizations.sort_message,
+          onShare: callbacks.onShare,
           showShareButton: uiState.showShareIcon,
-          onShare: onShare,
+          onSort: callbacks.onSort,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          bool? result = await navigatorProvider.push(
+      floatingActionButton: _buildFloatingActionButton(
+        () async {
+          await _navigateToTaskScreen(
             context,
-            TaskRoute(
-              checklistId: checklistId,
-            ),
+            checklistId: checklistId,
           );
-          if (result == true) {
-            await updateTasks();
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    tasksScreenTextValues.taskAdded,
-                  ),
-                ),
-              );
-            }
-          }
         },
-        child: const Icon(
-          Icons.plus_one,
-        ),
       ),
       body: Stack(
         children: [
@@ -141,11 +120,18 @@ class TasksScaffold extends StatelessWidget {
             ),
             child: TasksListWidget(
               tasks: uiState.tasks,
-              emptyTasksMessage: tasksScreenTextValues.emptyTasksMessage,
-              onReorder: onReorder,
+              emptyTasksMessage: localizations.empty_tasks,
+              onReorder: callbacks.onReorder,
               onRemoveTask: (task) =>
                   _showConfirmationDialogToRemoveTask(context, task),
-              onCompleteTask: onCompleteTask,
+              onCompleteTask: callbacks.onCompleteTask,
+              onTap: (task) => {
+                _navigateToTaskScreen(
+                  context,
+                  checklistId: checklistId,
+                  task: task,
+                )
+              },
             ),
           ),
           Padding(
@@ -161,38 +147,85 @@ class TasksScaffold extends StatelessWidget {
     );
   }
 
-  _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
+  void _showConfirmationDialogToRemoveTask(BuildContext context, Task task) {
     showDialog(
       context: context,
-      builder: (BuildContext context) => ConfirmationAlertDialogWidget(
-        title: tasksScreenTextValues.removeTaskDialogTitle,
-        description: tasksScreenTextValues.removeTaskDialogDesc,
-        secondaryButtonText: tasksScreenTextValues.no,
-        primaryButtonText: tasksScreenTextValues.yes,
+      builder: (BuildContext context) => RemoveTaskDialogBuilder.build(
+        context: context,
         onSecondaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
         },
         onPrimaryButtonPressed: () => {
           navigatorProvider.onPop(context, null),
-          onRemoveTask(task),
+          callbacks.onRemoveTask(task),
         },
       ),
     );
   }
 
-  List<Widget>? _buildTopBarActions({
+  List<Widget> _buildTopBarActions({
     required bool showShareButton,
+    required String sortedMessage,
     required VoidCallback onShare,
+    required VoidCallback onSort,
+    required BuildContext context,
   }) {
+    List<Widget> menuActions = [];
+
     if (showShareButton) {
-      return [
+      menuActions.add(
         IconButton(
           onPressed: onShare,
           icon: const Icon(Icons.share),
+          key: const ValueKey(shareOptionKey),
         ),
-      ];
-    } else {
-      return null;
+      );
+    }
+
+    menuActions.add(
+      IconButton(
+        onPressed: () => {
+          onSort(),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                sortedMessage,
+              ),
+            ),
+          ),
+        },
+        icon: const Icon(Icons.sort),
+      ),
+    );
+
+    return menuActions;
+  }
+
+  Future<void> _navigateToTaskScreen(
+    BuildContext context, {
+    required int? checklistId,
+    Task? task,
+  }) async {
+    final localizations = AppLocalizations.of(context)!;
+
+    bool? result = await navigatorProvider.push(
+      context,
+      TaskRoute(
+        checklistId: checklistId,
+        task: task,
+      ),
+    );
+    if (result == true) {
+      await callbacks.updateTasks(checklistId);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              localizations.tasks_refresh,
+            ),
+          ),
+        );
+      }
     }
   }
 }

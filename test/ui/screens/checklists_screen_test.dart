@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklists_list_widget.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen.dart';
+import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
+
+import '../../test_utils/fakes/fake_navigator_provider.dart';
+import '../../test_utils/widgets_util.dart';
+
+void main() {
+  testWidgets(
+    'ChecklistsScreen - Empty message should appear if we have no checklists',
+    (tester) async {
+      tester.view.physicalSize = const Size(500, 800);
+
+      const emptyChecklistMessage = 'No checklists available';
+
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: ChecklistsScaffold(
+          uiState: const ChecklistsScreenState(
+            checklists: [],
+            isLoading: false,
+          ),
+          onRemoveChecklist: (_) => {},
+          navigatorProvider: FakeNavigatorProvider(),
+          updateChecklists: () => {},
+        ),
+        tester: tester,
+      );
+
+      await tester.pumpWidget(widget);
+
+      find.text(emptyChecklistMessage);
+
+      expect(find.text(emptyChecklistMessage), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'ChecklistsScreen - Checklist widget should appear if we have checklists',
+    (tester) async {
+      tester.view.physicalSize = const Size(500, 800);
+
+      final widget = WidgetsUtil.buildMaterialAppWidgetTest(
+        child: ChecklistsScaffold(
+          uiState: const ChecklistsScreenState(
+            checklists: [
+              Checklist(id: null, title: 'pets'),
+              Checklist(id: null, title: 'supermarket'),
+              Checklist(id: null, title: 'drugstore'),
+              Checklist(id: null, title: 'street market'),
+            ],
+            isLoading: false,
+          ),
+          onRemoveChecklist: (_) => {},
+          navigatorProvider: FakeNavigatorProvider(),
+          updateChecklists: () => {},
+        ),
+        tester: tester,
+      );
+
+      await tester.pumpWidget(widget);
+
+      expect(find.byType(ChecklistsListWidget), findsOneWidget);
+    },
+  );
+}

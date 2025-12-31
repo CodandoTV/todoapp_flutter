@@ -1,70 +1,87 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
-import 'package:todoapp/util/navigation_provider.dart';
-import 'package:todoapp/ui/screens/task/task_screen_text_values.dart';
+import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/components/widgets/task/task_form_widget.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
-import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
-import 'package:todoapp/ui/widgets/task_form_widget.dart';
-
-import '../../../util/di/dependency_startup_handler.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 
 @RoutePage()
 class TaskScreen extends StatelessWidget {
   final int? checklistId;
+  final Task? task;
 
   const TaskScreen({
     super.key,
     required this.checklistId,
+    this.task,
   });
 
   @override
   Widget build(BuildContext context) {
     final viewModel = TaskViewModel(
       GetItStartupHandlerWrapper.getIt.get(),
-      checklistId,
+      checklistId: checklistId,
+      task: task,
     );
     final NavigatorProvider navigatorProvider =
         GetItStartupHandlerWrapper.getIt.get();
 
-    final taskScreenTextValues = TaskScreenTextValues(
-      taskErrorMessage: AppLocalizations.of(context)!.task_name_required,
-      taskLabel: AppLocalizations.of(context)!.task,
-    );
-
     return TaskScreenScaffold(
-      taskScreenTextValues: taskScreenTextValues,
-      onAddNewTask: (title) => viewModel.addTask(
+      taskTitle: task?.title,
+      addTaskOrUpdate: (title) => viewModel.addTaskOrUpdate(
         title: title,
       ),
+      floatingActionIcon: viewModel.getFloatingActionButtonIcon(),
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
       navigatorProvider: navigatorProvider,
     );
   }
 }
 
-class TaskScreenScaffold extends StatelessWidget {
-  final TextEditingController _taskEditingController = TextEditingController();
-  final Function(String) onAddNewTask;
+class TaskScreenScaffold extends StatefulWidget {
+  final Future<bool> Function(String) addTaskOrUpdate;
   final FormScreenValidator formScreenValidator;
-  final _formKey = GlobalKey<FormState>();
   final NavigatorProvider navigatorProvider;
-  final TaskScreenTextValues taskScreenTextValues;
+  final IconData floatingActionIcon;
+  final String? taskTitle;
 
-  TaskScreenScaffold({
+  const TaskScreenScaffold({
     super.key,
-    required this.taskScreenTextValues,
-    required this.onAddNewTask,
+    this.taskTitle,
+    required this.floatingActionIcon,
+    required this.addTaskOrUpdate,
     required this.formScreenValidator,
     required this.navigatorProvider,
   });
 
   @override
+  State<TaskScreenScaffold> createState() => _TaskScreenScaffoldState();
+}
+
+class _TaskScreenScaffoldState extends State<TaskScreenScaffold> {
+  late TextEditingController _taskEditingController;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _taskEditingController = TextEditingController(
+        text: widget.taskTitle ?? ''
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: const CustomAppBarWidget(
-        title: 'Task',
+      appBar: CustomAppBarWidget(
+        title: localizations.task,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -72,27 +89,32 @@ class TaskScreenScaffold extends StatelessWidget {
             return;
           }
 
-          await onAddNewTask(
+          final result = await widget.addTaskOrUpdate(
             _taskEditingController.text,
           );
           if (context.mounted) {
-            navigatorProvider.onPop(context, true);
+            widget.navigatorProvider.onPop(context, result);
           }
         },
-        child: const Icon(
-          Icons.save,
-        ),
+        child: Icon(widget.floatingActionIcon),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: TaskFormWidget(
           formKey: _formKey,
-          taskLabel: taskScreenTextValues.taskLabel,
-          taskErrorMessage: taskScreenTextValues.taskErrorMessage,
+          taskLabel: localizations.task,
+          taskErrorMessage: localizations.task_name_required,
           taskEditingController: _taskEditingController,
-          formScreenValidator: formScreenValidator,
+          formScreenValidator: widget.formScreenValidator,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _taskEditingController.dispose();
+
+    super.dispose();
   }
 }

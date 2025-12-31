@@ -7,18 +7,21 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Flutter
         uses: ./.github/actions/setup-flutter
 
       - name: Generate Resources
         run: flutter gen-l10n
-        
+
+      - name: Check architecture violations
+        run: dart run eagle_eye:main
+
       - name: Run tests
         run: flutter test
 

@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/util/navigation_provider.dart';
+import 'package:todoapp/ui/components/form_validator.dart';
+import 'package:todoapp/ui/components/widgets/checklist/checklist_form_widget.dart';
+import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/checklist/checklist_viewmodel.dart';
-import 'package:todoapp/ui/widgets/custom_app_bar_widget.dart';
-import 'package:todoapp/util/di/dependency_startup_handler.dart';
-
-import '../../components/form_validator.dart';
-import '../../l10n/app_localizations.dart';
-import '../../widgets/checklist_form_widget.dart';
-import 'checklist_screen_text_values.dart';
+import 'package:todoapp/util/di/dependency_startup_launcher.dart';
+import 'package:todoapp/util/navigation_provider.dart';
 
 @RoutePage()
 class ChecklistScreen extends StatelessWidget {
@@ -22,15 +20,7 @@ class ChecklistScreen extends StatelessWidget {
       GetItStartupHandlerWrapper.getIt.get(),
     );
 
-    final checklistScreenTextValues = ChecklistScreenTextValues(
-      screenTitle: AppLocalizations.of(context)!.checklist,
-      checklistErrorMessage:
-          AppLocalizations.of(context)!.checklist_name_required,
-      checklistLabel: AppLocalizations.of(context)!.checklist,
-    );
-
     return ChecklistScreenScaffold(
-      checklistScreenTextValues: checklistScreenTextValues,
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),
       onAddNewChecklist: (title) => viewModel.addChecklist(
         title: title,
@@ -40,28 +30,36 @@ class ChecklistScreen extends StatelessWidget {
   }
 }
 
-class ChecklistScreenScaffold extends StatelessWidget {
-  final TextEditingController _checklistEditingController =
-      TextEditingController();
+class ChecklistScreenScaffold extends StatefulWidget {
   final Function(String) onAddNewChecklist;
-  final _formKey = GlobalKey<FormState>();
   final FormScreenValidator formScreenValidator;
-  final ChecklistScreenTextValues checklistScreenTextValues;
   final NavigatorProvider navigatorProvider;
 
-  ChecklistScreenScaffold({
+  const ChecklistScreenScaffold({
     super.key,
-    required this.checklistScreenTextValues,
     required this.onAddNewChecklist,
     required this.formScreenValidator,
     required this.navigatorProvider,
   });
 
   @override
+  State<ChecklistScreenScaffold> createState() =>
+      _ChecklistScreenScaffoldState();
+}
+
+class _ChecklistScreenScaffoldState extends State<ChecklistScreenScaffold> {
+  final TextEditingController _checklistEditingController =
+      TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: CustomAppBarWidget(
-        title: checklistScreenTextValues.screenTitle,
+        title: localizations.checklist,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -69,28 +67,32 @@ class ChecklistScreenScaffold extends StatelessWidget {
             return;
           }
 
-          await onAddNewChecklist(
+          await widget.onAddNewChecklist(
             _checklistEditingController.text,
           );
           if (context.mounted) {
-            navigatorProvider.onPop(context, true);
+            widget.navigatorProvider.onPop(context, true);
           }
         },
-        child: const Icon(
-          Icons.save,
-        ),
+        child: const Icon(Icons.save),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: ChecklistFormWidget(
           formKey: _formKey,
-          checklistLabel: checklistScreenTextValues.checklistLabel,
-          checklistErrorMessage:
-              checklistScreenTextValues.checklistErrorMessage,
-          formScreenValidator: formScreenValidator,
+          checklistLabel: localizations.checklist_name,
+          checklistErrorMessage: localizations.checklist_name_required,
+          formScreenValidator: widget.formScreenValidator,
           checklistEditingController: _checklistEditingController,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _checklistEditingController.dispose();
+
+    super.dispose();
   }
 }

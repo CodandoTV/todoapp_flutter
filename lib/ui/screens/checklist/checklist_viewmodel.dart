@@ -1,6 +1,6 @@
 import 'package:todoapp/data/model/checklist.dart';
 
-import '../../../data/todo_repository.dart';
+import 'package:todoapp/data/todo_repository.dart';
 
 class ChecklistViewModel {
   late TodoRepository _repository;
