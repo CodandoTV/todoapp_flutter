@@ -1,18 +1,18 @@
 [
   {
     "filePattern": "*/data/model/*",
-    "noDependsEnabled": true
+    "dependenciesAllowed": false
   },
   {
     "filePattern": "*viewmodel.dart",
-    "doNotWithPatterns": ["*_screen.dart"]
+    "forbiddenDependencies": ["*_screen.dart"]
   },
   {
     "filePattern": "*/util/*_provider.dart",
-    "noDependsEnabled": true
+    "dependenciesAllowed": false
   },
   {
     "filePattern": "*/util/*_handler.dart",
-    "noDependsEnabled": true
+    "dependenciesAllowed": false
   }
 ]
