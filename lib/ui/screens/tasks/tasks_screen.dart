@@ -37,6 +37,7 @@ class TasksScreen extends StatelessWidget {
       tasksSorterUseCase: getIt.get(),
       tasksComparatorUseCase: getIt.get(),
       progressCounterUseCase: getIt.get(),
+      tasksCompleteStatusUseCase: getIt.get(),
     );
     viewModel.updateTasks(checklist.id);
 
@@ -54,6 +55,9 @@ class TasksScreen extends StatelessWidget {
             updateTasks: viewModel.updateTasks,
             onReorder: viewModel.reorder,
             onSort: () => {viewModel.onSort()},
+            onCompleteButtonAction: () {
+              viewModel.onCompleteButtonAction(checklist.id);
+            },
             onShare: () => {
               viewModel.shareTasks(checklistName: checklist.title),
             },
@@ -118,20 +122,34 @@ class TasksScaffold extends StatelessWidget {
               left: 12,
               right: 12,
             ),
-            child: TasksListWidget(
-              tasks: uiState.tasks,
-              emptyTasksMessage: localizations.empty_tasks,
-              onReorder: callbacks.onReorder,
-              onRemoveTask: (task) =>
-                  _showConfirmationDialogToRemoveTask(context, task),
-              onCompleteTask: callbacks.onCompleteTask,
-              onTap: (task) => {
-                _navigateToTaskScreen(
-                  context,
-                  checklistId: checklistId,
-                  task: task,
-                )
-              },
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ActionChip(
+                      onPressed: () => {callbacks.onCompleteButtonAction()},
+                      label: const Text('Complete all'),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: TasksListWidget(
+                    tasks: uiState.tasks,
+                    emptyTasksMessage: localizations.empty_tasks,
+                    onReorder: callbacks.onReorder,
+                    onRemoveTask: (task) =>
+                        _showConfirmationDialogToRemoveTask(context, task),
+                    onCompleteTask: callbacks.onCompleteTask,
+                    onTap: (task) => {
+                      _navigateToTaskScreen(
+                        context,
+                        checklistId: checklistId,
+                        task: task,
+                      )
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

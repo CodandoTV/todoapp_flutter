@@ -3,12 +3,14 @@ import 'package:todoapp/data/model/task.dart';
 class TasksScreenCallbacks {
   final Function(int?) updateTasks;
   final Function(Task, bool) onCompleteTask;
+  final Function onCompleteButtonAction;
   final Function(Task) onRemoveTask;
   final Function(int oldIndex, int newIndex) onReorder;
   final Function() onShare;
   final Function() onSort;
 
   const TasksScreenCallbacks({
+    required this.onCompleteButtonAction,
     required this.updateTasks,
     required this.onCompleteTask,
     required this.onRemoveTask,
