@@ -37,14 +37,11 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
     super.initState();
     final getIt = GetItStartupHandlerWrapper.getIt;
     _tasksViewModel = TasksViewModel(
-      tasksCompleteStatusUseCase: getIt.get(),
       repository: getIt.get(),
+      taskListSummaryHelper: getIt.get(),
       shareMessageHandler: getIt.get(),
-      shouldShowShareButtonUseCase: getIt.get(),
-      formatTaskListMessageUseCase: getIt.get(),
       tasksSorterUseCase: getIt.get(),
       tasksComparatorUseCase: getIt.get(),
-      progressCounterUseCase: getIt.get(),
     );
   }
 

@@ -1,10 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/domain/format_task_list_message_use_case.dart';
-import 'package:todoapp/domain/progress_counter_use_case.dart';
-import 'package:todoapp/domain/should_show_share_button_use_case.dart';
+import 'package:todoapp/domain/task_list_summary_helper.dart';
 import 'package:todoapp/domain/tasks_comparator_use_case.dart';
-import 'package:todoapp/domain/tasks_complete_status_use_case.dart';
 import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
@@ -20,13 +17,10 @@ void main() {
     fakeRepository = FakeRepository(tasks: [], checklists: []);
     viewModel = TasksViewModel(
       repository: fakeRepository,
-      tasksCompleteStatusUseCase: TasksCompleteStatusUseCaseImpl(),
-      progressCounterUseCase: ProgressCounterUseCaseImpl(),
       tasksSorterUseCase: TasksSorterUseCaseImpl(),
+      taskListSummaryHelper: TaskListSummaryHelperImpl(),
       shareMessageHandler: FakeShareMessageHandler(),
       tasksComparatorUseCase: TasksComparatorUseCaseImpl(),
-      formatTaskListMessageUseCase: FormatTaskListMessageUseCaseImpl(),
-      shouldShowShareButtonUseCase: ShouldShowShareButtonUseCaseImpl(),
     );
   });
 
