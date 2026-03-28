@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
-import 'package:todoapp/domain/tasks_comparator_use_case.dart';
-import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 
@@ -17,10 +17,9 @@ void main() {
     fakeRepository = FakeRepository(tasks: [], checklists: []);
     viewModel = TasksViewModel(
       repository: fakeRepository,
-      tasksSorterUseCase: TasksSorterUseCaseImpl(),
       taskListSummaryHelper: TaskListSummaryHelperImpl(),
       shareMessageHandler: FakeShareMessageHandler(),
-      tasksComparatorUseCase: TasksComparatorUseCaseImpl(),
+      taskListSortHelper: TaskListSortHelperImpl(),
     );
   });
 
@@ -65,6 +64,7 @@ void main() {
           showShareIcon: true,
           progress: 0,
           isLoading: false,
+          tasksCompleteStatus: TasksCompleteStatus.checkAll,
         ),
       );
     },
@@ -104,6 +104,7 @@ void main() {
           showShareIcon: false,
           progress: 1,
           isLoading: false,
+          tasksCompleteStatus: TasksCompleteStatus.uncheckAll,
         ),
       );
     },
@@ -133,6 +134,7 @@ void main() {
           tasks: [],
           showShareIcon: false,
           isLoading: false,
+          tasksCompleteStatus: null,
         ),
       );
     },

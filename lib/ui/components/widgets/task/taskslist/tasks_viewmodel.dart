@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
-import 'package:todoapp/domain/tasks_comparator_use_case.dart';
-import 'package:todoapp/domain/tasks_sorter_use_case.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/util/share_message_handler.dart';
 
@@ -13,16 +12,13 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
   late ShareMessageHandler _shareMessageHandler;
   late TaskListSummaryHelper _taskListSummaryHelper;
-
-  TasksSorterUseCase tasksSorterUseCase;
-  TasksComparatorUseCase tasksComparatorUseCase;
+  late TaskListSortHelper _taskListSortHelper;
 
   TasksViewModel({
     required TodoRepository repository,
     required ShareMessageHandler shareMessageHandler,
     required TaskListSummaryHelper taskListSummaryHelper,
-    required this.tasksSorterUseCase,
-    required this.tasksComparatorUseCase,
+    required TaskListSortHelper taskListSortHelper,
   }) : super(
           const TasksScreenState(
             tasks: [],
@@ -34,6 +30,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
     _repository = repository;
     _shareMessageHandler = shareMessageHandler;
     _taskListSummaryHelper = taskListSummaryHelper;
+    _taskListSortHelper = taskListSortHelper;
   }
 
   void _onLoad() {
@@ -43,7 +40,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   }
 
   Future<void> onCompleteButtonAction(int? checklistId) async {
-    TasksCompleteStatus status = _taskListSummaryHelper.checkStatus(
+    TasksCompleteStatus? status = _taskListSummaryHelper.checkStatus(
       tasks: state.tasks,
     );
 
@@ -60,7 +57,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
 
     var tasks = await _repository.getTasks(checklistId);
 
-    TasksCompleteStatus status = _taskListSummaryHelper.checkStatus(
+    TasksCompleteStatus? status = _taskListSummaryHelper.checkStatus(
       tasks: tasks,
     );
 
@@ -108,6 +105,9 @@ class TasksViewModel extends Cubit<TasksScreenState> {
               tasks: tasks,
             ),
             isLoading: false,
+            tasksCompleteStatus: _taskListSummaryHelper.checkStatus(
+              tasks: tasks,
+            ),
             tasks: tasks,
           ),
         );
@@ -125,12 +125,14 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       tasks.remove(task);
       emit(
         state.copyWith(
-            progress: _taskListSummaryHelper.calculateProgress(tasks: tasks),
-            showShareIcon: _taskListSummaryHelper.shouldShowShareButton(
-              tasks: tasks,
-            ),
-            isLoading: false,
-            tasks: tasks),
+          progress: _taskListSummaryHelper.calculateProgress(tasks: tasks),
+          showShareIcon: _taskListSummaryHelper.shouldShowShareButton(
+            tasks: tasks,
+          ),
+          isLoading: false,
+          tasksCompleteStatus: _taskListSummaryHelper.checkStatus(tasks: tasks),
+          tasks: tasks,
+        ),
       );
     }
   }
@@ -161,11 +163,11 @@ class TasksViewModel extends Cubit<TasksScreenState> {
   }
 
   void onSort() {
-    List<Task> tasksToBeSorted = tasksSorterUseCase.sortByCompletedStatus(
+    List<Task> tasksToBeSorted = _taskListSortHelper.sortByCompletedStatus(
       state.tasks,
     );
 
-    bool wasSortedPerformed = tasksComparatorUseCase.areThemEqual(
+    bool wasSortedPerformed = _taskListSortHelper.areThemEqual(
       oldList: state.tasks,
       newList: tasksToBeSorted,
     );

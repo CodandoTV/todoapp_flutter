@@ -6,7 +6,7 @@ abstract class TaskListSummaryHelper {
   bool shouldShowShareButton({required List<Task> tasks});
   double calculateProgress({required List<Task> tasks});
   String formatTaskList({required List<Task> tasks});
-  TasksCompleteStatus checkStatus({required List<Task> tasks});
+  TasksCompleteStatus? checkStatus({required List<Task> tasks});
 }
 
 @Injectable(as: TaskListSummaryHelper)
@@ -45,14 +45,18 @@ class TaskListSummaryHelperImpl extends TaskListSummaryHelper {
   }
 
   @override
-  TasksCompleteStatus checkStatus({required List<Task> tasks}) {
-    final areAllCompleted =
-        tasks.where((task) => task.isCompleted).length == tasks.length;
-
-    if (areAllCompleted) {
-      return TasksCompleteStatus.uncheckAll;
+  TasksCompleteStatus? checkStatus({required List<Task> tasks}) {
+    if (tasks.isEmpty) {
+      return null;
     } else {
-      return TasksCompleteStatus.checkAll;
+      final areAllCompleted =
+          tasks.where((task) => task.isCompleted).length == tasks.length;
+
+      if (areAllCompleted) {
+        return TasksCompleteStatus.uncheckAll;
+      } else {
+        return TasksCompleteStatus.checkAll;
+      }
     }
   }
 }

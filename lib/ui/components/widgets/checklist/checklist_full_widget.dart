@@ -40,8 +40,7 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
       repository: getIt.get(),
       taskListSummaryHelper: getIt.get(),
       shareMessageHandler: getIt.get(),
-      tasksSorterUseCase: getIt.get(),
-      tasksComparatorUseCase: getIt.get(),
+      taskListSortHelper: getIt.get(),
     );
   }
 
