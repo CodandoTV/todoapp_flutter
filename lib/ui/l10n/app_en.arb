@@ -20,5 +20,7 @@
   "remove": "Remove",
   "sort_message": "It is sorted",
   "share": "Share",
-  "sort": "Sort"
+  "sort": "Sort",
+  "check_all": "Check all",
+  "uncheck_all": "Uncheck all"
 }

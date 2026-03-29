@@ -20,5 +20,7 @@
   "remove": "Deletar",
   "sort_message": "Está ordenado",
   "share": "Compartilhar",
-  "sort": "Ordenar"
+  "sort": "Ordenar",
+  "check_all": "Complete tudo",
+  "uncheck_all": "Limpar tudo"
 }

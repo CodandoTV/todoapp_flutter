@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
+import 'package:todoapp/ui/components/widgets/check_all_action_chip_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
@@ -122,10 +123,14 @@ class TasksScaffold extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ActionChip(
-                      onPressed: () => {callbacks.onCompleteButtonAction()},
-                      label: const Text('Complete all'),
-                    )
+                    uiState.tasksCompleteStatus != null
+                        ? CheckAllActionChipWidget(
+                            status: uiState.tasksCompleteStatus!,
+                            onClick: () {
+                              callbacks.onCompleteButtonAction();
+                            },
+                          )
+                        : const SizedBox.shrink()
                   ],
                 ),
                 Expanded(
