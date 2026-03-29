@@ -112,52 +112,41 @@ class TasksScaffold extends StatelessWidget {
           );
         },
       ),
-      body: Stack(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    uiState.tasksCompleteStatus != null
-                        ? CheckAllActionChipWidget(
-                            status: uiState.tasksCompleteStatus!,
-                            onClick: () {
-                              callbacks.onCompleteButtonAction();
-                            },
-                          )
-                        : const SizedBox.shrink()
-                  ],
-                ),
-                TasksListWidget(
-                  tasks: uiState.tasks,
-                  emptyTasksMessage: localizations.empty_tasks,
-                  onReorder: callbacks.onReorder,
-                  onRemoveTask: (task) =>
-                      _showConfirmationDialogToRemoveTask(context, task),
-                  onCompleteTask: callbacks.onCompleteTask,
-                  onTap: (task) => {
-                    _navigateToTaskScreen(
-                      context,
-                      checklistId: checklistId,
-                      task: task,
-                    )
-                  },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 12,
+              bottom: 8,
             ),
             child: ProgressWidget(
               progress: uiState.progress,
             ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+              child: uiState.tasksCompleteStatus != null
+                  ? CheckAllActionChipWidget(
+                      status: uiState.tasksCompleteStatus!,
+                      onClick: () {
+                        callbacks.onCompleteButtonAction();
+                      },
+                    )
+                  : const SizedBox.shrink()),
+          TasksListWidget(
+            tasks: uiState.tasks,
+            emptyTasksMessage: localizations.empty_tasks,
+            onReorder: callbacks.onReorder,
+            onRemoveTask: (task) =>
+                _showConfirmationDialogToRemoveTask(context, task),
+            onCompleteTask: callbacks.onCompleteTask,
+            onTap: (task) => {
+              _navigateToTaskScreen(
+                context,
+                checklistId: checklistId,
+                task: task,
+              )
+            },
           ),
         ],
       ),
