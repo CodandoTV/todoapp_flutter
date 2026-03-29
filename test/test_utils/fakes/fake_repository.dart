@@ -84,9 +84,9 @@ class FakeRepository implements TodoRepository {
 
   @override
   Future<bool> updateTasks(List<Task> tasks, bool isCompletedNewValue) {
-    tasks.forEach((task) {
+    for (var task in tasks) {
       updateTask(task, isCompletedNewValue);
-    });
+    }
     return Future.value(true);
   }
 }
