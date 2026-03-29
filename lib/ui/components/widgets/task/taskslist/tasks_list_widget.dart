@@ -4,6 +4,7 @@ import 'package:todoapp/ui/components/widgets/task/task_cell_widget.dart';
 
 class TasksListWidget extends StatelessWidget {
   final List<Task> tasks;
+  final int? flex;
   final String emptyTasksMessage;
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
@@ -13,6 +14,7 @@ class TasksListWidget extends StatelessWidget {
   const TasksListWidget({
     super.key,
     required this.tasks,
+    this.flex,
     required this.emptyTasksMessage,
     required this.onRemoveTask,
     required this.onCompleteTask,
@@ -26,8 +28,9 @@ class TasksListWidget extends StatelessWidget {
   }
 
   Widget _buildTaskList(BuildContext context) {
+    Widget child;
     if (tasks.isEmpty) {
-      return Center(
+      child = Center(
         child: Text(
           emptyTasksMessage,
           textAlign: TextAlign.center,
@@ -35,7 +38,7 @@ class TasksListWidget extends StatelessWidget {
         ),
       );
     } else {
-      return ReorderableListView.builder(
+      child = ReorderableListView.builder(
         onReorder: onReorder,
         padding: const EdgeInsets.only(
           top: 12,
@@ -47,6 +50,11 @@ class TasksListWidget extends StatelessWidget {
         itemCount: tasks.length,
       );
     }
+
+    return Expanded(
+      flex: flex ?? 1,
+      child: child,
+    );
   }
 
   TaskCellWidget _buildTaskCellWidget(Task task) {

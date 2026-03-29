@@ -133,22 +133,20 @@ class TasksScaffold extends StatelessWidget {
                         : const SizedBox.shrink()
                   ],
                 ),
-                Expanded(
-                  child: TasksListWidget(
-                    tasks: uiState.tasks,
-                    emptyTasksMessage: localizations.empty_tasks,
-                    onReorder: callbacks.onReorder,
-                    onRemoveTask: (task) =>
-                        _showConfirmationDialogToRemoveTask(context, task),
-                    onCompleteTask: callbacks.onCompleteTask,
-                    onTap: (task) => {
-                      _navigateToTaskScreen(
-                        context,
-                        checklistId: checklistId,
-                        task: task,
-                      )
-                    },
-                  ),
+                TasksListWidget(
+                  tasks: uiState.tasks,
+                  emptyTasksMessage: localizations.empty_tasks,
+                  onReorder: callbacks.onReorder,
+                  onRemoveTask: (task) =>
+                      _showConfirmationDialogToRemoveTask(context, task),
+                  onCompleteTask: callbacks.onCompleteTask,
+                  onTap: (task) => {
+                    _navigateToTaskScreen(
+                      context,
+                      checklistId: checklistId,
+                      task: task,
+                    )
+                  },
                 ),
               ],
             ),

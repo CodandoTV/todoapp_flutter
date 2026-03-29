@@ -100,23 +100,22 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             itemCount: widget.checklists.length,
           ),
         ),
-        Expanded(
-            flex: 6,
-            child: TasksListWidget(
-              tasks: tasks == null ? [] : tasks!,
-              emptyTasksMessage: localizations.empty_tasks,
-              onCompleteTask: _tasksViewModel.onCompleteTask,
-              onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
-                context,
-                task,
-              ),
-              onReorder: _tasksViewModel.reorder,
-              onTap: (task) => _navigateToTaskScreen(
-                context,
-                checklistId: selected?.id,
-                task: task,
-              ),
-            )),
+        TasksListWidget(
+          flex: 6,
+          tasks: tasks == null ? [] : tasks!,
+          emptyTasksMessage: localizations.empty_tasks,
+          onCompleteTask: _tasksViewModel.onCompleteTask,
+          onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
+            context,
+            task,
+          ),
+          onReorder: _tasksViewModel.reorder,
+          onTap: (task) => _navigateToTaskScreen(
+            context,
+            checklistId: selected?.id,
+            task: task,
+          ),
+        ),
       ],
     );
   }
