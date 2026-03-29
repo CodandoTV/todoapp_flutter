@@ -9,6 +9,8 @@ abstract class TodoRepository {
 
   Future<bool> updateTask(Task task, bool isCompletedNewValue);
 
+  Future<bool> updateTasks(List<Task> tasks, bool isCompletedNewValue);
+
   Future<bool> addTask(Task task, int? checklistId);
 
   Future<bool> deleteTasks(List<Task> tasks);
@@ -89,5 +91,10 @@ class TodoRepositoryImpl implements TodoRepository {
       taskId: taskId,
       taskTitle: taskTitle,
     );
+  }
+
+  @override
+  Future<bool> updateTasks(List<Task> tasks, bool isCompletedNewValue) async {
+    return await _todoDAO.updateTasks(tasks, isCompletedNewValue);
   }
 }

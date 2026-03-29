@@ -1,0 +1,4 @@
+enum TasksCompleteStatus {
+  checkAll,
+  uncheckAll
+}

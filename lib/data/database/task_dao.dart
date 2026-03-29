@@ -123,4 +123,11 @@ class TaskDAO {
       return false;
     }
   }
+
+  Future<bool> updateTasks(List<Task> tasks, bool isCompletedNewValue) async {
+    for (var task in tasks) {
+      update(task, isCompletedNewValue);
+    }
+    return true;
+  }
 }
