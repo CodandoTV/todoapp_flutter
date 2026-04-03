@@ -7,7 +7,6 @@ import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 
 import '../../../../../test_utils/fakes/fake_repository.dart';
-import '../../../../../test_utils/fakes/fake_share_message_handler.dart';
 
 void main() {
   late TasksViewModel viewModel;
@@ -18,7 +17,6 @@ void main() {
     viewModel = TasksViewModel(
       repository: fakeRepository,
       taskListSummaryHelper: TaskListSummaryHelperImpl(),
-      shareMessageHandler: FakeShareMessageHandler(),
       taskListSortHelper: TaskListSortHelperImpl(),
     );
   });

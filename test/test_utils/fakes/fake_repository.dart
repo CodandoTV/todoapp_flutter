@@ -89,4 +89,9 @@ class FakeRepository implements TodoRepository {
     }
     return Future.value(true);
   }
+
+  @override
+  Future<bool> share({required String text, required String title}) {
+    return Future.value(true);
+  }
 }

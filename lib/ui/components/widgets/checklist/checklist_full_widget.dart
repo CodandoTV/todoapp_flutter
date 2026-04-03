@@ -42,7 +42,6 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
     _tasksViewModel = TasksViewModel(
       repository: getIt.get(),
       taskListSummaryHelper: getIt.get(),
-      shareMessageHandler: getIt.get(),
       taskListSortHelper: getIt.get(),
     );
   }

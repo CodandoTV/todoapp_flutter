@@ -3,6 +3,7 @@ import 'package:todoapp/data/database/checklist_dao.dart';
 import 'package:todoapp/data/database/task_dao.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/share_message_handler.dart';
 
 abstract class TodoRepository {
   Future<List<Task>> getTasks(int? checklistId);
@@ -28,16 +29,23 @@ abstract class TodoRepository {
     required int taskId,
     required String taskTitle,
   });
+
+  Future<bool> share({
+    required String text,
+    required String title,
+  });
 }
 
 @Injectable(as: TodoRepository)
 class TodoRepositoryImpl implements TodoRepository {
   final TaskDAO _todoDAO;
   final ChecklistDAO _checklistDAO;
+  final ShareMessageHandler _shareMessageHandler;
 
   TodoRepositoryImpl(
     this._todoDAO,
     this._checklistDAO,
+    this._shareMessageHandler,
   );
 
   @override
@@ -96,5 +104,10 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<bool> updateTasks(List<Task> tasks, bool isCompletedNewValue) async {
     return await _todoDAO.updateTasks(tasks, isCompletedNewValue);
+  }
+
+  @override
+  Future<bool> share({required String text, required String title}) {
+    return _shareMessageHandler.share(text: text, title: title);
   }
 }

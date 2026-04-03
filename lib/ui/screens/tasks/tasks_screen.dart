@@ -30,7 +30,6 @@ class TasksScreen extends StatelessWidget {
     final getIt = GetItStartupHandlerWrapper.getIt;
     final viewModel = TasksViewModel(
       repository: getIt.get(),
-      shareMessageHandler: getIt.get(),
       taskListSummaryHelper: getIt.get(),
       taskListSortHelper: getIt.get(),
     );
