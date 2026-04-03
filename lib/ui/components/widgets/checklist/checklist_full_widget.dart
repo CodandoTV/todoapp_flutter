@@ -84,7 +84,6 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   }
 
   Widget _buildTaskList(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return Row(
       children: [
         Expanded(
