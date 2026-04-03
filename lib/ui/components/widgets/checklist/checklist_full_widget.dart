@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_item_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
@@ -30,6 +31,8 @@ class ChecklistsListFullWidget extends StatefulWidget {
 class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   Checklist? selected;
   List<Task>? tasks;
+  double progress = 0.0;
+  TasksCompleteStatus? status;
   late TasksViewModel _tasksViewModel;
 
   @override
@@ -58,6 +61,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
       _tasksViewModel.stream.listen((state) {
         setState(() {
           tasks = state.tasks;
+          progress = state.progress;
+          status = state.tasksCompleteStatus;
         });
       });
     });
@@ -101,8 +106,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         ),
         TasksListWidget(
           flex: 6,
-          progress: 0.0,
-          status: null,
+          progress: progress,
+          status: status,
           tasks: tasks == null ? [] : tasks!,
           onCompleteTask: _tasksViewModel.onCompleteTask,
           onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
@@ -115,7 +120,9 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             checklistId: selected?.id,
             task: task,
           ),
-          onCompleteButtonAction: () {},
+          onCompleteButtonAction: () {
+            _tasksViewModel.onCompleteButtonAction(selected?.id);
+          },
         ),
       ],
     );
