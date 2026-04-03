@@ -101,6 +101,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         ),
         TasksListWidget(
           flex: 6,
+          progress: 0.0,
+          status: null,
           tasks: tasks == null ? [] : tasks!,
           onCompleteTask: _tasksViewModel.onCompleteTask,
           onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
@@ -113,6 +115,7 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             checklistId: selected?.id,
             task: task,
           ),
+          onCompleteButtonAction: () {},
         ),
       ],
     );

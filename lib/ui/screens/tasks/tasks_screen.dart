@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
-import 'package:todoapp/ui/components/widgets/check_all_action_chip_widget.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
-import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
@@ -112,33 +110,24 @@ class TasksScaffold extends StatelessWidget {
           );
         },
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProgressWidget(
-            progress: uiState.progress,
-          ),
-          CheckAllActionChipWidget(
-            status: uiState.tasksCompleteStatus,
-            onClick: () {
-              callbacks.onCompleteButtonAction();
-            },
-          ),
-          TasksListWidget(
-            tasks: uiState.tasks,
-            onReorder: callbacks.onReorder,
-            onRemoveTask: (task) =>
-                _showConfirmationDialogToRemoveTask(context, task),
-            onCompleteTask: callbacks.onCompleteTask,
-            onTap: (task) => {
-              _navigateToTaskScreen(
-                context,
-                checklistId: checklistId,
-                task: task,
-              )
-            },
-          ),
-        ],
+      body: TasksListWidget(
+        tasks: uiState.tasks,
+        status: uiState.tasksCompleteStatus,
+        progress: uiState.progress,
+        onReorder: callbacks.onReorder,
+        onRemoveTask: (task) =>
+            _showConfirmationDialogToRemoveTask(context, task),
+        onCompleteTask: callbacks.onCompleteTask,
+        onTap: (task) => {
+          _navigateToTaskScreen(
+            context,
+            checklistId: checklistId,
+            task: task,
+          )
+        },
+        onCompleteButtonAction: () {
+          callbacks.onCompleteButtonAction();
+        },
       ),
     );
   }
