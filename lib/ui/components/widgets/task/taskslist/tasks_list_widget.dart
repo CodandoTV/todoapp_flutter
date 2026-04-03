@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/ui/components/widgets/task/task_cell_widget.dart';
+import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 class TasksListWidget extends StatelessWidget {
   final List<Task> tasks;
   final int? flex;
-  final String emptyTasksMessage;
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
   final Function(int oldIndex, int newIndex) onReorder;
@@ -15,7 +15,6 @@ class TasksListWidget extends StatelessWidget {
     super.key,
     required this.tasks,
     this.flex,
-    required this.emptyTasksMessage,
     required this.onRemoveTask,
     required this.onCompleteTask,
     required this.onReorder,
@@ -28,11 +27,14 @@ class TasksListWidget extends StatelessWidget {
   }
 
   Widget _buildTaskList(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    final emptyTaskMessage = localizations.empty_tasks;
+
     Widget child;
     if (tasks.isEmpty) {
       child = Center(
         child: Text(
-          emptyTasksMessage,
+          emptyTaskMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyLarge,
         ),

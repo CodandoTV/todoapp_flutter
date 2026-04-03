@@ -126,7 +126,6 @@ class TasksScaffold extends StatelessWidget {
           ),
           TasksListWidget(
             tasks: uiState.tasks,
-            emptyTasksMessage: localizations.empty_tasks,
             onReorder: callbacks.onReorder,
             onRemoveTask: (task) =>
                 _showConfirmationDialogToRemoveTask(context, task),

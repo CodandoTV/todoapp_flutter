@@ -103,7 +103,6 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         TasksListWidget(
           flex: 6,
           tasks: tasks == null ? [] : tasks!,
-          emptyTasksMessage: localizations.empty_tasks,
           onCompleteTask: _tasksViewModel.onCompleteTask,
           onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
             context,
