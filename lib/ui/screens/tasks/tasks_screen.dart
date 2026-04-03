@@ -115,24 +115,15 @@ class TasksScaffold extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 8,
-            ),
-            child: ProgressWidget(
-              progress: uiState.progress,
-            ),
+          ProgressWidget(
+            progress: uiState.progress,
           ),
-          Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-              child: uiState.tasksCompleteStatus != null
-                  ? CheckAllActionChipWidget(
-                      status: uiState.tasksCompleteStatus!,
-                      onClick: () {
-                        callbacks.onCompleteButtonAction();
-                      },
-                    )
-                  : const SizedBox.shrink()),
+          CheckAllActionChipWidget(
+            status: uiState.tasksCompleteStatus,
+            onClick: () {
+              callbacks.onCompleteButtonAction();
+            },
+          ),
           TasksListWidget(
             tasks: uiState.tasks,
             emptyTasksMessage: localizations.empty_tasks,

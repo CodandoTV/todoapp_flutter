@@ -41,8 +41,7 @@ class TasksListWidget extends StatelessWidget {
       child = ReorderableListView.builder(
         onReorder: onReorder,
         padding: const EdgeInsets.only(
-          top: 12,
-          bottom: 120,
+          bottom: 120.0,
         ),
         itemBuilder: (context, index) => _buildTaskCellWidget(
           tasks[index],

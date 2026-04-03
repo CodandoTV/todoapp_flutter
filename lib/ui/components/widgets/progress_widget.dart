@@ -19,23 +19,28 @@ class ProgressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: containerHeight,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onTertiary,
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: containerHeight,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onTertiary,
+            ),
           ),
-        ),
-        LayoutBuilder(
-          builder: (context, constraints) => _buildProgressBar(
-            progress: _progress,
-            maxWidth: constraints.maxWidth,
-            color: _color,
+          LayoutBuilder(
+            builder: (context, constraints) => _buildProgressBar(
+              progress: _progress,
+              maxWidth: constraints.maxWidth,
+              color: _color,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
