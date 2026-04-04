@@ -77,10 +77,7 @@ class TasksListWidget extends StatelessWidget {
       );
     }
 
-    return Expanded(
-      flex: flex ?? 1,
-      child: child,
-    );
+    return child;
   }
 
   TaskCellWidget _buildTaskCellWidget(Task task) {
