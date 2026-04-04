@@ -1,12 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
 
+@Injectable()
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
   late TaskListSummaryHelper _taskListSummaryHelper;
