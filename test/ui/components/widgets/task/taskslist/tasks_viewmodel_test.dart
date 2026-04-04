@@ -3,11 +3,10 @@ import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
+import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
+import 'package:todoapp/ui/components/tasks_view_model/tasks_viewmodel.dart';
 
 import '../../../../../test_utils/fakes/fake_repository.dart';
-import '../../../../../test_utils/fakes/fake_share_message_handler.dart';
 
 void main() {
   late TasksViewModel viewModel;
@@ -18,7 +17,6 @@ void main() {
     viewModel = TasksViewModel(
       repository: fakeRepository,
       taskListSummaryHelper: TaskListSummaryHelperImpl(),
-      shareMessageHandler: FakeShareMessageHandler(),
       taskListSortHelper: TaskListSortHelperImpl(),
     );
   });

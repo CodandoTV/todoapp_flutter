@@ -1,22 +1,21 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/model/task.dart';
 import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/data/todo_repository.dart';
 import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_screen_state.dart';
-import 'package:todoapp/util/share_message_handler.dart';
+import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
 
+@Injectable()
 class TasksViewModel extends Cubit<TasksScreenState> {
   late TodoRepository _repository;
-  late ShareMessageHandler _shareMessageHandler;
   late TaskListSummaryHelper _taskListSummaryHelper;
   late TaskListSortHelper _taskListSortHelper;
 
   TasksViewModel({
     required TodoRepository repository,
-    required ShareMessageHandler shareMessageHandler,
     required TaskListSummaryHelper taskListSummaryHelper,
     required TaskListSortHelper taskListSortHelper,
   }) : super(
@@ -28,7 +27,6 @@ class TasksViewModel extends Cubit<TasksScreenState> {
           ),
         ) {
     _repository = repository;
-    _shareMessageHandler = shareMessageHandler;
     _taskListSummaryHelper = taskListSummaryHelper;
     _taskListSortHelper = taskListSortHelper;
   }
@@ -79,7 +77,7 @@ class TasksViewModel extends Cubit<TasksScreenState> {
       tasks: state.tasks,
     );
 
-    await _shareMessageHandler.share(
+    await _repository.share(
       text: checklist,
       title: checklistName,
     );

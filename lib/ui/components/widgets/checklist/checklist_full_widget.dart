@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/data/model/checklist.dart';
 import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/data/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
+import 'package:todoapp/ui/components/tasks_view_model/tasks_viewmodel.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_item_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_viewmodel.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
 import 'package:todoapp/util/di/dependency_startup_launcher.dart';
@@ -30,18 +31,15 @@ class ChecklistsListFullWidget extends StatefulWidget {
 class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   Checklist? selected;
   List<Task>? tasks;
+  double progress = 0.0;
+  TasksCompleteStatus? status;
   late TasksViewModel _tasksViewModel;
 
   @override
   void initState() {
     super.initState();
     final getIt = GetItStartupHandlerWrapper.getIt;
-    _tasksViewModel = TasksViewModel(
-      repository: getIt.get(),
-      taskListSummaryHelper: getIt.get(),
-      shareMessageHandler: getIt.get(),
-      taskListSortHelper: getIt.get(),
-    );
+    _tasksViewModel = getIt<TasksViewModel>();
   }
 
   @override
@@ -58,6 +56,8 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
       _tasksViewModel.stream.listen((state) {
         setState(() {
           tasks = state.tasks;
+          progress = state.progress;
+          status = state.tasksCompleteStatus;
         });
       });
     });
@@ -84,7 +84,6 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
   }
 
   Widget _buildTaskList(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return Row(
       children: [
         Expanded(
@@ -102,8 +101,9 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
         ),
         TasksListWidget(
           flex: 6,
+          progress: progress,
+          status: status,
           tasks: tasks == null ? [] : tasks!,
-          emptyTasksMessage: localizations.empty_tasks,
           onCompleteTask: _tasksViewModel.onCompleteTask,
           onRemoveTask: (task) => _showConfirmationDialogToRemoveTask(
             context,
@@ -115,6 +115,9 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
             checklistId: selected?.id,
             task: task,
           ),
+          onCompleteButtonAction: () {
+            _tasksViewModel.onCompleteButtonAction(selected?.id);
+          },
         ),
       ],
     );

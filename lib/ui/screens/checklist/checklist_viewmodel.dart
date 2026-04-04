@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:todoapp/data/model/checklist.dart';
 
 import 'package:todoapp/data/todo_repository.dart';
 
+@Injectable()
 class ChecklistViewModel {
   late TodoRepository _repository;
 
