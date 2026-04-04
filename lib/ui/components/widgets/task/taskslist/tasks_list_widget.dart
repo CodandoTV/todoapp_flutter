@@ -49,8 +49,7 @@ class TasksListWidget extends StatelessWidget {
         ),
       );
     } else {
-      child = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      Widget header = Column(
         children: [
           ProgressWidget(
             progress: progress,
@@ -60,20 +59,20 @@ class TasksListWidget extends StatelessWidget {
             onClick: () {
               onCompleteButtonAction();
             },
-          ),
-          Expanded(
-            child: ReorderableListView.builder(
-              onReorder: onReorder,
-              padding: const EdgeInsets.only(
-                bottom: 120.0,
-              ),
-              itemBuilder: (context, index) => _buildTaskCellWidget(
-                tasks[index],
-              ),
-              itemCount: tasks.length,
-            ),
-          ),
+          )
         ],
+      );
+
+      child = ReorderableListView.builder(
+        header: header,
+        onReorder: onReorder,
+        padding: const EdgeInsets.only(
+          bottom: 120.0,
+        ),
+        itemBuilder: (context, index) => _buildTaskCellWidget(
+          tasks[index],
+        ),
+        itemCount: tasks.length,
       );
     }
 
