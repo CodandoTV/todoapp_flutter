@@ -50,6 +50,7 @@ class TasksListWidget extends StatelessWidget {
       );
     } else {
       Widget header = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProgressWidget(
             progress: progress,

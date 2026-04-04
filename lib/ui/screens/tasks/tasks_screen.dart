@@ -7,7 +7,7 @@ import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_viewmodel.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
-import 'package:todoapp/ui/components/widgets/task/taskslist/tasks_list_widget.dart';
+import 'package:todoapp/ui/components/widgets/tasks_list_widget.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 import 'package:todoapp/ui/screens/tasks/tasks_screen_callbacks.dart';
 import 'package:todoapp/ui/todo_app_router_config.gr.dart';
