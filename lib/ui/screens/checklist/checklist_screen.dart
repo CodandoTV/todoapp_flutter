@@ -16,9 +16,7 @@ class ChecklistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ChecklistViewModel(
-      GetItStartupHandlerWrapper.getIt.get(),
-    );
+    final viewModel = GetItStartupHandlerWrapper.getIt<ChecklistViewModel>();
 
     return ChecklistScreenScaffold(
       formScreenValidator: GetItStartupHandlerWrapper.getIt.get(),

@@ -5,7 +5,7 @@ import 'package:todoapp/data/todo_repository.dart';
 
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 
-@injectable
+@Injectable()
 class ChecklistsViewModel extends Cubit<ChecklistsScreenState> {
   late TodoRepository _repository;
 

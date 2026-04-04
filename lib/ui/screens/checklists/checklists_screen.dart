@@ -21,9 +21,8 @@ class ChecklistsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ChecklistsViewModel(
-      GetItStartupHandlerWrapper.getIt.get(),
-    );
+    final viewModel =
+        GetItStartupHandlerWrapper.getIt.get<ChecklistsViewModel>();
     viewModel.updateChecklists();
 
     return BlocProvider(
@@ -71,9 +70,7 @@ class ChecklistsScaffold extends StatelessWidget {
         onSharePressed: () async {
           await _checklistFullKey.currentState?.onShareTasks();
         },
-        onSortPressed: () => {
-          _checklistFullKey.currentState?.onSortTasks()
-        },
+        onSortPressed: () => {_checklistFullKey.currentState?.onSortTasks()},
         onNewTaskPressed: () async {
           /// Use key to access a specific internal behavior of
           /// TaskViewModel to update the task list through
