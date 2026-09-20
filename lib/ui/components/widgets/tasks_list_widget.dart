@@ -13,7 +13,7 @@ class TasksListWidget extends StatelessWidget {
   final int? flex;
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
-  final Function(int oldIndex, int newIndex) onReorder;
+  final Function(int oldIndex, int newIndex) onReorderItem;
   final Function(Task) onTap;
   final Function() onCompleteButtonAction;
 
@@ -25,7 +25,7 @@ class TasksListWidget extends StatelessWidget {
     this.flex,
     required this.onRemoveTask,
     required this.onCompleteTask,
-    required this.onReorder,
+    required this.onReorderItem,
     required this.onTap,
     required this.onCompleteButtonAction,
   });
@@ -66,7 +66,7 @@ class TasksListWidget extends StatelessWidget {
 
       child = ReorderableListView.builder(
         header: header,
-        onReorderItem: onReorder,
+        onReorderItem: onReorderItem,
         padding: const EdgeInsets.only(
           bottom: 120.0,
         ),

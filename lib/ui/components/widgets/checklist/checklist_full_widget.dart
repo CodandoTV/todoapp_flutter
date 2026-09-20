@@ -111,7 +111,7 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
               context,
               task,
             ),
-            onReorder: _tasksViewModel.reorder,
+            onReorderItem: _tasksViewModel.reorder,
             onTap: (task) => _navigateToTaskScreen(
               context,
               checklistId: selected?.id,

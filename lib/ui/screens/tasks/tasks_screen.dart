@@ -109,7 +109,7 @@ class TasksScaffold extends StatelessWidget {
         tasks: uiState.tasks,
         status: uiState.tasksCompleteStatus,
         progress: uiState.progress,
-        onReorder: callbacks.onReorder,
+        onReorderItem: callbacks.onReorder,
         onRemoveTask: (task) =>
             _showConfirmationDialogToRemoveTask(context, task),
         onCompleteTask: callbacks.onCompleteTask,
