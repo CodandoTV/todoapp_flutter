@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/components/widgets/task/task_cell_widget.dart';
 
 import '../../../test_utils/widgets_util.dart';

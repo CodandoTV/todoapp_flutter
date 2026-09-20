@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/l10n/app_localizations.dart';
 
 class CheckAllActionChipWidget extends StatelessWidget {

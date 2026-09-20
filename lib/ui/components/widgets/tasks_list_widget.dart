@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/components/widgets/check_all_action_chip_widget.dart';
 import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/task_cell_widget.dart';
@@ -66,7 +66,7 @@ class TasksListWidget extends StatelessWidget {
 
       child = ReorderableListView.builder(
         header: header,
-        onReorder: onReorder,
+        onReorderItem: onReorder,
         padding: const EdgeInsets.only(
           bottom: 120.0,
         ),

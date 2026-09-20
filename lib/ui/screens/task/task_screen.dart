@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/components/form_validator.dart';
 import 'package:todoapp/ui/components/widgets/custom_app_bar_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/task_form_widget.dart';

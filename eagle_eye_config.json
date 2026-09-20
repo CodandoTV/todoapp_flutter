@@ -5,7 +5,7 @@
   },
   {
     "filePattern": "*viewmodel.dart",
-    "forbiddenDependencies": ["*_screen.dart"]
+    "exclusiveDependencies": ["*/domain/*", "*_screen_state.dart"]
   },
   {
     "filePattern": "*/util/*_provider.dart",

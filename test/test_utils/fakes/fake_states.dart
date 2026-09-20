@@ -1,4 +1,4 @@
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
 
 class FakeStates {

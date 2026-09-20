@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 import 'package:todoapp/domain/task_list_sort_helper.dart';
 import 'package:todoapp/domain/task_list_summary_helper.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';

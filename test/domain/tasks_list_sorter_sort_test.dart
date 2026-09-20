@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/domain/task_list_sort_helper.dart';
 
 void main() {

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 
 part 'tasks_screen_state.freezed.dart';
 

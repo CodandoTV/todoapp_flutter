@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 
 abstract class TaskListSummaryHelper {
   bool shouldShowShareButton({required List<Task> tasks});

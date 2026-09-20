@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/checklist.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/screens/task/task_viewmodel.dart';
 
 import '../../test_utils/fakes/fake_repository.dart';
