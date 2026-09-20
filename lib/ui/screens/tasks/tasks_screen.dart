@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/checklist.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_screen_state.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_viewmodel.dart';
@@ -109,7 +109,7 @@ class TasksScaffold extends StatelessWidget {
         tasks: uiState.tasks,
         status: uiState.tasksCompleteStatus,
         progress: uiState.progress,
-        onReorder: callbacks.onReorder,
+        onReorderItem: callbacks.onReorder,
         onRemoveTask: (task) =>
             _showConfirmationDialogToRemoveTask(context, task),
         onCompleteTask: callbacks.onCompleteTask,

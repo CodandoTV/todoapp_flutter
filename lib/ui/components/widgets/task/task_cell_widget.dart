@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 import 'package:todoapp/ui/components/widgets/card_wrapper_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/task_title_widget.dart';
 

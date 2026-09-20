@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/domain/model/checklist.dart';
 
 part 'checklists_screen_state.freezed.dart';
 

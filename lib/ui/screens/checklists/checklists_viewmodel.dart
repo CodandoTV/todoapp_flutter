@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/domain/model/checklist.dart';
+import 'package:todoapp/domain/todo_repository.dart';
 
 import 'package:todoapp/ui/screens/checklists/checklists_screen_state.dart';
 

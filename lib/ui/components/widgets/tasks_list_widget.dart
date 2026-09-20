@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/components/widgets/check_all_action_chip_widget.dart';
 import 'package:todoapp/ui/components/widgets/progress_widget.dart';
 import 'package:todoapp/ui/components/widgets/task/task_cell_widget.dart';
@@ -13,7 +13,7 @@ class TasksListWidget extends StatelessWidget {
   final int? flex;
   final Function(Task) onRemoveTask;
   final Function(Task p1, bool p2) onCompleteTask;
-  final Function(int oldIndex, int newIndex) onReorder;
+  final Function(int oldIndex, int newIndex) onReorderItem;
   final Function(Task) onTap;
   final Function() onCompleteButtonAction;
 
@@ -25,7 +25,7 @@ class TasksListWidget extends StatelessWidget {
     this.flex,
     required this.onRemoveTask,
     required this.onCompleteTask,
-    required this.onReorder,
+    required this.onReorderItem,
     required this.onTap,
     required this.onCompleteButtonAction,
   });
@@ -66,7 +66,7 @@ class TasksListWidget extends StatelessWidget {
 
       child = ReorderableListView.builder(
         header: header,
-        onReorder: onReorder,
+        onReorder: onReorderItem,
         padding: const EdgeInsets.only(
           bottom: 120.0,
         ),

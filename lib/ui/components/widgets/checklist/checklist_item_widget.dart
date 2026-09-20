@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/domain/model/checklist.dart';
 import 'package:todoapp/ui/components/widgets/card_wrapper_widget.dart';
 
 class ChecklistItemWidget extends StatelessWidget {

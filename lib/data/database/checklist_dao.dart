@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/data/database/task_dao.dart';
-import 'package:todoapp/data/model/checklist.dart';
+import 'package:todoapp/domain/model/checklist.dart';
 
 @LazySingleton()
 class ChecklistDAO {

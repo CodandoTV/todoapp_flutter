@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/model/tasks_complete_status.dart';
+import 'package:todoapp/domain/model/checklist.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/model/tasks_complete_status.dart';
 import 'package:todoapp/ui/components/remove_task_dialog_builder.dart';
 import 'package:todoapp/ui/components/tasks_view_model/tasks_viewmodel.dart';
 import 'package:todoapp/ui/components/widgets/checklist/checklist_item_widget.dart';
@@ -111,7 +111,7 @@ class ChecklistsListFullWidgetState extends State<ChecklistsListFullWidget> {
               context,
               task,
             ),
-            onReorder: _tasksViewModel.reorder,
+            onReorderItem: _tasksViewModel.reorder,
             onTap: (task) => _navigateToTaskScreen(
               context,
               checklistId: selected?.id,

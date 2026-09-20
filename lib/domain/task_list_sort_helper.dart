@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:todoapp/data/model/task.dart';
+import 'package:todoapp/domain/model/task.dart';
 
 abstract class TaskListSortHelper {
   bool areThemEqual({required List<Task> oldList, required List<Task> newList});

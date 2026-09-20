@@ -1,6 +1,6 @@
-import 'package:todoapp/data/model/checklist.dart';
-import 'package:todoapp/data/model/task.dart';
-import 'package:todoapp/data/todo_repository.dart';
+import 'package:todoapp/domain/model/checklist.dart';
+import 'package:todoapp/domain/model/task.dart';
+import 'package:todoapp/domain/todo_repository.dart';
 
 class FakeRepository implements TodoRepository {
   late List<Task> _tasks;

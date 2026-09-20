@@ -1,136 +1,90 @@
 # AGENTS.md
 
-`[opencode] AGENTS.md loaded`
+## Project
 
-## Project Overview
+TodoApp — sample Flutter app (Android/iOS/macOS) for checklists + tasks,
+persisted with sqflite. flutter_bloc (Cubit), get_it + injectable, auto_route,
+freezed, EN/PT localization. Dart package name is `todoapp`.
 
-TodoApp is a sample Flutter project built as a testing playground. It manages
-checklists and tasks using sqflite for local persistence. Targets Android, iOS,
-and macOS. Uses flutter_bloc (Cubit) for state management, get_it + injectable
-for DI, auto_route for navigation, freezed for immutable models, and supports
-English/Portuguese localization.
+## Commands
 
-## Dev Environment Setup
+```sh
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs  # freezed/injectable/auto_route
+flutter gen-l10n                                          # lib/ui/l10n/app_localizations*.dart
+flutter test
+flutter test test/domain/tasks_list_sort_test.dart        # one file
+flutter test --plain-name 'TasksViewModel'                # one test
+dart analyze
+dart run eagle_eye:main                                   # architecture check
+flutter run -d <device>
+```
 
-1. Install Flutter 3.38.x (see `.github/actions/setup-flutter/action.yml` for
-   the pinned version)
-2. `flutter pub get`
-3. `dart run build_runner build --delete-conflicting-outputs`
-4. `flutter gen-l10n`
+Flutter is pinned to 3.38.3 (`.github/actions/setup-flutter/action.yml`).
+Re-run codegen after touching `@freezed` classes, `@Injectable`/DI, `@RoutePage`
+/router config, or `.arb` files — tests and `dart analyze` fail without the
+generated files. Generated outputs (`*.freezed.dart`, `*.config.dart`,
+`*.gr.dart`, `lib/ui/l10n/app_localizations*.dart`) are gitignored; never
+hand-edit or commit them.
 
-Steps 3 and 4 must be re-run after any changes to annotated classes
-(`*.freezed.dart`, router config, injectable config) or `.arb` localization
-files.
-
-## Project Architecture
-
-### Layer-first layout
+## Layout
 
 ```
 lib/
-  data/         — models (freezed), DAOs (sqflite), repository, share handler
-  domain/       — sort & summary helpers
-  ui/           — screens (features), shared components, widgets, l10n
-  util/         — DI (get_it + injectable), navigation provider
+  domain/  model/ (freezed) + repository interface + sort/summary helpers
+  data/    database/ DAOs, todo_repository_impl.dart, share_message_handler.dart
+  ui/      screens/<feature>/ (screen + viewmodel + screen_state),
+           components/widgets, l10n/
+  util/    di/ (injectable), navigation_provider.dart
 ```
 
-### Key patterns
+`main.dart` only runs `TodoApp`; DI and the router initialize in
+`lib/ui/screens/startup/startup_screen.dart` via
+`GetItStartupHandlerWrapper.init()`.
 
-- **State management:** flutter_bloc (Cubit) with freezed immutable states.
-  Cubits are `@Injectable()` and used via `BlocProvider`/`BlocBuilder`.
-- **DI:** get_it + injectable with code-gen. Initialized at startup via
-  `GetItStartupHandlerWrapper`.
-- **Navigation:** auto_route (generated router). Abstracted behind
-  `NavigatorProvider` interface for testability.
-- **Data:** Abstract repository → Impl → DAO pattern. The Abstract + Impl
-  convention is also used for `NavigatorProvider`, `ShareMessageHandler`, and
-  `TaskListSortHelper`.
+## Architecture constraints (eagle_eye, enforced in CI)
 
-### Code generation
+Config: `eagle_eye_config.json`. It only checks internal
+(`package:todoapp/...`) imports; external packages are always allowed.
 
-Generated files (`*.freezed.dart`, `*.config.dart`, `*.gr.dart`,
-`app_localizations*.dart`) are gitignored. Generated on demand via
-`build_runner`.
+- `*viewmodel.dart` may only import `package:todoapp/domain/*` and
+  `*_screen_state.dart`. Keep UI/widgets out of viewmodels.
+- `lib/util/*_provider.dart` and `lib/util/*_handler.dart` may import no other
+  `package:todoapp/*` file.
+- The `*/data/model/*` rule matches nothing today (models live in
+  `lib/domain/model/`).
 
-## Coding Conventions
+## Conventions
 
-### Naming
+Lints are promoted to `error` in `analysis_options.yaml`, so violations fail
+`dart analyze`. Highest impact: single quotes, `package:` imports only (no
+relative), directive ordering (`dart:` → `package:` → project), 80-char lines,
+explicit return types, `const` constructors, braces on all control flow,
+snake_case files. `avoid_print` is disabled.
 
-- Files: `snake_case` (enforced by `file_names` lint)
-- Classes/widgets: `PascalCase`
-- Methods/variables: `camelCase`
-- Abstract interfaces: plain name (e.g. `TodoRepository`); implementation:
-  name + `Impl`
-
-### Imports
-
-- Always use package imports (`package:todoapp/...`), never relative (enforced
-  by `always_use_package_imports` and `avoid_relative_lib_imports`)
-- Directives ordered as: `dart:` → `package:` → project (enforced by
-  `directives_ordering`)
-
-### Style
-
-- Single quotes (enforced)
-- `const` constructors wherever possible (enforced)
-- Lines max 80 chars (enforced by `lines_longer_than_80_chars`)
-- Curly braces required on all flow control (enforced by
-  `curly_braces_in_flow_control_structures`)
-- Always declare return types (enforced by `always_declare_return_types`)
-
-### Architecture rules (eagle_eye)
-
-- `data/model/*` must have zero external dependencies
-- `*viewmodel.dart` must not depend on `*_screen.dart`
-- `util/*_provider.dart` and `util/*_handler.dart` must have zero external
-  dependencies
+Naming: interfaces plain (`TodoRepository`), implementations `...Impl`. Cubits
+are `@Injectable()`; other impls `@Injectable(as: Interface)`.
 
 ## Testing
 
-### Running tests
+- Codegen must complete before tests (localizations are required).
+- Mirror `lib/` under `test/`; domain logic is plain Dart
+  (Arrange/Act/Assert, real implementations).
+- Cubit tests use the in-memory `FakeRepository` from
+  `test/test_utils/fakes/`. No mocking framework — fakes are hand-written
+  (`FakeRepository`, `FakeNavigatorProvider`, `FakeCallbacks`, `FakeStates`).
+- Widget tests wrap with `WidgetsUtil.buildMaterialAppWidgetTest(tester: tester,
+  child: ...)`; it forces the `en` locale because tests assert English strings.
 
-```
-flutter test
-```
+## CI / release
 
-Code generation (`build_runner` + `flutter gen-l10n`) must complete before
-tests pass.
+PRs to `main` (`.github/workflows/pr.yml`), all must pass:
+`flutter gen-l10n` → `dart run eagle_eye:main` → `flutter test` →
+`dart analyze` → `flutter build apk --debug`.
 
-### Organization
+Any tag triggers `.github/workflows/release_flutter_app.yaml` (APK to Firebase
+App Distribution, macOS zip to a GitHub Release).
 
-Tests mirror `lib/` structure under `test/` (layer-first).
-
-### Patterns
-
-- **Domain/logic tests:** Pure Dart, no widget testing. Use
-  Arrange/Act/Assert with real implementations (no mocking framework).
-- **ViewModel (Cubit) tests:** Use `FakeRepository` (in-memory) from
-  `test/test_utils/fakes/`. Test initial state, then state transitions after
-  method calls.
-- **Widget tests:** Wrap with `WidgetsUtil.buildMaterialAppWidgetTest()`
-  (sets up MaterialApp + localization delegates, forced English locale). Use
-  `testWidgets()`, `pumpWidget()`, `find.byKey()`, `find.text()`.
-
-### Test doubles
-
-Hand-written fakes in `test/test_utils/fakes/` (no mockito):
-`FakeRepository`, `FakeNavigatorProvider`, `FakeCallbacks`, `FakeStates`.
-
-## PR & CI
-
-### PR checks (`.github/workflows/pr.yml`)
-
-Triggered on PRs to `main`. Runs on every PR:
-
-1. `flutter gen-l10n` — generate localizations
-2. `dart run eagle_eye:main` — check architecture violations
-3. `flutter test` — run test suite
-4. `dart analyze` — static analysis
-5. `flutter build apk --debug` — verify build compiles
-
-All steps must pass before merging.
-
-### Release (`.github/workflows/release_flutter_app.yaml`)
-
-Triggered on any tag push. Builds APK (uploaded to Firebase App Distribution)
-and macOS `.app.zip` (attached to GitHub Release).
+Commits follow conventional commits; the repo-local `feature-branch-pr` skill
+(`.opencode/skills/feature-branch-pr/SKILL.md`) creates `feature/<name>`
+branches and PRs.
